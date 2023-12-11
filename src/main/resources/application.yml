@@ -1,0 +1,29 @@
+
+spring:
+   profiles:
+      active: mm
+---
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  config:
+    activate:
+      on-profile: mm
+  application:
+    name: mm
+  datasource:
+      url: jdbc:postgresql://localhost:5432/pohontautan
+      username: postgres
+      password: 123456
+      driverClassName: org.postgresql.Driver
+  jpa: 
+      database: postgresql
+      hibernate: 
+         dialect: org.hibernate.dialect.PostgreSQL10Dialect
+         ddl-auto: update
+server:
+  port: 9000
+  maxHttpHeaderSize: 100000
+---

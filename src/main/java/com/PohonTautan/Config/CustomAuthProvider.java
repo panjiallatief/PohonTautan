@@ -1,52 +1,64 @@
-// package com.PohonTautan.Config;
+package com.PohonTautan.Config;
 
-// // import java.util.NoSuchElementException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
-// // import javax.servlet.http.HttpSession;
+import com.PohonTautan.Entity.Users;
+import com.PohonTautan.Repository.UsersRepository;
 
-// // import org.springframework.beans.factory.annotation.Autowired;
-// // import org.springframework.data.domain.Example;
-// import org.springframework.security.authentication.AuthenticationProvider;
-// // import org.springframework.security.authentication.BadCredentialsException;
-// import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-// import org.springframework.security.core.Authentication;
-// import org.springframework.security.core.AuthenticationException;
-// // import org.springframework.security.crypto.password.PasswordEncoder;
-// import org.springframework.stereotype.Component;
+@Component
+public class CustomAuthProvider implements AuthenticationProvider {
 
+    @Autowired
+    private HttpSession httpSession;
 
-// @Component
-// public class CustomAuthProvider implements AuthenticationProvider {
+    @Autowired
+    private UsersRepository usersRepository;
 
+    @Autowired
+    private PasswordEncoder encoder;
 
-//     // @Autowired
-//     // private HttpSession httpSession;
-
-//     @Override
-//     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-//         return authentication;
-//         // String idcard = authentication.getName();
-//         // String password = " ";
-//         // Cameraman cameramanTemp = new Cameraman();
-//         // cameramanTemp.setNo_IdCard(idcard);
-//         // Cameraman cameraman = new Cameraman();
-//         // try{
-//         //     cameraman = cameramanRepository.findOne(Example.of(cameramanTemp)).get();
-//         // }catch(NoSuchElementException e){
-//         //     throw new BadCredentialsException("User Tidak ditemukan");
-//         // }
-           
-//         //     httpSession.setAttribute("username", cameraman.getNama_cameraman());
-//         //     httpSession.setAttribute("no_idcard", cameraman.getNo_IdCard());
-//         //     httpSession.setAttribute("role", "Reporter");
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        String username = authentication.getName();
+        String password = authentication.getCredentials().toString();
+        Users personTemp = new Users();
+        personTemp.setUsername(username);
+        Users person = new Users();
+        try{
+            person = usersRepository.findOne(Example.of(personTemp)).get();
+        }catch(NoSuchElementException e){
+            throw new BadCredentialsException("Username Tidak ditemukan");
+        }
         
+        if (encoder.matches(password, person.getPassword())) {
+            httpSession.setAttribute("id", person.getUid());
+            httpSession.setAttribute("username", person.getUsername());            
+            httpSession.setAttribute("role", "user");
 
-//         // return new UsernamePasswordAuthenticationToken(idcard, password);
-//     }
+        } else {
+            throw new BadCredentialsException("Username/Password Salah");
+        }
+        List<GrantedAuthority> grantedAuthorities = new ArrayList();
+        grantedAuthorities.add(new SimpleGrantedAuthority((String) httpSession.getAttribute("role")));
+        return new UsernamePasswordAuthenticationToken(username, password, grantedAuthorities);
+    }
 
-//     @Override
-//     public boolean supports(Class<?> authentication) {
-//         return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
-//     }
-
-// }
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
+    }
+}
