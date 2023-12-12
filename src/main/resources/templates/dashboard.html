@@ -283,8 +283,8 @@
             namaBtn.push(a);
             var b = inputLink[i].value;
             linkBtn.push(b)
-            var c = inputStyle[i].value.subString(2, inputStyle[i].value.length);
-            styleBtn.push(c)
+            var c = inputStyle[i].value;
+            styleBtn.push(c.replaceAll("#", ""))
         }
 
         $.ajax({
@@ -295,6 +295,7 @@
                 console.log(namaBtn)
                 console.log(linkBtn)
                 console.log(styleBtn)
+                console.log(url)
             }
         })
 
