@@ -17,5 +17,7 @@ public interface UsersRepository extends JpaRepository<Users, Integer>{
             countQuery = "SELECT count(*) FROM users where username = ?1",
             nativeQuery = true)
     Users getidwithusername(String username);
+
+    
  
 }

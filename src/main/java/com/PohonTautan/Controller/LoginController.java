@@ -17,7 +17,7 @@ public class LoginController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model) throws Exception {
         if (isAuthenticated()) {
-            return "redirect:/adm";
+            return "redirect:/adm/dasboard";
         }
         return "login";
     }

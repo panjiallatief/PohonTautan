@@ -50,6 +50,7 @@ public class MainController {
 
     @RequestMapping(value = "/dasboard", method = RequestMethod.GET)
     public String adm() {
+
         return "dashboard";
     }
 
@@ -103,46 +104,60 @@ public class MainController {
             throws SerialException, SQLException {
         Map data = new HashMap<>();
 
-        String gambarimage = image.replace(" ", "+");
-        byte[] binarydataimage = Base64.getMimeDecoder().decode(gambarimage);
-        Blob blobimage = new SerialBlob(binarydataimage);
-
-        String gambarbg = image.replace(" ", "+");
-        byte[] binarydatabg = Base64.getMimeDecoder().decode(gambarbg);
-        Blob blobbg = new SerialBlob(binarydatabg);
-
-        // byte[] bytes = blob.getBytes(1, (int) blob.length());
-        // String base64String = Base64.getEncoder().encodeToString(bytes);
-        // String gambars = base64String.replace("dataimage/pngbase64",
-        // "data:image/png;base64,");
-        // String images = gambars.replace("=", "");
-
         String usn = httpSession.getAttribute("username").toString();
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
 
-        String A = Arrays.toString(link).replace("[", "").replace("]", "");
-        String B = Arrays.toString(button).replace("[", "").replace("]", "");
-        String C = Arrays.toString(buttonname).replace("[", "").replace("]", "");
+        if(!stylesRepository.booleanstyle(usnn)){
+            String gambarimage = image.replace(" ", "+");
+            byte[] binarydataimage = Base64.getMimeDecoder().decode(gambarimage);
+            Blob blobimage = new SerialBlob(binarydataimage);
 
-        Styles st = new Styles();
-        st.setId_user(usnn);
-        st.setLink(A);
-        st.setButton_style(B);
-        st.setButton_name(C);
-        st.setBg(blobbg);
-        st.setImage(blobimage);
-        st.setCustom_url(curl);
-        stylesRepository.save(st);
+            String gambarbg = image.replace(" ", "+");
+            byte[] binarydatabg = Base64.getMimeDecoder().decode(gambarbg);
+            Blob blobbg = new SerialBlob(binarydatabg);
 
-        data.put("icon", "success");
-        data.put("message", "Sukses Insert Style");
-        return new ResponseEntity<>(data, HttpStatus.OK);
+            // byte[] bytes = blob.getBytes(1, (int) blob.length());
+            // String base64String = Base64.getEncoder().encodeToString(bytes);
+            // String gambars = base64String.replace("dataimage/pngbase64",
+            // "data:image/png;base64,");
+            // String images = gambars.replace("=", "");
+
+            String A =  null;
+            String B =  null;
+            String C =  null;
+
+            if(link != null){
+                A = Arrays.toString(link).replace("[", "").replace("]", "");
+                B = Arrays.toString(button).replace("[", "").replace("]", "");
+                C = Arrays.toString(buttonname).replace("[", "").replace("]", "");
+            }
+
+            Styles st = new Styles();
+            st.setId_user(usnn);
+            st.setLink(A);
+            st.setButton_style(B);
+            st.setButton_name(C);
+            st.setBg(blobbg);
+            st.setImage(blobimage);
+            st.setCustom_url(curl);
+            stylesRepository.save(st);
+
+            data.put("icon", "success");
+            data.put("message", "Sukses Insert Style");
+            return new ResponseEntity<>(data, HttpStatus.OK);
+        }
+
+        data.put("icon", "error");
+        data.put("message", "Style Sudah Ada");
+        return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(value = "/inputbutton", method = RequestMethod.PUT)
-    public ResponseEntity<Map> inputbutton(@RequestParam String[] button,
-            @RequestParam String[] link, @RequestParam String[] buttonname) {
+    public ResponseEntity<Map> inputbutton(@RequestParam String[] tombol,
+            @RequestParam String[] tautan, @RequestParam String[] buttonname) {
         Map data = new HashMap<>();
+
+        System.out.println(Arrays.toString(tautan));
 
         String usn = httpSession.getAttribute("username").toString();
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
@@ -155,14 +170,25 @@ public class MainController {
 
         Styles st = stylesRepository.getstStyles2(usnn);
 
-        String A = Arrays.toString(link).replace("[", "").replace("]", "");
-        String B = Arrays.toString(button).replace("[", "").replace("]", "");
+        String A = Arrays.toString(tautan).replace("[", "").replace("]", "");
+        String B = Arrays.toString(tombol).replace("[", "").replace("]", "");
         String C = Arrays.toString(buttonname).replace("[", "").replace("]", "");
 
-        st.setLink(st.getLink() + A);
-        st.setButton_style(st.getButton_style() + B);
-        st.setButton_name(st.getButton_name() + C);
-        stylesRepository.save(st);
+        String cek = st.getLink();
+
+        if(cek.length() != 0){
+            System.out.println("masuk if");
+            st.setLink(st.getLink() + "," + A);
+            st.setButton_style(st.getButton_style() + "," + B);
+            st.setButton_name(st.getButton_name() + "," + C);
+            stylesRepository.save(st);
+        } else {
+            System.out.println("masuk else");
+            st.setLink(A);
+            st.setButton_style(B);
+            st.setButton_name(C);
+            stylesRepository.save(st);
+        }
 
         data.put("icon", "success");
         data.put("message", "Sukses Insert Style");
