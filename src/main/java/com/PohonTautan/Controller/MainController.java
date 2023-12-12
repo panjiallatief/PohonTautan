@@ -10,13 +10,24 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.PohonTautan.Entity.Sessionid;
+import com.PohonTautan.Entity.Styles;
 import com.PohonTautan.Entity.Users;
+import com.PohonTautan.Repository.SessionoidRepositori;
+import com.PohonTautan.Repository.StylesRepository;
 import com.PohonTautan.Repository.UsersRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
+@RequestMapping(value = "/adm")
 public class MainController {
 
     @Autowired
@@ -25,13 +36,19 @@ public class MainController {
     @Autowired
     private PasswordEncoder encoder;
 
-    @GetMapping(value = "/")
-    public String index(){
-        return "index";
+    @Autowired
+    private StylesRepository stylesRepository;
+
+    @Autowired
+    private SessionoidRepositori sessionoidRepositori;
+    
+    @RequestMapping(value = "/dasboard", method = RequestMethod.GET)
+    public String adm(){
+        return "dashboard";
     }
 
-    @PostMapping(value = "/post")
-    public ResponseEntity<Map> post(@RequestParam String username, @RequestParam String password) {
+    @RequestMapping(value = "/inputuser", method = RequestMethod.POST)
+    public ResponseEntity<Map> inputuser(@RequestParam String username, @RequestParam String password) {
         Map data = new HashMap<>();
         if (personRepository.findByUsername(username).size() > 0) {
             data.put("message", "username sudah ada");
@@ -46,4 +63,72 @@ public class MainController {
         data.put("message", "Sukses Insert Person");
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/sessionbutton", method = RequestMethod.POST)
+    public ResponseEntity<Map> sessionbutton(HttpServletRequest request, @RequestParam Integer button) {
+        Map data = new HashMap<>();
+
+        HttpSession session = request.getSession();
+        String sessionId = session.getId();
+        String userIp = request.getRemoteAddr();
+
+        
+        Sessionid ss = new Sessionid();
+        ss.setButton(button);
+        ss.setIp_visitor(userIp);
+        ss.setSession_visitor(sessionId);
+        sessionoidRepositori.save(ss);
+
+        data.put("icon", "success");
+        data.put("message", "Sukses Insert Person");
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    // @RequestMapping(value = "/inputstyle", method = RequestMethod.POST)
+    // public ResponseEntity<Map> inputstyle(@RequestParam String username, @RequestParam String password) {
+    //     Map data = new HashMap<>();
+    
+        // String gambar = Image.replace(" ", "+");
+        // byte[] binarydata = Base64.getMimeDecoder().decode(gambar);
+        // Blob blob = new SerialBlob(binarydata);
+        // byte[] bytes = blob.getBytes(1, (int) blob.length());
+        // String base64String = Base64.getEncoder().encodeToString(bytes);
+        // String gambars = base64String.replace("dataimage/pngbase64", "data:image/png;base64,");
+        // String images = gambars.replace("=", "");
+        
+    //     Styles st = new Styles();
+    //     st.setId_user();
+    //     st.setLink();
+    //     st.setButton_style();
+    //     st.setBg();
+    //     st.setImage();
+    //     stylesRepository.save(st);
+    //     data.put("icon", "success");
+    //     data.put("message", "Sukses Insert Style");
+    //     return new ResponseEntity<>(data, HttpStatus.OK);
+    // }
+
+    // @RequestMapping(value = "/editstyle", method = RequestMethod.PUT)
+    // public ResponseEntity<Map> editstyle(@RequestParam String username, @RequestParam String password) {
+    //     Map data = new HashMap<>();
+
+        // if (!stylesRepository.existsById(id)) {
+        //     data.put("icon", "error");
+        //     data.put("message", "Data Tidak ada");
+        //     return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
+        // }
+
+    //     Styles st = stylesRepository.getById(id);
+    //     st.setId_user();
+    //     st.setLink();
+    //     st.setButton_style();
+    //     st.setBg();
+    //     st.setImage();
+    //     stylesRepository.save(st);
+    //     data.put("icon", "success");
+    //     data.put("message", "Sukses Insert Style");
+    //     return new ResponseEntity<>(data, HttpStatus.OK);
+    // }
+
+
 }

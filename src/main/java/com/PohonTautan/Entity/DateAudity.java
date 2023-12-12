@@ -1,15 +1,16 @@
 package com.PohonTautan.Entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import java.util.Date;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -27,14 +28,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public abstract class DateAudit implements Serializable {
+public abstract class DateAudity implements Serializable {
 
-    @JsonFormat(pattern="yyyy-MMMM-dd", timezone = "GMT+7")
+    @JsonFormat(pattern = "yyyy-MMMM-dd", timezone = "GMT+7")
     @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
 
     @LastModifiedDate
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at", nullable = true, updatable = true)
     private Date updatedAt;
 
@@ -43,7 +46,7 @@ public abstract class DateAudit implements Serializable {
         if (this.createdAt == null) {
             createdAt = new Date();
         }
-    } 
+    }
 
     @PreUpdate
     protected void preUpdate() {

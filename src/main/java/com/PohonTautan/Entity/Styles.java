@@ -27,7 +27,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Styles extends DateAudit{
+public class Styles extends DateAudity{
     
     private static final long serialVersionUID = 1L;
     @Id
