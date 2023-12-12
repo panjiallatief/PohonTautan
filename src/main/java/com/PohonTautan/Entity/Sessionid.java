@@ -38,4 +38,7 @@ public class Sessionid extends DateAudity{
     @Column(name = "session_visitor", columnDefinition = "TEXT")
     private String session_visitor;
 
+    @Column(name = "id_user")
+    private Integer id_user;
+
 }

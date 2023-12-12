@@ -40,11 +40,15 @@ public class Styles extends DateAudity{
     @Column(name = "image")
     private Blob image;
 
+    @Lob
     @Column(name = "bg")
     private Blob bg;
 
     @Column(name = "button_style")
     private String button_style;
+
+    @Column(name = "button_name")
+    private String button_name;
 
     @Column(name = "link")
     private String link;

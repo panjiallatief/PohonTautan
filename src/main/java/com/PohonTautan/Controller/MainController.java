@@ -1,24 +1,26 @@
 package com.PohonTautan.Controller;
 
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.PohonTautan.Entity.Log;
-import com.PohonTautan.Entity.Sessionid;
 import com.PohonTautan.Entity.Styles;
-import com.PohonTautan.Entity.Users;
 import com.PohonTautan.Repository.LogRepository;
 import com.PohonTautan.Repository.SessionoidRepositori;
 import com.PohonTautan.Repository.StylesRepository;
@@ -27,16 +29,12 @@ import com.PohonTautan.Repository.UsersRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 @RequestMapping(value = "/adm")
 public class MainController {
 
     @Autowired
-    private UsersRepository personRepository;
-
-    @Autowired
-    private PasswordEncoder encoder;
+    private UsersRepository usersRepository;
 
     @Autowired
     private StylesRepository stylesRepository;
@@ -46,37 +44,47 @@ public class MainController {
 
     @Autowired
     private LogRepository logRepository;
-    
+
+    @Autowired
+    private HttpSession httpSession;
+
     @RequestMapping(value = "/dasboard", method = RequestMethod.GET)
-    public String adm(){
+    public String adm() {
         return "dashboard";
     }
 
-    @RequestMapping(value = "/inputuser", method = RequestMethod.POST)
-    public ResponseEntity<Map> inputuser(@RequestParam String username, @RequestParam String password) {
+    @RequestMapping(value = "/countday", method = RequestMethod.GET)
+    public ResponseEntity<Map> countday() {
         Map data = new HashMap<>();
-        if (personRepository.findByUsername(username).size() > 0) {
-            data.put("message", "username sudah ada");
-            data.put("icon", "warning");
-            return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
-        }
-        Users personTemp = new Users();
-        personTemp.setUsername(username);
-        personTemp.setPassword(encoder.encode(password));
-        personRepository.save(personTemp);
-        data.put("icon", "success");
-        data.put("message", "Sukses Insert Person");
+        Date date = new Date();
+
+        Long count = sessionoidRepositori.countsession(date, 1);
+
+        data.put("data", count);
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/countbuttonday", method = RequestMethod.GET)
+    public ResponseEntity<Map> countbuttonday() {
+        Map data = new HashMap<>();
+        Date date = new Date();
+
+        Long count = logRepository.countbutton(date, 1);
+
+        data.put("data", count);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/sessionbutton", method = RequestMethod.POST)
-    public ResponseEntity<Map> sessionbutton(HttpServletRequest request, @RequestParam String url, @RequestParam Integer button) {
+    public ResponseEntity<Map> sessionbutton(HttpServletRequest request, @RequestParam String url,
+            @RequestParam Integer button) {
         Map data = new HashMap<>();
 
         HttpSession session = request.getSession();
         String sessionId = session.getId();
+        String currentUrl = request.getRequestURL().toString();
 
-        Integer id = stylesRepository.getstStyles(url).getId_user();
+        Integer id = stylesRepository.getstStyles(currentUrl).getId_user();
 
         Log ss = new Log();
         ss.setButton(button);
@@ -89,51 +97,100 @@ public class MainController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-    // @RequestMapping(value = "/inputstyle", method = RequestMethod.POST)
-    // public ResponseEntity<Map> inputstyle(@RequestParam String username, @RequestParam String password) {
-    //     Map data = new HashMap<>();
-    
-        // String gambar = Image.replace(" ", "+");
-        // byte[] binarydata = Base64.getMimeDecoder().decode(gambar);
-        // Blob blob = new SerialBlob(binarydata);
+    @RequestMapping(value = "/inputstyle", method = RequestMethod.POST)
+    public ResponseEntity<Map> inputstyle(@RequestParam String[] link, @RequestParam String[] button,
+            @RequestParam String[] buttonname, @RequestParam String bg, @RequestParam String image, @RequestParam String curl)
+            throws SerialException, SQLException {
+        Map data = new HashMap<>();
+
+        String gambarimage = image.replace(" ", "+");
+        byte[] binarydataimage = Base64.getMimeDecoder().decode(gambarimage);
+        Blob blobimage = new SerialBlob(binarydataimage);
+
+        String gambarbg = image.replace(" ", "+");
+        byte[] binarydatabg = Base64.getMimeDecoder().decode(gambarbg);
+        Blob blobbg = new SerialBlob(binarydatabg);
+
         // byte[] bytes = blob.getBytes(1, (int) blob.length());
         // String base64String = Base64.getEncoder().encodeToString(bytes);
-        // String gambars = base64String.replace("dataimage/pngbase64", "data:image/png;base64,");
+        // String gambars = base64String.replace("dataimage/pngbase64",
+        // "data:image/png;base64,");
         // String images = gambars.replace("=", "");
 
-    //     Styles st = new Styles();
-    //     st.setId_user();
-    //     st.setLink();
-    //     st.setButton_style();
-    //     st.setBg();
-    //     st.setImage();
-    //     stylesRepository.save(st);
-    //     data.put("icon", "success");
-    //     data.put("message", "Sukses Insert Style");
-    //     return new ResponseEntity<>(data, HttpStatus.OK);
-    // }
+        String usn = httpSession.getAttribute("username").toString();
+        Integer usnn = usersRepository.getidwithusername(usn).getUid();
+
+        String A = Arrays.toString(link).replace("[", "").replace("]", "");
+        String B = Arrays.toString(button).replace("[", "").replace("]", "");
+        String C = Arrays.toString(buttonname).replace("[", "").replace("]", "");
+
+        Styles st = new Styles();
+        st.setId_user(usnn);
+        st.setLink(A);
+        st.setButton_style(B);
+        st.setButton_name(C);
+        st.setBg(blobbg);
+        st.setImage(blobimage);
+        st.setCustom_url(curl);
+        stylesRepository.save(st);
+
+        data.put("icon", "success");
+        data.put("message", "Sukses Insert Style");
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/inputbutton", method = RequestMethod.PUT)
+    public ResponseEntity<Map> inputbutton(@RequestParam String[] button,
+            @RequestParam String[] link, @RequestParam String[] buttonname) {
+        Map data = new HashMap<>();
+
+        String usn = httpSession.getAttribute("username").toString();
+        Integer usnn = usersRepository.getidwithusername(usn).getUid();
+
+        if (!stylesRepository.booleanstyle(usnn)) {
+            data.put("icon", "error");
+            data.put("message", "Data Tidak ada");
+            return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
+        }
+
+        Styles st = stylesRepository.getstStyles2(usnn);
+
+        String A = Arrays.toString(link).replace("[", "").replace("]", "");
+        String B = Arrays.toString(button).replace("[", "").replace("]", "");
+        String C = Arrays.toString(buttonname).replace("[", "").replace("]", "");
+
+        st.setLink(st.getLink() + A);
+        st.setButton_style(st.getButton_style() + B);
+        st.setButton_name(st.getButton_name() + C);
+        stylesRepository.save(st);
+
+        data.put("icon", "success");
+        data.put("message", "Sukses Insert Style");
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
 
     // @RequestMapping(value = "/editstyle", method = RequestMethod.PUT)
-    // public ResponseEntity<Map> editstyle(@RequestParam String username, @RequestParam String password) {
-    //     Map data = new HashMap<>();
+    // public ResponseEntity<Map> editstyle(@RequestParam String username,
+    // @RequestParam String password) {
+    // Map data = new HashMap<>();
 
-        // if (!stylesRepository.existsById(id)) {
-        //     data.put("icon", "error");
-        //     data.put("message", "Data Tidak ada");
-        //     return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
-        // }
+    // // if (!stylesRepository.existsById(id)) {
+    // // data.put("icon", "error");
+    // // data.put("message", "Data Tidak ada");
+    // // return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
+    // // }
 
-    //     Styles st = stylesRepository.getById(id);
-    //     st.setId_user();
-    //     st.setLink();
-    //     st.setButton_style();
-    //     st.setBg();
-    //     st.setImage();
-    //     stylesRepository.save(st);
-    //     data.put("icon", "success");
-    //     data.put("message", "Sukses Insert Style");
-    //     return new ResponseEntity<>(data, HttpStatus.OK);
+    // // Styles st = stylesRepository.getById(id);
+    // // st.setId_user();
+    // // st.setLink();
+    // // st.setButton_style();
+    // // st.setBg();
+    // // st.setImage();
+    // // stylesRepository.save(st);
+
+    // data.put("icon", "success");
+    // data.put("message", "Sukses Insert Style");
+    // return new ResponseEntity<>(data, HttpStatus.OK);
     // }
-
 
 }
