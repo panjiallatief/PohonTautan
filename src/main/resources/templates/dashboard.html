@@ -151,7 +151,7 @@
                                 <h2 class="mx-auto text-center text-3xl text-white mt-1 font-bold">Lorem ipsum</h2>
                                 <div id="buttontmpt" class="w-full mt-3">
                                     <div class="relative" th:each="bbtn : ${btnstyle}">
-                                        <button th:classappend="bg-['+@{${bbtn.button_style}}+']" class="min-w-full  rounded-lg px-4 py-2 mb-3" th:text="${bbtn.button_name}"></button>
+                                        <button th:classappend="bg-[+@{${bbtn.button_style}}+]" class="min-w-full  rounded-lg px-4 py-2 mb-3" th:text="${bbtn.button_name}"></button>
                                         <span
                                             class="absolute top-2 -right-4 h-4 w-4 mt-1 mr-2 bg-red-500 rounded-full cursor-pointer hover:animate-pulse"><span
                                                 class="text-white absolute top-[-6px] left-[3.5px]">x</span></span>
