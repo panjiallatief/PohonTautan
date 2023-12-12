@@ -32,7 +32,6 @@ public class IndexController {
                 Sessionid st = new Sessionid();
                 st.setSession_visitor(sessionId);
                 st.setIp_visitor(userIp);
-                st.setButton(null);
                 sessionoidRepositori.save(st);
             }
             

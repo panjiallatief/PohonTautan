@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.PohonTautan.Entity.Log;
 import com.PohonTautan.Entity.Sessionid;
 import com.PohonTautan.Entity.Styles;
 import com.PohonTautan.Entity.Users;
+import com.PohonTautan.Repository.LogRepository;
 import com.PohonTautan.Repository.SessionoidRepositori;
 import com.PohonTautan.Repository.StylesRepository;
 import com.PohonTautan.Repository.UsersRepository;
@@ -41,6 +43,9 @@ public class MainController {
 
     @Autowired
     private SessionoidRepositori sessionoidRepositori;
+
+    @Autowired
+    private LogRepository logRepository;
     
     @RequestMapping(value = "/dasboard", method = RequestMethod.GET)
     public String adm(){
@@ -65,19 +70,19 @@ public class MainController {
     }
 
     @RequestMapping(value = "/sessionbutton", method = RequestMethod.POST)
-    public ResponseEntity<Map> sessionbutton(HttpServletRequest request, @RequestParam Integer button) {
+    public ResponseEntity<Map> sessionbutton(HttpServletRequest request, @RequestParam String url, @RequestParam Integer button) {
         Map data = new HashMap<>();
 
         HttpSession session = request.getSession();
         String sessionId = session.getId();
-        String userIp = request.getRemoteAddr();
 
-        
-        Sessionid ss = new Sessionid();
+        Integer id = stylesRepository.getstStyles(url).getId_user();
+
+        Log ss = new Log();
         ss.setButton(button);
-        ss.setIp_visitor(userIp);
+        ss.setId_user(id);
         ss.setSession_visitor(sessionId);
-        sessionoidRepositori.save(ss);
+        logRepository.save(ss);
 
         data.put("icon", "success");
         data.put("message", "Sukses Insert Person");
@@ -95,7 +100,7 @@ public class MainController {
         // String base64String = Base64.getEncoder().encodeToString(bytes);
         // String gambars = base64String.replace("dataimage/pngbase64", "data:image/png;base64,");
         // String images = gambars.replace("=", "");
-        
+
     //     Styles st = new Styles();
     //     st.setId_user();
     //     st.setLink();

@@ -1,6 +1,6 @@
 package com.PohonTautan.Entity;
 
-import java.sql.Blob;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -8,11 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,38 +16,29 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "style")
+@Table(name = "log")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Styles extends DateAudity{
-    
+public class Log extends DateAudity{
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_style")
-    private Integer id_style;
-
-    @Lob
-    @Column(name = "image")
-    private Blob image;
-
-    @Column(name = "bg")
-    private Blob bg;
-
-    @Column(name = "button_style")
-    private String button_style;
-
-    @Column(name = "link")
-    private String link;
-
+    @Column(name = "idl")
+    private Integer idl;
+    
     @Column(name = "id_user")
     private Integer id_user;
 
-    @Column(name = "custom_url")
-    private String custom_url;
+    @Column(name = "session_visitor", columnDefinition = "TEXT")
+    private String session_visitor;
+
+    @Column(name = "button")
+    private Integer button;
+
 }
