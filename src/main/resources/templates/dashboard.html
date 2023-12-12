@@ -150,10 +150,8 @@
                                 </div>
                                 <h2 class="mx-auto text-center text-3xl text-white mt-1 font-bold">Lorem ipsum</h2>
                                 <div id="buttontmpt" class="w-full mt-3">
-                                    <div class="relative">
-                                        <button
-                                            class="min-w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-800 rounded-lg px-4 py-2 mb-3">Lorem
-                                            ipsum dolor </button>
+                                    <div class="relative" th:each="bbtn : ${btnstyle}">
+                                        <button class="min-w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-800 rounded-lg px-4 py-2 mb-3"></button>
                                         <span
                                             class="absolute top-2 -right-4 h-4 w-4 mt-1 mr-2 bg-red-500 rounded-full cursor-pointer hover:animate-pulse"><span
                                                 class="text-white absolute top-[-6px] left-[3.5px]">x</span></span>
@@ -216,7 +214,8 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     $(document).ready(function () {
-
+        var data = /*[[${btnstyle}]]*/""
+        console.log(data)
 
         function darkModeListener() {
             document.querySelector("html").classList.toggle("dark");
@@ -224,6 +223,21 @@
 
         document.querySelector("input[type='checkbox']#dark-toggle").addEventListener("click", darkModeListener);
     })
+
+    function load(){
+        // $.ajax({
+        //     url : ``,
+        //     method : "GET",
+        //     success : function (){
+        //         $("#buttontmpt").append(
+        //             `<div class="relative">
+        //                 <button class="min-w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-800 rounded-lg px-4 py-2 mb-3">Lorem ipsum dolor </button>
+        //                 <span class="absolute top-2 -right-4 h-4 w-4 mt-1 mr-2 bg-red-500 rounded-full cursor-pointer hover:animate-pulse"><span class="text-white absolute top-[-6px] left-[3.5px]">x</span></span>
+        //                             </div>`
+        //         )
+        //     }
+        // })
+    }
 
     function edit() {
         // $("#buttontmpt").append(
