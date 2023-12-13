@@ -166,7 +166,7 @@
         });
       })
 
-      $("#registar").in('click', function(){
+      $("#registar").on('click', function(){
         $.ajax({
           url: `/inputuser?username=${$("#usernamer").val()}&passwordr=${$("#passwordr").val()}&email=${$("#email").val()}`,
           method: 'POST',
