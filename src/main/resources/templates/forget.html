@@ -71,18 +71,18 @@
 
       $("#forgetpas").on('click', function(){
         var ema =  window.location.href;
-        var mm = ema.substring(ema.lastIndexOf("="), ema.length)
+        var mm = ema.substring(ema.lastIndexOf("=")+1, ema.length)
         var ma = ema.substring(ema.lastIndexOf("/"))
         console.log(ema)
         console.log(mm)
         console.log(ma)
-        // $.ajax({
-        //   url: `/resetpass?email=${ema}&password=${$("#password").val()}`,
-        //   method: 'PUT',
-        //   success: function(){
-        //     window.open(`${ma}`+"/login")
-        //   }
-        // })
+        $.ajax({
+          url: `/resetpass?email=${mn}&password=${$("#password").val()}`,
+          method: 'PUT',
+          success: function(){
+            window.open(`${ma}`+"/login")
+          }
+        })
       })
 
 
