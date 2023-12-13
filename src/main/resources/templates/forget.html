@@ -77,7 +77,7 @@
         console.log(mm)
         console.log(ma)
         $.ajax({
-          url: `/resetpass?email=${mn}&password=${$("#password").val()}`,
+          url: `/resetpass?email=${mm}&password=${$("#password").val()}`,
           method: 'PUT',
           success: function(){
             window.open(`${ma}`+"/login")
