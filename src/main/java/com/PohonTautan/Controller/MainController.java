@@ -60,8 +60,10 @@ public class MainController {
         String usn = httpSession.getAttribute("username").toString();
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
         Styles st = stylesRepository.getstStyles2(usnn);
-
+        Date date = new Date();
         List<Styles> stylesList = new ArrayList<>();
+        Long countday = sessionoidRepositori.countsession(date, usnn);
+        model.addAttribute("countday", countday);
 
 
         String[] btn = null;
