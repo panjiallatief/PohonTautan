@@ -10,25 +10,48 @@
   <!-- <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" /> -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <link rel="stylesheet" th:href="@{css/jquery.dataTables.min.css}" />
-  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+      },
+    },
+
+  </script>
+  <link rel="stylesheet" href="../css/styles.css" />
+
+
   <title>Login Asset Management System</title>
 </head>
 
 <body th:style="'background-image:url('+@{/images/login.png}+');background-size: cover;'">
-  <div class="container">
-    <img style="width: 300px; display: block; margin: 5% auto 0px;" th:src="@{/images/B_UNIVERSE_LOGO_COLOR.png}">
+  <div class="flex items-center min-h-screen p-4 bg-gray-100 lg:justify-center">
+    <div id="tengah"
+      class="flex flex-col overflow-hidden bg-white rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-screen-md">
+      <div id="kiri"
+        class="p-4 py-6 text-white  bg-blue-500 md:w-80 md:flex-shrink-0 md:flex md:flex-col md:items-center md:justify-evenly">
+        <div class="my-3 text-4xl font-bold tracking-wider text-center animate-pelan">
+          <a href="#">K-WD</a>
+        </div>
+        <p class="mt-6 font-normal text-center text-gray-300 md:mt-0">
+          With the power of K-WD, you can now focus only on functionaries for your digital products, while leaving the
+          UI design on us!
+        </p>
+        <p class="flex flex-col items-center justify-center mt-10 text-center">
+          <span>Don't have an account?</span>
+          <a id="regis" class="underline">Get Started!</a>
+        </p>
+        <p class="mt-6 text-sm text-center text-gray-300">
+          Read our <a href="#" class="underline">terms</a> and <a href="#" class="underline">conditions</a>
+        </p>
+      </div>
 
-    <div class="justify-content-center kotak_login kotak_form">
-      <h1 style="color: white; text-align: center">Login</h1>
-     
-      <!-- <div class="alert alert-info">Username: demo <br>Password: demo</div> -->
-      
-        <form th:action="@{/login}" th:method="post" enctype="multipart/form-data"
-          style="border-radius: 0px 0px 10px 10px">
-
-          <div class="alert alert-warning fade show" th:if="${param.error != null or errorMsg != null}" id="errMessage">
-
+      <div id="kanan" class="p-5 bg-white md:flex-1">
+        <h3 class="my-4 text-2xl font-semibold text-gray-700">Account Login</h3>
+        <form th:action="@{/login}" th:method="post" class="flex flex-col space-y-5">
+          <div class="w-full bg-yellow-200 fade show" th:if="${param.error != null or errorMsg != null}"
+            id="errMessage">
             <button type="button" class="close" onclick="$('#errMessage').hide();" aria-hidden="true"
               aria-label="Close">
               ×
@@ -37,44 +60,86 @@
               th:text="${errorMsg}" />
           </div>
 
-          <div id="loginA" style="display: none;">
-          <div class="form-group">
-            <label style="color: white">No. ID CARD</label>
-            <input type="text" name="idcard" id="idcard" style="text-transform: lowercase;" class="form-control"/>
+          <div class="flex flex-col space-y-1">
+            <label for="username" class="text-sm font-semibold text-gray-500">Username</label>
+            <input type="text" name="username" id="username" autofocus
+              class="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200" />
           </div>
-        </div>
+          <div class="flex flex-col space-y-1">
+            <div class="flex items-center justify-between">
+              <label for="password" class="text-sm font-semibold text-gray-500">Password</label>
+              <a href="#" class="text-sm text-blue-600 hover:underline focus:text-blue-800">Forgot
+                Password?</a>
+            </div>
+            <div class="flex">
+              <input type="password" id="password"
+                class=" animate-wiggle px-4 py-2 w-full transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200" />
 
-          <div id="loginB" style="display: block;">
-          <div class="form-group">
-            <label style="color: white">Username</label>
-            <input type="text" name="username" id="username" style="text-transform: lowercase;" class="form-control"/>
-            <p class="text-danger" id="err_judul"></p>
-          </div>
-
-          <div class="form-group">
-            <label style="color: white">Password</label>
-            <div class="input-group mb-3">
-              <input type="password" name="password" id="password" class="form-control"
-                aria-label="password" aria-describedby="basic-addon1" />
-              <span toggle="#password" style="cursor: pointer" class="input-group-text toggle-password"
+              <span toggle="#password" style="cursor: pointer" class="input-group-text toggle-password ml-1"
                 id="basic-addon1"><i class="fa fa-eye"></i></span>
+            </div>
+
+          </div>
+          <!-- <div class="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="remember"
+              class="w-4 h-4 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
+            />
+            <label for="remember" class="text-sm font-semibold text-gray-500">Remember me</label>
+          </div> -->
+          <div>
+            <button type="submit" id="login" value="Login"
+              class="w-full px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 bg-blue-500 rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-blue-200 focus:ring-4 animate-spin-slow">
+              Log in
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <div id="kananB" class="p-5 bg-white md:flex-1 hidden">
+        <h3 class="my-4 text-2xl font-semibold text-gray-700">Register</h3>
+        
+        <form th:action="@{/inputuser}" th:method="post" class="flex flex-col space-y-5">
+          <div class="flex flex-col space-y-1">
+            <label for="username" class="text-sm font-semibold text-gray-500">Email</label>
+            <input type="email" name="email" id="email" autofocus
+              class="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200" />
+          </div>
+          <div class="flex flex-col space-y-1">
+            <label for="username" class="text-sm font-semibold text-gray-500">Username</label>
+            <input type="text" name="username" id="username" autofocus
+              class="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200" />
+          </div>
+          <div class="flex flex-col space-y-1">
+            <div class="flex items-center justify-between">
+              <label for="password" class="text-sm font-semibold text-gray-500">Password</label>
+            </div>
+            <div class="flex">
+              <input type="password" id="password"
+                class=" animate-wiggle px-4 py-2 w-full transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200" />
+
+              <span toggle="#password" style="cursor: pointer" class="input-group-text toggle-password ml-1"
+                id="basic-addon1"><i class="fa fa-eye"></i></span>
+            </div>
+
+          </div>
+          <div>
+            <button type="submit" id="login" value="Login"
+              class="w-full px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 bg-green-500 rounded-md shadow hover:bg-green-600 focus:outline-none focus:ring-green-200 focus:ring-4">
+              Register
+            </button>
+            <div id="cancel" class="w-full mx-auto text-center mt-3 cursor-pointer hover:text-red-600">
+              Cancel
             </div>
           </div>
 
-        </div>
-          <div class="form-group mt-3">
-            <input type="submit" id="login" value="Login" class="btn btn-primary" style="width: 100%" />
-          </div>
         </form>
-
-      <div class="form-group form-switch mt-2">
-        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onclick="cek()">
-        <label>Login untuk reporter</label>
       </div>
+
     </div>
-    <h2 style="text-align: center; color: azure; padding-top: -10px;">Asset Management System</h2>
   </div>
-  <p class="m-0 text-center text-white">Copyright &copy; Team IT APPLICATION 2023</p>
 
   <!-- <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
@@ -86,40 +151,32 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
- 
+
   <script th:inline="javascript">
-    /*<![CDATA[*/
-    $(document).ready(function () {
-      $(".toggle-password").click(function () {
-        $(".toggle-password i").toggleClass("fa-eye fa-eye-slash");
-        var input = $($(this).attr("toggle"));
-        if (input.attr("type") === "password") {
-          input.attr("type", "text");
-        } else {
-          input.attr("type", "password");
-        }
-      });
+      /*<![CDATA[*/
+      $(document).ready(function () {
+        $(".toggle-password").click(function () {
+          $(".toggle-password i").toggleClass("fa-eye fa-eye-slash");
+          var input = $($(this).attr("toggle"));
+          if (input.attr("type") === "password") {
+            input.attr("type", "text");
+          } else {
+            input.attr("type", "password");
+          }
+        });
+      })
+
+    $("#regis").on('click', function () {
+      document.getElementById('kanan').style.display = 'none';
+      document.getElementById('kananB').style.display = 'block'
+
     })
 
-    $("#idcard").keyup(function(){
-      $("#username").val($("#idcard").val())
-      $("#password").val(" ")
+    $("#cancel").on('click', function(){
+      document.getElementById('kanan').style.display = 'block';
+      document.getElementById('kananB').style.display = 'none'
     })
 
-    function cek() {
-
-      let x = $("#flexSwitchCheckDefault:checked").val()
-      // console.log(x)
-      if (x == 'on') {
-        document.getElementById('loginA').style.display = 'block';
-        document.getElementById('loginB').style.display = 'none';
-      } else {
-        document.getElementById('loginB').style.display = 'block';
-        document.getElementById('loginA').style.display = 'none';
-
-      }
-
-    }
     /*]]>*/
   </script>
 
