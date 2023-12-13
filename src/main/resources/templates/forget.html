@@ -69,15 +69,16 @@
         
       })
 
-      $("#password").on('click', function(){
+      $("#forgetpas").on('click', function(){
         var ema =  window.location.href;
         ema.substring(ema.lastIndexOf("="), ema.length)
+        var ma = ema.substring(ema.lastIndexOf("/"))
         console.log(ema)
         $.ajax({
           url: `/resetpass?email=${ema}&password=${$("#password").val()}`,
           method: 'PUT',
           success: function(){
-            location.reload()
+            window.open(`${ma}`+"/login")
           }
         })
       })
