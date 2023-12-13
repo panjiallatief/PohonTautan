@@ -71,9 +71,11 @@
 
       $("#forgetpas").on('click', function(){
         var ema =  window.location.href;
-        ema.substring(ema.lastIndexOf("="), ema.length)
+        var mm = ema.substring(ema.lastIndexOf("="), ema.length)
         var ma = ema.substring(ema.lastIndexOf("/"))
-        console.log(ema, ma)
+        console.log(ema)
+        console.log(mm)
+        console.log(ma)
         // $.ajax({
         //   url: `/resetpass?email=${ema}&password=${$("#password").val()}`,
         //   method: 'PUT',
