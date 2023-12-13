@@ -73,14 +73,14 @@
         var ema =  window.location.href;
         ema.substring(ema.lastIndexOf("="), ema.length)
         var ma = ema.substring(ema.lastIndexOf("/"))
-        console.log(ema)
-        $.ajax({
-          url: `/resetpass?email=${ema}&password=${$("#password").val()}`,
-          method: 'PUT',
-          success: function(){
-            window.open(`${ma}`+"/login")
-          }
-        })
+        console.log(ema, ma)
+        // $.ajax({
+        //   url: `/resetpass?email=${ema}&password=${$("#password").val()}`,
+        //   method: 'PUT',
+        //   success: function(){
+        //     window.open(`${ma}`+"/login")
+        //   }
+        // })
       })
 
 
