@@ -114,12 +114,12 @@ public class IndexController {
     }
 
     @PutMapping(value = "/resetpass")
-    public ResponseEntity<Map> resetpass(@RequestParam String email, @RequestParam String pass)  {
+    public ResponseEntity<Map> resetpass(@RequestParam String email, @RequestParam String password)  {
         Map data = new HashMap<>();
         if (usersRepository.findByEmail(email).size() > 0) {
 
             Users personTemp = usersRepository.getwithemail(email);
-            personTemp.setPassword(encoder.encode(pass));
+            personTemp.setPassword(encoder.encode(password));
             usersRepository.save(personTemp);
 
             data.put("icon", "success");
