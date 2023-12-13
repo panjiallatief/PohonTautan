@@ -61,8 +61,6 @@ public class MainController {
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
         Styles st = stylesRepository.getstStyles2(usnn);
 
-        System.out.println(st);
-
         List<Styles> stylesList = new ArrayList<>();
 
 
