@@ -24,12 +24,12 @@
   <title>Forgot password</title>
 </head>
 
-<body >
+<body class="bg-gray-400">
   <div class="flex items-center min-h-screen p-4 lg:justify-center">
     <div id="tengah"
       class="flex flex-col overflow-hidden bg-white xl:min-h-[392px] rounded-md shadow-lg md:flex-row md:flex-1 lg:max-w-screen-md">
 
-      <div id="kananC" class="p-5 bg-white md:flex-1 hidden">
+      <div id="kananC" class="p-5 bg-white md:flex-1">
         <h3 class="my-4 text-2xl font-semibold text-gray-700">Forgot Password</h3>
         
         <form class="flex flex-col space-y-5">
@@ -66,13 +66,15 @@
   <script th:inline="javascript">
       /*<![CDATA[*/
       $(document).ready(function () {
-        var ema = /*[[${email}]]*/ ""
-        console.log(ema)
+        
       })
 
       $("#password").on('click', function(){
+        var ema =  window.location.href;
+        ema.substring(ema.lastIndexOf("="), ema.length)
+        console.log(ema)
         $.ajax({
-          url: `/inputuser?username=${$("#usernamer").val()}&passwordr=${$("#passwordr").val()}`,
+          url: `/resetpass?email=${ema}&password=${$("#password").val()}`,
           method: 'PUT',
           success: function(){
             location.reload()
