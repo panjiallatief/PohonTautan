@@ -1,7 +1,5 @@
 package com.PohonTautan.Controller;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +17,6 @@ import com.PohonTautan.Entity.Users;
 import com.PohonTautan.Repository.SessionoidRepositori;
 import com.PohonTautan.Repository.StylesRepository;
 import com.PohonTautan.Repository.UsersRepository;
-import com.mailjet.client.ClientOptions;
-import com.mailjet.client.MailjetClient;
-import com.mailjet.client.MailjetRequest;
-import com.mailjet.client.MailjetResponse;
-import com.mailjet.client.errors.MailjetException;
-import com.mailjet.client.resource.Emailv31;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
