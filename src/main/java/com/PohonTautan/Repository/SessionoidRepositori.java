@@ -27,12 +27,12 @@ public interface SessionoidRepositori extends JpaRepository<Sessionid, Integer>{
             nativeQuery = true)
     Long countsession(Date ids, Integer idu);
 
-    // @Query("SELECT u.created_at, count(u) FROM sessionid u " +
-    //         "WHERE EXTRACT(MONTH FROM u.created_at) = ?1 " +
-    //         "AND EXTRACT(YEAR FROM u.created_at) = ?2 " +
-    //         "AND u.id_user = ?3 " +
-    //         "GROUP BY u.created_at")
-    // List<Sessionid> countpermount(int month, int year, Integer userId);
+    @Query(value = "SELECT u.created_at, count(u) FROM sessionid u " +
+            "WHERE EXTRACT(MONTH FROM u.created_at) = ?1 " +
+            "AND EXTRACT(YEAR FROM u.created_at) = ?2 " +
+            "AND u.id_user = ?3 " +
+            "GROUP BY u.created_at", nativeQuery = true)
+    List<Sessionid> countpermount(int month, int year, Integer userId);
 
 
 }

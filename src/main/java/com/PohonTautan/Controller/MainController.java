@@ -2,24 +2,29 @@ package com.PohonTautan.Controller;
 
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
+import javax.swing.text.Style;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.PohonTautan.Entity.Log;
+import com.PohonTautan.Entity.Sessionid;
 import com.PohonTautan.Entity.Styles;
 import com.PohonTautan.Repository.LogRepository;
 import com.PohonTautan.Repository.SessionoidRepositori;
@@ -49,7 +54,34 @@ public class MainController {
     private HttpSession httpSession;
 
     @RequestMapping(value = "/dasboard", method = RequestMethod.GET)
-    public String adm() {
+    public String adm(Model model) {
+
+        String usn = httpSession.getAttribute("username").toString();
+        Integer usnn = usersRepository.getidwithusername(usn).getUid();
+        Styles st = stylesRepository.getstStyles2(usnn);
+
+        String[] btn = st.getButton_name().split(",");
+        String[] btnstyle = st.getButton_style().split(",");
+        String[] link = st.getLink().split(",");
+
+        List<Styles> stylesList = new ArrayList<>();
+
+        for(Integer i = 0; i < link.length; i++){
+            Styles ss = new Styles();
+            ss.setBg(st.getBg());
+            ss.setButton_name(btn[i]);
+            ss.setButton_style("#" + btnstyle[i]);
+            ss.setCustom_url(st.getCustom_url());
+            ss.setId_user(st.getId_user());
+            ss.setImage(st.getImage());
+            ss.setLink(link[i]);
+            ss.setCreatedAt(st.getCreatedAt());
+            ss.setUpdatedAt(st.getUpdatedAt());
+            ss.setId_style(st.getId_style());
+            stylesList.add(ss);
+        }
+
+        model.addAttribute("btnstyle", stylesList);
 
         return "dashboard";
     }
@@ -59,7 +91,24 @@ public class MainController {
         Map data = new HashMap<>();
         Date date = new Date();
 
-        Long count = sessionoidRepositori.countsession(date, 1);
+        String usn = httpSession.getAttribute("username").toString();
+        Integer usnn = usersRepository.getidwithusername(usn).getUid();
+
+        Long count = sessionoidRepositori.countsession(date, usnn);
+
+        data.put("data", count);
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/countmonth", method = RequestMethod.GET)
+    public ResponseEntity<Map> countmonth() {
+        Map data = new HashMap<>();
+        Date date = new Date();
+
+        String usn = httpSession.getAttribute("username").toString();
+        Integer usnn = usersRepository.getidwithusername(usn).getUid();
+
+        List<Sessionid> count = sessionoidRepositori.countpermount(12, 2023, usnn);
 
         data.put("data", count);
         return new ResponseEntity<>(data, HttpStatus.OK);
@@ -157,8 +206,6 @@ public class MainController {
             @RequestParam String[] tautan, @RequestParam String[] buttonname) {
         Map data = new HashMap<>();
 
-        System.out.println(Arrays.toString(tautan));
-
         String usn = httpSession.getAttribute("username").toString();
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
 
@@ -194,29 +241,5 @@ public class MainController {
         data.put("message", "Sukses Insert Style");
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
-
-    // @RequestMapping(value = "/editstyle", method = RequestMethod.PUT)
-    // public ResponseEntity<Map> editstyle(@RequestParam String username,
-    // @RequestParam String password) {
-    // Map data = new HashMap<>();
-
-    // // if (!stylesRepository.existsById(id)) {
-    // // data.put("icon", "error");
-    // // data.put("message", "Data Tidak ada");
-    // // return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
-    // // }
-
-    // // Styles st = stylesRepository.getById(id);
-    // // st.setId_user();
-    // // st.setLink();
-    // // st.setButton_style();
-    // // st.setBg();
-    // // st.setImage();
-    // // stylesRepository.save(st);
-
-    // data.put("icon", "success");
-    // data.put("message", "Sukses Insert Style");
-    // return new ResponseEntity<>(data, HttpStatus.OK);
-    // }
 
 }
