@@ -25,10 +25,16 @@ spring:
       dialect: org.hibernate.dialect.PostgreSQL10Dialect
       ddl-auto: update
   mail:
-    host: in-v3.mailjet.com
+    host: smtp.gmail.com
     port: 587
-    username: pohontautan@humanoid.net
-    password: pohontautan1@
+    username: pohontauatan@gmail.com
+    password: bhyiqdnyefgfcagm
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: 9000
