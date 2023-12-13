@@ -18,6 +18,11 @@ public interface UsersRepository extends JpaRepository<Users, Integer>{
             nativeQuery = true)
     Users getidwithusername(String username);
 
+    @Query(value = "SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM users c WHERE username = ?1",
+        countQuery = "SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM users c WHERE username = ?1",
+        nativeQuery = true)
+    boolean booleanusercname(String username);
+
     
  
 }

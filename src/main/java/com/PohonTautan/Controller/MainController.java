@@ -61,29 +61,48 @@ public class MainController {
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
         Styles st = stylesRepository.getstStyles2(usnn);
 
-        // if(){
-
-        // }
-
-        String[] btn = st.getButton_name().split(",");
-        String[] btnstyle = st.getButton_style().split(",");
-        String[] link = st.getLink().split(",");
+        System.out.println(st);
 
         List<Styles> stylesList = new ArrayList<>();
 
-        for(Integer i = 0; i < link.length; i++){
+
+        String[] btn = null;
+        String[] btnstyle = null;
+        String[] link = null;
+
+        if(st != null){
+            btn = st.getButton_name().split(",");
+            btnstyle = st.getButton_style().split(",");
+            link = st.getLink().split(",");
+
+            for(Integer i = 0; i < link.length; i++){
+                Styles ss = new Styles();
+                ss.setBg(st.getBg());
+                ss.setButton_name(btn[i]);
+                ss.setButton_style("#" + btnstyle[i]);
+                ss.setCustom_url(st.getCustom_url());
+                ss.setId_user(st.getId_user());
+                ss.setImage(st.getImage());
+                ss.setLink(link[i]);
+                ss.setCreatedAt(st.getCreatedAt());
+                ss.setUpdatedAt(st.getUpdatedAt());
+                ss.setId_style(st.getId_style());
+                stylesList.add(ss);
+            }
+
+        } else {
             Styles ss = new Styles();
-            ss.setBg(st.getBg());
-            ss.setButton_name(btn[i]);
-            ss.setButton_style("#" + btnstyle[i]);
-            ss.setCustom_url(st.getCustom_url());
-            ss.setId_user(st.getId_user());
-            ss.setImage(st.getImage());
-            ss.setLink(link[i]);
-            ss.setCreatedAt(st.getCreatedAt());
-            ss.setUpdatedAt(st.getUpdatedAt());
-            ss.setId_style(st.getId_style());
-            stylesList.add(ss);
+                ss.setBg(null);
+                ss.setButton_name(null);
+                ss.setButton_style("#" + null);
+                ss.setCustom_url(null);
+                ss.setId_user(null);
+                ss.setImage(null);
+                ss.setLink(null);
+                ss.setCreatedAt(null);
+                ss.setUpdatedAt(null);
+                ss.setId_style(null);
+                stylesList.add(ss);
         }
 
         model.addAttribute("btnstyle", stylesList);
