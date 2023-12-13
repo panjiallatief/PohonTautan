@@ -186,11 +186,14 @@
       })
 
       $("#registar").on('click', function(){
+        const uRL = window.location.href.substring(0, window.location.href.lastIndexOf("/"));
+        console.log(uRL)
+
         $.ajax({
           url: `/inputuser?username=${$("#usernamer").val()}&passwordr=${$("#passwordr").val()}&email=${$("#email").val()}`,
           method: 'POST',
           success: function(){
-            window.open(window.location.href.substring(0, window.location.href.lastIndexOf("/")), "_self")
+            // window.open(`${uRL}`, "_self")
           }
         })
       })
