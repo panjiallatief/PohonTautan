@@ -190,7 +190,7 @@
           url: `/inputuser?username=${$("#usernamer").val()}&passwordr=${$("#passwordr").val()}&email=${$("#email").val()}`,
           method: 'POST',
           success: function(){
-            location.reload()
+            window.open(window.location.href.substring(0, window.location.href.lastIndexOf("/")), "_self")
           }
         })
       })
