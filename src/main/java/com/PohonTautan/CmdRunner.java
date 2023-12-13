@@ -24,7 +24,7 @@ public class CmdRunner implements CommandLineRunner {
         @Override
         public void run(String... args) throws Exception {
 
-                usersRepository.save(new Users(1, "admin", encoder.encode("admin")));
+                usersRepository.save(new Users(1, "admin", encoder.encode("admin"), true, "admin@admin.com"));
 
                 logger.info("Person Has been created");
         }

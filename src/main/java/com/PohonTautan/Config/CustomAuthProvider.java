@@ -38,8 +38,9 @@ public class CustomAuthProvider implements AuthenticationProvider {
         Users personTemp = new Users();
         personTemp.setUsername(username);
         Users person = new Users();
+
         try{
-            person = usersRepository.findOne(Example.of(personTemp)).get();
+            person = usersRepository.getidwithusername(username);
         }catch(NoSuchElementException e){
             throw new BadCredentialsException("Username Tidak ditemukan");
         }

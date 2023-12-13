@@ -38,4 +38,11 @@ public class Users extends DateAudity{
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "status")
+    private boolean status = Boolean.FALSE;
+
+    @Column(name = "email")
+    private String email;
+
 }

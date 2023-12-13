@@ -24,6 +24,11 @@ spring:
     hibernate:
       dialect: org.hibernate.dialect.PostgreSQL10Dialect
       ddl-auto: update
+  mail:
+    host: in-v3.mailjet.com
+    port: 587
+    username: pohontautan@humanoid.net
+    password: pohontautan1@
 
 server:
   port: 9000

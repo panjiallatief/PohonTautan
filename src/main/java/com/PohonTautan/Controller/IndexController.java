@@ -1,11 +1,14 @@
 package com.PohonTautan.Controller;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,7 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.PohonTautan.Entity.Sessionid;
 import com.PohonTautan.Entity.Users;
 import com.PohonTautan.Repository.SessionoidRepositori;
+import com.PohonTautan.Repository.StylesRepository;
 import com.PohonTautan.Repository.UsersRepository;
+import com.mailjet.client.ClientOptions;
+import com.mailjet.client.MailjetClient;
+import com.mailjet.client.MailjetRequest;
+import com.mailjet.client.MailjetResponse;
+import com.mailjet.client.errors.MailjetException;
+import com.mailjet.client.resource.Emailv31;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -34,24 +44,26 @@ public class IndexController {
 
     @Autowired
     private PasswordEncoder encoder;
+
+    @Autowired
+    private StylesRepository stylesRepository;
     
-    @GetMapping(value = "/")
-    public String index(HttpServletRequest request){
+    @GetMapping(value = "/{curl}")
+    public String index(HttpServletRequest request, @PathVariable(required = true) String curl){
 
         Date date = new Date();
 
         HttpSession session = request.getSession();
         String sessionId = session.getId();
         String userIp = request.getRemoteAddr();
-        String currentUrl = request.getRequestURL().toString();
 
-        // Integer id = stylesRepository.getstStyles(currentUrl).getId_user();
+        Integer id = stylesRepository.getstStyles(curl).getId_user();
 
         if(!sessionoidRepositori.findBycreatedAt(date, sessionId)){
             Sessionid st = new Sessionid();
             st.setSession_visitor(sessionId);
             st.setIp_visitor(userIp);
-            st.setId_user(null);
+            st.setId_user(id);
             sessionoidRepositori.save(st);
         }
  
@@ -59,7 +71,7 @@ public class IndexController {
     }
     
     @PostMapping(value = "/inputuser")
-    public ResponseEntity<Map> inputuser(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<Map> inputuser(@RequestParam String username, @RequestParam String passwordr, @RequestParam String email)  {
         Map data = new HashMap<>();
         if (usersRepository.findByUsername(username).size() > 0) {
             data.put("message", "username sudah ada");
@@ -68,8 +80,11 @@ public class IndexController {
         }
         Users personTemp = new Users();
         personTemp.setUsername(username);
-        personTemp.setPassword(encoder.encode(password));
+        personTemp.setPassword(encoder.encode(passwordr));
+        personTemp.setEmail(email);
+        personTemp.setStatus(false);
         usersRepository.save(personTemp);
+
         data.put("icon", "success");
         data.put("message", "Sukses Insert Person");
         return new ResponseEntity<>(data, HttpStatus.OK);

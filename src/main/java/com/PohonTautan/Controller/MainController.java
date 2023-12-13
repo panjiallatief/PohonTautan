@@ -2,6 +2,7 @@ package com.PohonTautan.Controller;
 
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -60,6 +61,10 @@ public class MainController {
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
         Styles st = stylesRepository.getstStyles2(usnn);
 
+        // if(){
+
+        // }
+
         String[] btn = st.getButton_name().split(",");
         String[] btnstyle = st.getButton_style().split(",");
         String[] link = st.getLink().split(",");
@@ -105,10 +110,14 @@ public class MainController {
         Map data = new HashMap<>();
         Date date = new Date();
 
+        SimpleDateFormat sdf = new SimpleDateFormat("MM");
+        String month = sdf.format(date);
+        System.out.println("Bulan: " + month);
+
         String usn = httpSession.getAttribute("username").toString();
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
 
-        List<Sessionid> count = sessionoidRepositori.countpermount(12, 2023, usnn);
+        List<Object[]> count = sessionoidRepositori.countPerMonth(12, 2023, usnn);
 
         data.put("data", count);
         return new ResponseEntity<>(data, HttpStatus.OK);
@@ -120,6 +129,20 @@ public class MainController {
         Date date = new Date();
 
         Long count = logRepository.countbutton(date, 1);
+
+        data.put("data", count);
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/countbuttonmonth", method = RequestMethod.GET)
+    public ResponseEntity<Map> countbuttonmonth() {
+        Map data = new HashMap<>();
+        Date date = new Date();
+
+        String usn = httpSession.getAttribute("username").toString();
+        Integer usnn = usersRepository.getidwithusername(usn).getUid();
+
+        List<Object[]> count = logRepository.countPerMonth(12, 2023, usnn);
 
         data.put("data", count);
         return new ResponseEntity<>(data, HttpStatus.OK);
