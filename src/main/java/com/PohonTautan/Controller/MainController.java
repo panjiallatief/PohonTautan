@@ -70,7 +70,7 @@ public class MainController {
         String[] btnstyle = null;
         String[] link = null;
 
-        if(st != null){
+        if(st.getButton_name() != null){
             btn = st.getButton_name().split(",");
             btnstyle = st.getButton_style().split(",");
             link = st.getLink().split(",");
@@ -92,17 +92,17 @@ public class MainController {
 
         } else {
             Styles ss = new Styles();
-                ss.setBg(null);
-                ss.setButton_name(null);
-                ss.setButton_style("#" + null);
-                ss.setCustom_url(null);
-                ss.setId_user(null);
-                ss.setImage(null);
-                ss.setLink(null);
-                ss.setCreatedAt(null);
-                ss.setUpdatedAt(null);
-                ss.setId_style(null);
-                stylesList.add(ss);
+            ss.setBg(null);
+            ss.setButton_name(null);
+            ss.setButton_style(null);
+            ss.setCustom_url(null);
+            ss.setId_user(null);
+            ss.setImage(null);
+            ss.setLink(null);
+            ss.setCreatedAt(null);
+            ss.setUpdatedAt(null);
+            ss.setId_style(null);
+            stylesList.add(ss);
         }
 
         model.addAttribute("btnstyle", stylesList);
@@ -265,7 +265,7 @@ public class MainController {
 
         String cek = st.getLink();
 
-        if(cek.length() != 0){
+        if(cek != null){
             System.out.println("masuk if");
             st.setLink(st.getLink() + "," + A);
             st.setButton_style(st.getButton_style() + "," + B);
