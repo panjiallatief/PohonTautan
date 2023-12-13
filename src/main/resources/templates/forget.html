@@ -72,7 +72,7 @@
       $("#forgetpas").on('click', function(){
         var ema =  window.location.href;
         var mm = ema.substring(ema.lastIndexOf("=")+1, ema.length)
-        var ma = ema.substring(ema.lastIndexOf("/"))
+        var ma = ema.substring(ema.lastIndexOf("/"), ema.lastIndexOf('?'))
         console.log(ema)
         console.log(mm)
         console.log(ma)
