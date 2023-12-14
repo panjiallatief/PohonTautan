@@ -111,8 +111,8 @@ public class MainController {
             for (Integer i = 0; i < link.length; i++) {
                 styleMap.put("tempBg", bg);
                 styleMap.put("tempImg", image);
-                styleMap.put("button_name", btn[0]);
-                styleMap.put("button_style", "#" + btnstyle[0]);
+                styleMap.put("button_name", btn[i]);
+                styleMap.put("button_style", "#" + btnstyle[i]);
                 styleMap.put("custom_url", st.getCustom_url());
                 styleMap.put("id_user", st.getId_user());
                 styleMap.put("created_at", st.getCreatedAt());
@@ -121,9 +121,9 @@ public class MainController {
                 styleMap.put("headline", st.getHeadline());
                 styleMap.put("bio", st.getBio());
                 styleMap.put("bg_default", st.getBg_default());
-                styleMap.put("link", link[0]);
-                styleMap.put("button_animation", btnanim[0]);
-                styleMap.put("button_text_color", btntc[0]);
+                styleMap.put("link", link[i]);
+                styleMap.put("button_animation", btnanim[i]);
+                styleMap.put("button_text_color", btntc[i]);
                 stylesList.add(styleMap);
             }
 
