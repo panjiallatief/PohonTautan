@@ -158,7 +158,7 @@
                                 
                                 <div id="buttontmpt" class="w-full mt-3">
                                     <div class="relative" th:each="bbtn : ${btnstyle}" th:if="${bbtn.button_name != null}">
-                                        <button th:style="|background: ${bbtn.button_style}|" th:class="${btnstyle[0].button_text_color == null or btnstyle[0].button_animation == null ? 'min-w-full rounded-lg px-4 py-2 mb-3 text-white hover:brightness-90' : 'min-w-full rounded-lg px-4 py-2 mb-3 hover:brightness-90 ' + btnstyle[0].button_text_color +' '+ btnstyle[0].button_animation}"
+                                        <button th:style="|background: ${bbtn.button_style}|" th:class="${btnstyle[0].button_text_color == null or btnstyle.button_animation == null ? 'min-w-full rounded-lg px-4 py-2 mb-3 text-white hover:brightness-90' : 'min-w-full rounded-lg px-4 py-2 mb-3 hover:brightness-90 ' + btnstyle[0].button_text_color +' '+ btnstyle.button_animation}"
                                         th:text="${bbtn.button_name}"></button>
                                         <div th:value="${bbtn.button_name}"
                                             class="absolute top-2 -right-4 h-4 w-4 mt-1 mr-2 bg-red-500 rounded-full cursor-pointer hover:animate-pulse"><a
