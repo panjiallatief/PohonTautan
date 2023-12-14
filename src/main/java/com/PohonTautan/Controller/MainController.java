@@ -74,11 +74,12 @@ public class MainController {
         String[] link = null;
         String[] btnanim = null;
         String[] btntc = null;
+        String bg = null;
+        String image = null;
 
         if (st.getButton_name() != null || st.getButton_style() != null || st.getLink() != null
                 || st.getButton_animation() != null || st.getButton_text_color() != null) {
-            
-            System.out.println("masuk if"); 
+        
             if (st.getButton_name() != null) {
                 btn = st.getButton_name().split(",");
             }
@@ -101,20 +102,24 @@ public class MainController {
                 btntc = st.getButton_text_color().split(",");
             }
 
-            Blob blob = st.getBg();
-            byte[] bytes = blob.getBytes(1, (int) blob.length());
-            String base64String = Base64.getEncoder().encodeToString(bytes);
-            String gambars = base64String.replace("dataimage/pngbase64",
-                    "data:image/png;base64,");
-            String bg = gambars.replace("=", "");
+            if(st.getBg() != null){
+                Blob blob = st.getBg();
+                byte[] bytes = blob.getBytes(1, (int) blob.length());
+                String base64String = Base64.getEncoder().encodeToString(bytes);
+                String gambars = base64String.replace("dataimage/pngbase64",
+                        "data:image/png;base64,");
+                bg = gambars.replace("=", "");
+            }
 
-            Blob blobs = st.getImage();
-            byte[] bytess = blobs.getBytes(1, (int) blobs.length());
-            String base64Strings = Base64.getEncoder().encodeToString(bytess);
-            String gambarss = base64Strings.replace("dataimage/pngbase64",
-                    "data:image/png;base64,");
-            String image = gambarss.replace("=", "");
-            
+            if(st.getImage() != null){
+                Blob blobs = st.getImage();
+                byte[] bytess = blobs.getBytes(1, (int) blobs.length());
+                String base64Strings = Base64.getEncoder().encodeToString(bytess);
+                String gambarss = base64Strings.replace("dataimage/pngbase64",
+                        "data:image/png;base64,");
+                image = gambarss.replace("=", "");
+            }
+
             for (Integer i = 0; i < link.length; i++) {
                 styleMap.put("tempBg", bg);
                 styleMap.put("tempImg", image);
@@ -135,7 +140,6 @@ public class MainController {
             }
 
         } else {
-            System.out.println("masuk else"); 
             styleMap.put("tempBg", null);
             styleMap.put("tempImg", null);
             styleMap.put("button_name", null);
