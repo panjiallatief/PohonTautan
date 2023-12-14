@@ -33,28 +33,34 @@ public class CustomAuthProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        boolean stat ;
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         Users personTemp = new Users();
         personTemp.setUsername(username);
         Users person = new Users();
-        boolean stat = usersRepository.getstatus(username);
-
-        try{
+        // try{
             person = usersRepository.getidwithusername(username);
-        }catch(NoSuchElementException e){
-            throw new BadCredentialsException("Username Tidak ditemukan");
-        }
-        
-        if (encoder.matches(password, person.getPassword()) && stat == true) {
+        // }catch(NoSuchElementException e){
+        //     throw new BadCredentialsException("Username Tidak ditemukan");
+        // }
+
+        if(person != null){
+            stat = usersRepository.getstatus(username);
+            if (encoder.matches(password, person.getPassword()) && stat == true) {
             httpSession.setAttribute("id", person.getUid());
             httpSession.setAttribute("username", person.getUsername());            
             httpSession.setAttribute("role", "user");
-        } else if (encoder.matches(password, person.getPassword())) {
-            throw new BadCredentialsException("Akun Belum di Aktivasi");
-        }else {
-            throw new BadCredentialsException("Username/Password Salah");
+            } else if (encoder.matches(password, person.getPassword())) {
+                throw new BadCredentialsException("Akun Belum di Aktivasi");
+            }else {
+                throw new BadCredentialsException("Username/Password Salah");
+            }
+        } else {
+            throw new BadCredentialsException("Username Tidak ditemukan");
         }
+        
+        
         List<GrantedAuthority> grantedAuthorities = new ArrayList();
         grantedAuthorities.add(new SimpleGrantedAuthority((String) httpSession.getAttribute("role")));
         return new UsernamePasswordAuthenticationToken(username, password, grantedAuthorities);
