@@ -87,6 +87,11 @@ public class MainController {
                 ss.setCreatedAt(st.getCreatedAt());
                 ss.setUpdatedAt(st.getUpdatedAt());
                 ss.setId_style(st.getId_style());
+                ss.setButton_animation(st.getButton_animation());
+                ss.setButton_text_color(st.getButton_text_color());
+                ss.setHeadline(st.getHeadline());
+                ss.setBio(st.getBio());
+                ss.setBg_default(st.getBg_default());
                 stylesList.add(ss);
             }
 
@@ -102,6 +107,11 @@ public class MainController {
             ss.setCreatedAt(null);
             ss.setUpdatedAt(null);
             ss.setId_style(null);
+            ss.setButton_animation(null);
+            ss.setButton_text_color(null);
+            ss.setHeadline(null);
+            ss.setBio(null);
+            ss.setBg_default(st.getBg_default());
             stylesList.add(ss);
         }
 

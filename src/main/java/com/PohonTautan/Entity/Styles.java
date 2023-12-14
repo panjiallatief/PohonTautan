@@ -50,6 +50,12 @@ public class Styles extends DateAudity{
     @Column(name = "button_name")
     private String button_name;
 
+    @Column(name = "button_animation")
+    private String button_animation;
+
+    @Column(name = "button_text_color")
+    private String button_text_color;
+
     @Column(name = "link")
     private String link;
 
@@ -58,4 +64,13 @@ public class Styles extends DateAudity{
 
     @Column(name = "custom_url")
     private String custom_url;
+
+    @Column(name = "headline")
+    private String headline;
+
+    @Column(name = "bio")
+    private String bio;
+
+    @Column(name = "bg_default")
+    private String bg_default;
 }

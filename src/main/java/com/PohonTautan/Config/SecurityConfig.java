@@ -1,8 +1,12 @@
 package com.PohonTautan.Config;
 
+import java.util.EnumSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,6 +23,10 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.Filter;
 
 @EnableWebSecurity
 @Configuration
@@ -60,8 +68,17 @@ public class SecurityConfig {
     }
 
     @Bean
+	static FilterRegistrationBean<Filter> handlerMappingIntrospectorCacheFilter(HandlerMappingIntrospector hmi) {
+		Filter cacheFilter = hmi.createCacheFilter();
+		FilterRegistrationBean<Filter> registrationBean = new FilterRegistrationBean<>(cacheFilter);
+		registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		registrationBean.setDispatcherTypes(EnumSet.allOf(DispatcherType.class));
+		return registrationBean;
+	}
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // http.cors();
+        http.cors();
         http.csrf()
             .disable()
             .headers().frameOptions().sameOrigin().and()
