@@ -54,7 +54,7 @@ public class CustomAuthProvider implements AuthenticationProvider {
             } else if (encoder.matches(password, person.getPassword())) {
                 throw new BadCredentialsException("Akun Belum di Aktivasi");
             }else {
-                throw new BadCredentialsException("Username/Password Salah");
+                throw new BadCredentialsException("Password Salah");
             }
         } else {
             throw new BadCredentialsException("Username Tidak ditemukan");
