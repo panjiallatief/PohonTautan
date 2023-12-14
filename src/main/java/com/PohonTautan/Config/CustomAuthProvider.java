@@ -38,6 +38,7 @@ public class CustomAuthProvider implements AuthenticationProvider {
         Users personTemp = new Users();
         personTemp.setUsername(username);
         Users person = new Users();
+        boolean stat = usersRepository.getstatus(username);
 
         try{
             person = usersRepository.getidwithusername(username);
@@ -45,12 +46,13 @@ public class CustomAuthProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Username Tidak ditemukan");
         }
         
-        if (encoder.matches(password, person.getPassword())) {
+        if (encoder.matches(password, person.getPassword()) && stat == true) {
             httpSession.setAttribute("id", person.getUid());
             httpSession.setAttribute("username", person.getUsername());            
             httpSession.setAttribute("role", "user");
-
-        } else {
+        } else if (encoder.matches(password, person.getPassword())) {
+            throw new BadCredentialsException("Akun Belum di Aktivasi");
+        }else {
             throw new BadCredentialsException("Username/Password Salah");
         }
         List<GrantedAuthority> grantedAuthorities = new ArrayList();
