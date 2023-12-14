@@ -76,12 +76,21 @@ public class MainController {
         String[] btntc = null;
 
         if (st.getButton_name() != null) {
-            btn = st.getButton_name().split(",");
-            btnstyle = st.getButton_style().split(",");
-            link = st.getLink().split(",");
-            btnanim = st.getButton_animation().split(",");
-            btntc = st.getButton_text_color().split(",");
 
+            btn = st.getButton_name().split(",");
+
+            if(st.getButton_style() != null){
+                btnstyle = st.getButton_style().split(",");
+            }
+            if(st.getLink() != null){
+                link = st.getLink().split(",");
+            }
+            if(st.getButton_animation() != null){
+                btnanim = st.getButton_animation().split(",");
+            }
+            if(st.getButton_text_color() != null){
+                btntc = st.getButton_text_color().split(",");
+            }
 
             Blob blob = st.getBg();
             byte[] bytes = blob.getBytes(1, (int) blob.length());
