@@ -292,9 +292,9 @@ public class MainController {
     }
 
     @RequestMapping(value = "/inputbutton", method = RequestMethod.PUT)
-    public ResponseEntity<Map> inputbutton(@RequestParam(required = false) String[] tombol,
-            @RequestParam(required = false) String[] tautan,
-            @RequestParam(required = false) String[] buttonname,
+    public ResponseEntity<Map> inputbutton(@RequestParam String[] tombol,
+            @RequestParam String[] tautan,
+            @RequestParam String[] buttonname,
             @RequestParam(required = false) String[] buttonanim,
             @RequestParam(required = false) String[] buttoncolortext) {
         Map data = new HashMap<>();
@@ -309,12 +309,29 @@ public class MainController {
         }
 
         Styles st = stylesRepository.getstStyles2(usnn);
-
+        String D = ""; 
+        String E = ""; 
+        
         String A = Arrays.toString(tautan).replace("[", "").replace("]", "");
         String B = Arrays.toString(tombol).replace("[", "").replace("]", "");
         String C = Arrays.toString(buttonname).replace("[", "").replace("]", "");
-        String D = Arrays.toString(buttonanim).replace("[", "").replace("]", "");
-        String E = Arrays.toString(buttoncolortext).replace("[", "").replace("]", "");
+
+        if (buttonanim != null) {
+             D = Arrays.toString(buttonanim).replace("[", "").replace("]", "");
+        } else {
+            for(Integer i = 0 ; i < tautan.length ; i++){
+                D = "animate-none";
+            }
+        }
+
+        if (buttoncolortext != null) {
+             E = Arrays.toString(buttoncolortext).replace("[", "").replace("]", "");
+        } else {
+            for(Integer i = 0 ; i < tautan.length ; i++){
+                E = "text-white";
+            }    
+        }
+
 
         String cek = st.getLink();
 
