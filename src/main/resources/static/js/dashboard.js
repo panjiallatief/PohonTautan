@@ -58,9 +58,11 @@ $("#tempatlagi").on("click", ".delete_", function () {
 });
 
 function deletebut(link){
-    // console.log(link)
+    const lk = link.replaceAll(".", "_").substring(link.lastIndexOf("/")+1, link.length)
+    // const lynk = lk.subString(lk.lastIndexOf("/"), lk.length)
+    // console.log(lk)
     $.ajax({
-        url: `/deletebutton?tautan=${link}`,
+        url: `/deletebutton?tautan=${lk}`,
         method: 'PUT',
     })
 }
