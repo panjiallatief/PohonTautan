@@ -20,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,65 +57,83 @@ public class MainController {
     private HttpSession httpSession;
 
     @RequestMapping(value = "/dasboard", method = RequestMethod.GET)
-    public String adm(Model model) {
+    public String adm(Model model) throws SQLException {
 
         String usn = httpSession.getAttribute("username").toString();
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
         Styles st = stylesRepository.getstStyles2(usnn);
         Date date = new Date();
-        List<Styles> stylesList = new ArrayList<>();
+        // List<Styles> stylesList = new ArrayList<>();
+        List<Map<String, Object>> stylesList = new ArrayList<>();
+        Map<String, Object> styleMap = new HashMap<>();
         Long countday = sessionoidRepositori.countsession(date, usnn);
         model.addAttribute("countday", countday);
-
 
         String[] btn = null;
         String[] btnstyle = null;
         String[] link = null;
+        String[] btnanim = null;
+        String[] btntc = null;
 
-        if(st.getButton_name() != null){
+        if (st.getButton_name() != null) {
             btn = st.getButton_name().split(",");
             btnstyle = st.getButton_style().split(",");
             link = st.getLink().split(",");
+            btnanim = st.getButton_animation().split(",");
+            btntc = st.getButton_text_color().split(",");
 
-            for(Integer i = 0; i < link.length; i++){
-                Styles ss = new Styles();
-                ss.setBg(st.getBg());
-                ss.setButton_name(btn[i]);
-                ss.setButton_style("#" + btnstyle[i]);
-                ss.setCustom_url(st.getCustom_url());
-                ss.setId_user(st.getId_user());
-                ss.setImage(st.getImage());
-                ss.setLink(link[i]);
-                ss.setCreatedAt(st.getCreatedAt());
-                ss.setUpdatedAt(st.getUpdatedAt());
-                ss.setId_style(st.getId_style());
-                ss.setButton_animation(st.getButton_animation());
-                ss.setButton_text_color(st.getButton_text_color());
-                ss.setHeadline(st.getHeadline());
-                ss.setBio(st.getBio());
-                ss.setBg_default(st.getBg_default());
-                stylesList.add(ss);
+
+            Blob blob = st.getBg();
+            byte[] bytes = blob.getBytes(1, (int) blob.length());
+            String base64String = Base64.getEncoder().encodeToString(bytes);
+            String gambars = base64String.replace("dataimage/pngbase64",
+            "data:image/png;base64,");
+            String bg = gambars.replace("=", "");
+
+            Blob blobs = st.getImage();
+            byte[] bytess = blobs.getBytes(1, (int) blobs.length());
+            String base64Strings = Base64.getEncoder().encodeToString(bytes);
+            String gambarss = base64String.replace("dataimage/pngbase64",
+            "data:image/png;base64,");
+            String image = gambars.replace("=", "");
+
+            for (Integer i = 0; i < link.length; i++) {
+                styleMap.put("tempBg", bg);
+                styleMap.put("tempImg", image);
+                styleMap.put("button_name", btn[0]);
+                styleMap.put("button_style", "#" + btnstyle[0]);
+                styleMap.put("custom_url", st.getCustom_url());
+                styleMap.put("id_user", st.getId_user());                
+                styleMap.put("created_at", st.getCreatedAt());
+                styleMap.put("updated_at", st.getUpdatedAt());
+                styleMap.put("id_style", st.getId_style());
+                styleMap.put("headline", st.getHeadline());
+                styleMap.put("bio", st.getBio());
+                styleMap.put("bg_default",st.getBg_default());
+                styleMap.put("link", link[0]);
+                styleMap.put("button_animation", btnanim[0]);
+                styleMap.put("button_text_color", btntc[0]);
+                stylesList.add(styleMap);
             }
 
         } else {
-            Styles ss = new Styles();
-            ss.setBg(null);
-            ss.setButton_name(null);
-            ss.setButton_style(null);
-            ss.setCustom_url(null);
-            ss.setId_user(null);
-            ss.setImage(null);
-            ss.setLink(null);
-            ss.setCreatedAt(null);
-            ss.setUpdatedAt(null);
-            ss.setId_style(null);
-            ss.setButton_animation(null);
-            ss.setButton_text_color(null);
-            ss.setHeadline(null);
-            ss.setBio(null);
-            ss.setBg_default(st.getBg_default());
-            stylesList.add(ss);
-        }
+            styleMap.put("tempBg", null);
+            styleMap.put("tempImg", null);
+            styleMap.put("button_name", null);
+            styleMap.put("button_style", null);
+            styleMap.put("custom_url", null);
+            styleMap.put("id_user", st.getId_user());                
+            styleMap.put("created_at", null);
+            styleMap.put("updated_at", null);
+            styleMap.put("id_style", st.getId_style());
+            styleMap.put("headline", null);
+            styleMap.put("bio", null);
+            styleMap.put("bg_default", null);
+            styleMap.put("link", null);
+            styleMap.put("button_animation", null);
+            styleMap.put("button_text_color", null);
+            stylesList.add(styleMap);
+    }
 
         model.addAttribute("btnstyle", stylesList);
 
@@ -201,14 +221,15 @@ public class MainController {
 
     @RequestMapping(value = "/inputstyle", method = RequestMethod.POST)
     public ResponseEntity<Map> inputstyle(@RequestParam String[] link, @RequestParam String[] button,
-            @RequestParam String[] buttonname, @RequestParam String bg, @RequestParam String image, @RequestParam String curl)
+            @RequestParam String[] buttonname, @RequestParam String bg, @RequestParam String image,
+            @RequestParam String curl)
             throws SerialException, SQLException {
         Map data = new HashMap<>();
 
         String usn = httpSession.getAttribute("username").toString();
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
 
-        if(!stylesRepository.booleanstyle(usnn)){
+        if (!stylesRepository.booleanstyle(usnn)) {
             String gambarimage = image.replace(" ", "+");
             byte[] binarydataimage = Base64.getMimeDecoder().decode(gambarimage);
             Blob blobimage = new SerialBlob(binarydataimage);
@@ -217,17 +238,11 @@ public class MainController {
             byte[] binarydatabg = Base64.getMimeDecoder().decode(gambarbg);
             Blob blobbg = new SerialBlob(binarydatabg);
 
-            // byte[] bytes = blob.getBytes(1, (int) blob.length());
-            // String base64String = Base64.getEncoder().encodeToString(bytes);
-            // String gambars = base64String.replace("dataimage/pngbase64",
-            // "data:image/png;base64,");
-            // String images = gambars.replace("=", "");
+            String A = null;
+            String B = null;
+            String C = null;
 
-            String A =  null;
-            String B =  null;
-            String C =  null;
-
-            if(link != null){
+            if (link != null) {
                 A = Arrays.toString(link).replace("[", "").replace("]", "");
                 B = Arrays.toString(button).replace("[", "").replace("]", "");
                 C = Arrays.toString(buttonname).replace("[", "").replace("]", "");
@@ -254,8 +269,11 @@ public class MainController {
     }
 
     @RequestMapping(value = "/inputbutton", method = RequestMethod.PUT)
-    public ResponseEntity<Map> inputbutton(@RequestParam String[] tombol,
-            @RequestParam String[] tautan, @RequestParam String[] buttonname) {
+    public ResponseEntity<Map> inputbutton(@RequestParam(required = false) String[] tombol,
+            @RequestParam(required = false) String[] tautan, 
+            @RequestParam(required = false) String[] buttonname,
+            @RequestParam(required = false) String[] buttonanim,
+            @RequestParam(required = false) String[] buttoncolortext) {
         Map data = new HashMap<>();
 
         String usn = httpSession.getAttribute("username").toString();
@@ -272,25 +290,92 @@ public class MainController {
         String A = Arrays.toString(tautan).replace("[", "").replace("]", "");
         String B = Arrays.toString(tombol).replace("[", "").replace("]", "");
         String C = Arrays.toString(buttonname).replace("[", "").replace("]", "");
+        String D = Arrays.toString(buttonanim).replace("[", "").replace("]", "");
+        String E = Arrays.toString(buttoncolortext).replace("[", "").replace("]", "");
 
         String cek = st.getLink();
 
-        if(cek != null){
+        if (cek != null) {
             System.out.println("masuk if");
             st.setLink(st.getLink() + "," + A);
             st.setButton_style(st.getButton_style() + "," + B);
             st.setButton_name(st.getButton_name() + "," + C);
+            st.setButton_animation(st.getButton_animation() + "," + D);
+            st.setButton_text_color(st.getButton_text_color() + "," + E);
             stylesRepository.save(st);
         } else {
             System.out.println("masuk else");
             st.setLink(A);
             st.setButton_style(B);
             st.setButton_name(C);
+            st.setButton_animation(D);
+            st.setButton_text_color(E);
             stylesRepository.save(st);
         }
 
         data.put("icon", "success");
         data.put("message", "Sukses Insert Style");
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    private static String[] removeElementByIndex(String[] array, int index) {
+        String[] newArray = new String[array.length - 1];
+        System.arraycopy(array, 0, newArray, 0, index);
+        System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
+        return newArray;
+    }
+
+    @PutMapping(value = "/deletebutton")
+    public ResponseEntity<Map> deletebutton(@RequestParam String tautan) {
+        Map data = new HashMap<>();
+
+        String usn = httpSession.getAttribute("username").toString();
+        Integer usnn = usersRepository.getidwithusername(usn).getUid();
+
+        if (!stylesRepository.booleanstyle(usnn)) {
+            data.put("icon", "error");
+            data.put("message", "Data Tidak ada");
+            return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
+        }
+
+        Styles st = stylesRepository.getstStyles2(usnn);
+
+        String[] btn = st.getButton_name().split(",");
+        String[] btnstyle = st.getButton_style().split(",");
+        String[] link = st.getLink().split(",");
+        String[] btnanim = st.getButton_animation().split(",");
+        String[] btntc = st.getButton_text_color().split(",");
+        String A = "";
+        String B = "";
+        String C = "";
+        String D = "";
+        String E = "";
+
+        Integer index = Arrays.asList(link).indexOf(tautan);
+
+        if (index != -1) {
+            btn = removeElementByIndex(btn, index);
+            btnstyle = removeElementByIndex(btnstyle, index);
+            link = removeElementByIndex(link, index);
+            btnanim = removeElementByIndex(btnanim, index);
+            btntc = removeElementByIndex(btntc, index);
+
+            A = Arrays.toString(btn).replace("[", "").replace("]", "");
+            B = Arrays.toString(btnstyle).replace("[", "").replace("]", "");
+            C = Arrays.toString(link).replace("[", "").replace("]", "");
+            D = Arrays.toString(btnanim).replace("[", "").replace("]", "");
+            E = Arrays.toString(btntc).replace("[", "").replace("]", "");
+        }
+
+        st.setButton_animation(D);
+        st.setButton_name(A);
+        st.setButton_style(B);
+        st.setButton_text_color(E);
+        st.setLink(C);
+        stylesRepository.save(st);
+
+        data.put("icon", "success");
+        data.put("message", "Sukses Delete Asset");
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
