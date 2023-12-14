@@ -51,11 +51,11 @@
         <form th:action="@{/login}" th:method="post" class="flex flex-col space-y-5">
           <div class="w-full h-10 rounded-md bg-yellow-300 fade show" th:if="${param.error != null or errorMsg != null}"
             id="errMessage">
-            <button type="button" class="close" onclick="$('#errMessage').hide();" aria-hidden="true"
+            <button type="button" class="close mx-auto my-auto" onclick="$('#errMessage').hide();" aria-hidden="true"
               aria-label="Close">
               ×
             </button>
-            <th:block th:if="${param.error}" th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"
+            <th:block th:if="${param.error}" class="mx-auto my-auto text-white" th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"
               th:text="${errorMsg}" />
           </div>
 
