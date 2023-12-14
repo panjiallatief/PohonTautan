@@ -157,7 +157,7 @@
                                 </div>
                                 
                                 <div id="buttontmpt" class="w-full mt-3">
-                                    <div class="relative" th:each="bbtn : ${btnstyle}" th:if="${bbtn.button_name != null or bbtn.button_name.length > 0 }">
+                                    <div class="relative" th:each="bbtn : ${btnstyle}" th:if="${bbtn.button_name != null}">
                                         <button th:style="|background: ${bbtn.button_style}|" th:class="${bbtn.button_text_color == null or bbtn.button_animation == null ? 'min-w-full rounded-lg px-4 py-2 mb-3 text-white hover:brightness-90' : 'min-w-full rounded-lg px-4 py-2 mb-3 hover:brightness-90 ' + bbtn.button_text_color +' '+ bbtn.button_animation}"
                                         th:text="${bbtn.button_name}" ></button>
                                         <div th:value="${bbtn.button_name}" th:attr="onclick=|deletebut('${bbtn.link}')|"
@@ -223,9 +223,8 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     $(document).ready(function () {
-        var data = /*[[${btnstyle[0].button_name}]]*/""
+        var data = /*[[${btnstyle}]]*/""
         console.log(data)
-        console.log(data.length)
 
         function darkModeListener() {
             document.querySelector("html").classList.toggle("dark");

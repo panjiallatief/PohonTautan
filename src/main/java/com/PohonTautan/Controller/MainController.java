@@ -418,12 +418,23 @@ public class MainController {
             E = Arrays.toString(btntc).replace("[", "").replace("]", "");
         }
 
-        st.setButton_animation(D);
-        st.setButton_name(A);
-        st.setButton_style(B);
-        st.setButton_text_color(E);
-        st.setLink(C);
-        stylesRepository.save(st);
+        if(A.length() > 0){
+            st.setButton_animation(D);
+            st.setButton_name(A);
+            st.setButton_style(B);
+            st.setButton_text_color(E);
+            st.setLink(C);
+            stylesRepository.save(st);
+        } else {
+            st.setButton_animation(null);
+            st.setButton_name(null);
+            st.setButton_style(null);
+            st.setButton_text_color(null);
+            st.setLink(null);
+            stylesRepository.save(st);
+        }
+
+        
 
         data.put("icon", "success");
         data.put("message", "Sukses Delete Asset");
