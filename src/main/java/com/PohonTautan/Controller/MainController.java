@@ -101,10 +101,10 @@ public class MainController {
 
             Blob blobs = st.getImage();
             byte[] bytess = blobs.getBytes(1, (int) blobs.length());
-            String base64Strings = Base64.getEncoder().encodeToString(bytes);
-            String gambarss = base64String.replace("dataimage/pngbase64",
+            String base64Strings = Base64.getEncoder().encodeToString(bytess);
+            String gambarss = base64Strings.replace("dataimage/pngbase64",
             "data:image/png;base64,");
-            String image = gambars.replace("=", "");
+            String image = gambarss.replace("=", "");
 
             for (Integer i = 0; i < link.length; i++) {
                 styleMap.put("tempBg", bg);
