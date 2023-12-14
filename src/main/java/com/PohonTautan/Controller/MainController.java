@@ -77,19 +77,26 @@ public class MainController {
 
         if (st.getButton_name() != null || st.getButton_style() != null || st.getLink() != null
                 || st.getButton_animation() != null || st.getButton_text_color() != null) {
-
+            
+            System.out.println("masuk if"); 
             if (st.getButton_name() != null) {
                 btn = st.getButton_name().split(",");
             }
+
             if (st.getButton_style() != null) {
                 btnstyle = st.getButton_style().split(",");
             }
+
             if (st.getLink() != null) {
                 link = st.getLink().split(",");
+            } else {
+                link = new String[0];
             }
+
             if (st.getButton_animation() != null) {
                 btnanim = st.getButton_animation().split(",");
             }
+
             if (st.getButton_text_color() != null) {
                 btntc = st.getButton_text_color().split(",");
             }
@@ -107,7 +114,7 @@ public class MainController {
             String gambarss = base64Strings.replace("dataimage/pngbase64",
                     "data:image/png;base64,");
             String image = gambarss.replace("=", "");
-
+            
             for (Integer i = 0; i < link.length; i++) {
                 styleMap.put("tempBg", bg);
                 styleMap.put("tempImg", image);
@@ -128,6 +135,7 @@ public class MainController {
             }
 
         } else {
+            System.out.println("masuk else"); 
             styleMap.put("tempBg", null);
             styleMap.put("tempImg", null);
             styleMap.put("button_name", null);
@@ -139,7 +147,7 @@ public class MainController {
             styleMap.put("id_style", st.getId_style());
             styleMap.put("headline", null);
             styleMap.put("bio", null);
-            styleMap.put("bg_default", null);
+            styleMap.put("bg_default", st.getBg_default());
             styleMap.put("link", null);
             styleMap.put("button_animation", null);
             styleMap.put("button_text_color", null);
