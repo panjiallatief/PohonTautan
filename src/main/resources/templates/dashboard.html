@@ -157,10 +157,10 @@
                                 </div>
                                 
                                 <div id="buttontmpt" class="w-full mt-3">
-                                    <div class="relative" th:each="bbtn : ${btnstyle}" th:if="${bbtn.button_name != null}">
+                                    <div class="relative" th:each="bbtn : ${btnstyle}" th:if="${bbtn.button_name != null or bbtn.button_name.length > 0 }">
                                         <button th:style="|background: ${bbtn.button_style}|" th:class="${bbtn.button_text_color == null or bbtn.button_animation == null ? 'min-w-full rounded-lg px-4 py-2 mb-3 text-white hover:brightness-90' : 'min-w-full rounded-lg px-4 py-2 mb-3 hover:brightness-90 ' + bbtn.button_text_color +' '+ bbtn.button_animation}"
                                         th:text="${bbtn.button_name}" ></button>
-                                        <div th:value="${bbtn.button_name}" th:attr="onclick=|deletebut('${bbtn.link}')|" 
+                                        <div th:value="${bbtn.button_name}" th:attr="onclick=|deletebut('${bbtn.link}')|"
                                             class="absolute top-2 -right-4 h-4 w-4 mt-1 mr-2 bg-red-500 rounded-full cursor-pointer hover:animate-pulse"><a
                                                 class="text-white absolute top-[-6px] left-[3.5px]">x</a></div>
                                     </div>
@@ -223,8 +223,9 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     $(document).ready(function () {
-        var data = /*[[${btnstyle}]]*/""
+        var data = /*[[${btnstyle[0].button_name}]]*/""
         console.log(data)
+        console.log(data.length)
 
         function darkModeListener() {
             document.querySelector("html").classList.toggle("dark");

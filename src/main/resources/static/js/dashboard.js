@@ -62,8 +62,11 @@ function deletebut(link){
     // const lynk = lk.subString(lk.lastIndexOf("/"), lk.length)
     // console.log(lk)
     $.ajax({
-        url: `/deletebutton?tautan=${lk}`,
+        url: `/adm/deletebutton?tautan=${lk}`,
         method: 'PUT',
+        success: function(){
+            location.reload();
+        }
     })
 }
 
