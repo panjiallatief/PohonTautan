@@ -391,7 +391,18 @@ public class MainController {
         String D = "";
         String E = "";
 
-        Integer index = Arrays.asList(link).indexOf(tautan);
+        String ta = tautan.replace("_", ".");
+
+        // Integer index = Arrays.asList(link).indexOf(tautan);        
+        Integer index = -1;
+
+
+        for (int i = 0; i < link.length; i++) {
+            if (link[i].contains(ta)) {
+                index = i;
+                break; // Hentikan iterasi setelah menemukan indeks
+            }
+        }
 
         if (index != -1) {
             btn = removeElementByIndex(btn, index);
