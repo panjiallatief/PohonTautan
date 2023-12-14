@@ -75,20 +75,22 @@ public class MainController {
         String[] btnanim = null;
         String[] btntc = null;
 
-        if (st.getButton_name() != null) {
+        if (st.getButton_name() != null || st.getButton_style() != null || st.getLink() != null
+                || st.getButton_animation() != null || st.getButton_text_color() != null) {
 
-            btn = st.getButton_name().split(",");
-
-            if(st.getButton_style() != null){
+            if (st.getButton_name() != null) {
+                btn = st.getButton_name().split(",");
+            }
+            if (st.getButton_style() != null) {
                 btnstyle = st.getButton_style().split(",");
             }
-            if(st.getLink() != null){
+            if (st.getLink() != null) {
                 link = st.getLink().split(",");
             }
-            if(st.getButton_animation() != null){
+            if (st.getButton_animation() != null) {
                 btnanim = st.getButton_animation().split(",");
             }
-            if(st.getButton_text_color() != null){
+            if (st.getButton_text_color() != null) {
                 btntc = st.getButton_text_color().split(",");
             }
 
@@ -96,14 +98,14 @@ public class MainController {
             byte[] bytes = blob.getBytes(1, (int) blob.length());
             String base64String = Base64.getEncoder().encodeToString(bytes);
             String gambars = base64String.replace("dataimage/pngbase64",
-            "data:image/png;base64,");
+                    "data:image/png;base64,");
             String bg = gambars.replace("=", "");
 
             Blob blobs = st.getImage();
             byte[] bytess = blobs.getBytes(1, (int) blobs.length());
             String base64Strings = Base64.getEncoder().encodeToString(bytess);
             String gambarss = base64Strings.replace("dataimage/pngbase64",
-            "data:image/png;base64,");
+                    "data:image/png;base64,");
             String image = gambarss.replace("=", "");
 
             for (Integer i = 0; i < link.length; i++) {
@@ -112,13 +114,13 @@ public class MainController {
                 styleMap.put("button_name", btn[0]);
                 styleMap.put("button_style", "#" + btnstyle[0]);
                 styleMap.put("custom_url", st.getCustom_url());
-                styleMap.put("id_user", st.getId_user());                
+                styleMap.put("id_user", st.getId_user());
                 styleMap.put("created_at", st.getCreatedAt());
                 styleMap.put("updated_at", st.getUpdatedAt());
                 styleMap.put("id_style", st.getId_style());
                 styleMap.put("headline", st.getHeadline());
                 styleMap.put("bio", st.getBio());
-                styleMap.put("bg_default",st.getBg_default());
+                styleMap.put("bg_default", st.getBg_default());
                 styleMap.put("link", link[0]);
                 styleMap.put("button_animation", btnanim[0]);
                 styleMap.put("button_text_color", btntc[0]);
@@ -131,7 +133,7 @@ public class MainController {
             styleMap.put("button_name", null);
             styleMap.put("button_style", null);
             styleMap.put("custom_url", null);
-            styleMap.put("id_user", st.getId_user());                
+            styleMap.put("id_user", st.getId_user());
             styleMap.put("created_at", null);
             styleMap.put("updated_at", null);
             styleMap.put("id_style", st.getId_style());
@@ -142,7 +144,7 @@ public class MainController {
             styleMap.put("button_animation", null);
             styleMap.put("button_text_color", null);
             stylesList.add(styleMap);
-    }
+        }
 
         model.addAttribute("btnstyle", stylesList);
 
@@ -279,7 +281,7 @@ public class MainController {
 
     @RequestMapping(value = "/inputbutton", method = RequestMethod.PUT)
     public ResponseEntity<Map> inputbutton(@RequestParam(required = false) String[] tombol,
-            @RequestParam(required = false) String[] tautan, 
+            @RequestParam(required = false) String[] tautan,
             @RequestParam(required = false) String[] buttonname,
             @RequestParam(required = false) String[] buttonanim,
             @RequestParam(required = false) String[] buttoncolortext) {
