@@ -311,7 +311,7 @@ public class MainController {
         Styles st = stylesRepository.getstStyles2(usnn);
         String D = ""; 
         String E = ""; 
-        
+
         String A = Arrays.toString(tautan).replace("[", "").replace("]", "");
         String B = Arrays.toString(tombol).replace("[", "").replace("]", "");
         String C = Arrays.toString(buttonname).replace("[", "").replace("]", "");
@@ -336,7 +336,7 @@ public class MainController {
         String cek = st.getLink();
 
         if (cek != null) {
-            System.out.println("masuk if");
+            // System.out.println("masuk if");
             st.setLink(st.getLink() + "," + A);
             st.setButton_style(st.getButton_style() + "," + B);
             st.setButton_name(st.getButton_name() + "," + C);
@@ -344,7 +344,7 @@ public class MainController {
             st.setButton_text_color(st.getButton_text_color() + "," + E);
             stylesRepository.save(st);
         } else {
-            System.out.println("masuk else");
+            // System.out.println("masuk else");
             st.setLink(A);
             st.setButton_style(B);
             st.setButton_name(C);
