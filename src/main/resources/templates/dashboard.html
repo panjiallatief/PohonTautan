@@ -188,7 +188,7 @@
                         <!-- <h2 th:text="${potentially_complex_expression != null ? potentially_complex_expression.property : 'Default'}"></h2> -->
 
                         <div class="bg-cover flex justify-center items-center py-12"
-                            th:style="${btnstyle[0].tempBg == null ? 'background-image:url(' + btnstyle[0].bg_default + ');' : 'background-color: red;'}">
+                            th:style="${btnstyle[0].tempBg == null ? 'background-image:url(' + btnstyle[0].bg_default + ');' : 'background-image:url(' + btnstyle[0].tempBg + ')'}">
                             <div class="w-1/2 bg-slate-50 p-5 rounded-xl bg-opacity-5 backdrop-blur-lg shadow-2xl">
                                 <div class="rounded-full mx-auto">
                                     <img src="https://source.unsplash.com/150x150" class="rounded-full mx-auto"
