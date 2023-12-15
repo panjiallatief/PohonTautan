@@ -86,15 +86,15 @@ const openModal = (modal) => {
     modalToOpen.style.display = 'flex';
 }
 
-function toggleModal() {
-    var modal = document.getElementById('modal');
-    modal.style.display = (modal.style.display === 'none' || modal.style.display === '') ? 'block' : 'none';
-}
+// function toggleModal() {
+//     var modal = document.getElementById('modal');
+//     modal.style.display = (modal.style.display === 'none' || modal.style.display === '') ? 'block' : 'none';
+// }
 
-function toggleModalEdit() {
-    var modalEdit = document.getElementById('modalEdit');
-    modalEdit.style.display = (modalEdit.style.display === 'none' || modalEdit.style.display === '') ? 'block' : 'none';
-}
+// function toggleModalEdit() {
+//     var modalEdit = document.getElementById('modalEdit');
+//     modalEdit.style.display = (modalEdit.style.display === 'none' || modalEdit.style.display === '') ? 'block' : 'none';
+// }
 
 $("#addbtn").on("click", function () {
     $("#tempatlagi").append(
@@ -180,7 +180,7 @@ function tambahdata() {
         url: `/adm/inputbutton?buttonname=${namaBtn}&tautan=${linkBtn}&tombol=${styleBtn}`,
         method: "put",
         success: function () {
-            toggleModal()
+            // toggleModal()
         }
     })
 
