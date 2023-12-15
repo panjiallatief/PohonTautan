@@ -1,25 +1,64 @@
-function load(){
-    // $.ajax({
-    //     url : ``,
-    //     method : "GET",
-    //     success : function (){
-    //         $("#buttontmpt").append(
-    //             `<div class="relative">
-    //                 <button class="min-w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-800 rounded-lg px-4 py-2 mb-3">Lorem ipsum dolor </button>
-    //                 <span class="absolute top-2 -right-4 h-4 w-4 mt-1 mr-2 bg-red-500 rounded-full cursor-pointer hover:animate-pulse"><span class="text-white absolute top-[-6px] left-[3.5px]">x</span></span>
-    //                             </div>`
-    //         )
-    //     }
-    // })
+function readFormData() {
+    // Get values from input fields
+    var customUrl = document.getElementById('cusUrl').value;
+    var headline = document.getElementById('headline').value;
+    var bio = document.getElementById('bio').value;
+
+    // Use the readFile function to read the file and get the result for each file input
+    readFile(document.getElementById('inp1'), function (fileData1) {
+        readFile(document.getElementById('inp2'), function (fileData2) {
+            // Add your logic to further process the gathered information here
+
+            // Create FormData object to store form data
+            var formData = new FormData();
+            formData.append('customUrl', customUrl);
+            formData.append('headline', headline);
+            formData.append('bio', bio);
+
+            // Append the profile pictures to the FormData
+            formData.append('image', fileData1);
+            formData.append('bg', fileData2);
+
+            // Send the FormData using fetch
+            fetch('/inputstyle', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json()) // Adjust based on your server response format
+            .then(data => {
+                // Handle the response from the server
+                console.log('Server response:', data);
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error:', error);
+            });
+        });
+    });
 }
 
-function edit() {
-    // $("#buttontmpt").append(
-    //     `<div class="relative">
-    //         <button class="min-w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-800 rounded-lg px-4 py-2 mb-3">Lorem ipsum dolor </button>
-    //         <span class="absolute top-2 -right-4 h-4 w-4 mt-1 mr-2 bg-red-500 rounded-full cursor-pointer hover:animate-pulse"><span class="text-white absolute top-[-6px] left-[3.5px]">x</span></span>
-    //     </div>`
-    // )
+function readFile(fileInput, callback) {
+    if (!fileInput.files || !fileInput.files[0]) return;
+
+    var reader = new FileReader();
+
+    reader.addEventListener('load', function (evt) {
+        // Access the result inside the load event
+        var result = evt.target.result;
+
+        // Call the callback function with the result
+        callback(result);
+    });
+
+    reader.readAsDataURL(fileInput.files[0]);
+}
+
+function dataEdit() {
+   var cusUrl = $("#cusUrl").val();
+   var headline = $("#headline").val();
+   var bio = $("#bio").val();
+
+//    console.log(bio)
 }
 // TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com 
 const colorPicker = document.getElementById("nativeColorPicker1");
@@ -30,19 +69,58 @@ const colorPicker = document.getElementById("nativeColorPicker1");
 //     changeColorBtn.style.backgroundColor = colorPicker.value;
 // });
 
+
+const modalClose = (modal) => {
+    const modalToClose = document.querySelector('.'+modal);
+    modalToClose.classList.remove('fadeIn');
+    modalToClose.classList.add('fadeOut');
+    setTimeout(() => {
+        modalToClose.style.display = 'none';
+    }, 500);
+}
+
+const openModal = (modal) => {
+    const modalToOpen = document.querySelector('.'+modal);
+    modalToOpen.classList.remove('fadeOut');
+    modalToOpen.classList.add('fadeIn');
+    modalToOpen.style.display = 'flex';
+}
+
 function toggleModal() {
-    document.getElementById('modal').classList.toggle('hidden')
+    var modal = document.getElementById('modal');
+    modal.style.display = (modal.style.display === 'none' || modal.style.display === '') ? 'block' : 'none';
+}
+
+function toggleModalEdit() {
+    var modalEdit = document.getElementById('modalEdit');
+    modalEdit.style.display = (modalEdit.style.display === 'none' || modalEdit.style.display === '') ? 'block' : 'none';
 }
 
 $("#addbtn").on("click", function () {
     $("#tempatlagi").append(
         `<div class="pp">
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <label class="font-medium text-gray-800">Name</label>
                 <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" name="button_name[]"/>
                 <label class="font-medium text-gray-800">Url</label>
                 <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" name="link[]"/>
+                <label class="font-medium text-gray-800">Text Color</label>
+                    <select name="text-col[]" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3">
+                        <option value="" disabled selected>--Select--</option>
+                        <option value="text-white">White</option>
+                        <option value="text-black">Black</option>
+                    </select>
 
-                <div>
+                    <label class="font-medium text-gray-800">Button Animation</label>
+                    <select name="button-animate[]" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3">
+                        <option value="" disabled selected>--Select--</option>
+                        <option value="animate-none">None</option>
+                        <option value="animate-spin">Spin</option>
+                        <option value="animate-ping">Ping</option>
+                        <option value="animate-pulse">Pulse</option>
+                    </select>
+
+                <div class="mb-5">
                     <label for="color-picker" class="block mb-1 font-semibold">Select a color</label>
                     <input id="nativeColorPicker1" type="color" value="#6590D5" class="w-full rounded" name="button_style[]"/>
                 </div>
@@ -74,10 +152,13 @@ function tambahdata() {
     var inputName = document.getElementsByName("button_name[]");
     var inputLink = document.getElementsByName("link[]");
     var inputStyle = document.getElementsByName("button_style[]");
-    // listVideo = [];
+    var TextStyle = document.getElementsByName("text-col[]");
+    var btnStyle = document.getElementsByName("button-animate[]");
     namaBtn = [];
     linkBtn = [];
     styleBtn = [];
+    textcol = [];
+    btnanim = [];
 
     for (var i = 0; i < inputName.length; i++) {
         var a = inputName[i].value;
@@ -86,17 +167,20 @@ function tambahdata() {
         linkBtn.push(b)
         var c = inputStyle[i].value;
         styleBtn.push(c.replaceAll("#", ""))
+        var d = TextStyle[i].options[TextStyle[i].selectedIndex].value;
+        textcol.push(d);
+        var e = btnStyle[i].options[btnStyle[i].selectedIndex].value;
+        btnanim.push(e);
+
     }
+
+    // console.log(textcol, btnanim)
 
     $.ajax({
         url: `/adm/inputbutton?buttonname=${namaBtn}&tautan=${linkBtn}&tombol=${styleBtn}`,
         method: "put",
         success: function () {
-            console.log('berhasil')
-            console.log(namaBtn)
-            console.log(linkBtn)
-            console.log(styleBtn)
-            console.log(url)
+            toggleModal()
         }
     })
 

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
     <title>Dashboard - Pohon Tautan</title>
 
     <script>
@@ -17,6 +18,48 @@
             transform: translateX(100%);
             /* background-color: #132b50; */
         }
+
+        .animated {
+			-webkit-animation-duration: 1s;
+			animation-duration: 1s;
+			-webkit-animation-fill-mode: both;
+			animation-fill-mode: both;
+		}
+
+		.animated.faster {
+			-webkit-animation-duration: 500ms;
+			animation-duration: 500ms;
+		}
+
+		.fadeIn {
+			-webkit-animation-name: fadeIn;
+			animation-name: fadeIn;
+		}
+
+		.fadeOut {
+			-webkit-animation-name: fadeOut;
+			animation-name: fadeOut;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+
+			to {
+				opacity: 1;
+			}
+		}
+
+		@keyframes fadeOut {
+			from {
+				opacity: 1;
+			}
+
+			to {
+				opacity: 0;
+			}
+		}
       </style>
 
 
@@ -97,7 +140,7 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="block text-2xl font-bold">25</span>
+                        <span class="block text-2xl font-bold" th:text="${countday}"></span>
                         <span class="block text-gray-500 dark:text-gray-200">Total Today Visitor</span>
                     </div>
                 </div>
@@ -110,7 +153,7 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="block text-2xl font-bold">139</span>
+                        <span class="block text-2xl font-bold" th:text="${countbuttonday}"></span>
                         <span class="block text-gray-500 dark:text-gray-200">Total Button Click</span>
                     </div>
                 </div>
@@ -119,7 +162,7 @@
                         class="flex items-center justify-between px-6 py-5 font-semibold border-b border-gray-100 dark:border-gray-600">
                         <span>Preview</span>
                         <div>
-                            <button id="tambah" onclick="toggleModal()"
+                            <button id="tambah" onclick="openModal('add-modal')"
                                 class="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="dark:fill-gray-400" height="16"
                                     width="14"
@@ -128,7 +171,7 @@
                                         d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
                                 </svg>
                             </button>
-                            <button id="edit" onclick="edit()" 
+                            <button id="editbut" onclick="openModal('edit-modal')"
                                 class="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"
                                     class="dark:fill-gray-400">
@@ -140,29 +183,36 @@
                         </div>
 
                     </div>
-                    <div class="xl:min-w-[30rem] overflow-y-auto md:max-w-full " >
+                    <div class="xl:min-w-[30rem] overflow-y-auto md:max-w-full ">
 
                         <!-- <h2 th:text="${potentially_complex_expression != null ? potentially_complex_expression.property : 'Default'}"></h2> -->
 
                         <div class="bg-cover flex justify-center items-center py-12"
-                        th:style="${btnstyle[0].tempBg == null ? 'background-image:url(' + btnstyle[0].bg_default + ');' : 'background-color: red;'}">
+                            th:style="${btnstyle[0].tempBg == null ? 'background-image:url(' + btnstyle[0].bg_default + ');' : 'background-color: red;'}">
                             <div class="w-1/2 bg-slate-50 p-5 rounded-xl bg-opacity-5 backdrop-blur-lg shadow-2xl">
                                 <div class="rounded-full mx-auto">
                                     <img src="https://source.unsplash.com/150x150" class="rounded-full mx-auto"
                                         alt="profile picture">
                                 </div>
                                 <div class="justify-center text-center">
-                                    <h2 class="mx-auto text-3xl text-white mt-1 font-bold" th:text="${btnstyle[0].headline == null ? 'Lorem Ipsum' : btnstyle[0].headline }"></h2>
-                                    <a class="mx-auto text-slate-200" th:text="${btnstyle[0].bio == null ? 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, ullam!' : btnstyle[0].bio }"></a>
+                                    <h2 class="mx-auto text-3xl text-white mt-1 font-bold"
+                                        th:text="${btnstyle[0].headline == null ? 'Lorem Ipsum' : btnstyle[0].headline }">
+                                    </h2>
+                                    <a class="mx-auto text-slate-200"
+                                        th:text="${btnstyle[0].bio == null ? 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, ullam!' : btnstyle[0].bio }"></a>
                                 </div>
-                                
+
                                 <div id="buttontmpt" class="w-full mt-3">
-                                    <div class="relative" th:each="bbtn : ${btnstyle}" th:if="${bbtn.button_name != null}">
-                                        <button th:style="|background: ${bbtn.button_style}|" th:class="${bbtn.button_text_color == null or bbtn.button_animation == null ? 'min-w-full rounded-lg px-4 py-2 mb-3 text-white hover:brightness-90' : 'min-w-full rounded-lg px-4 py-2 mb-3 hover:brightness-90 ' + bbtn.button_text_color +' '+ bbtn.button_animation}"
-                                        th:text="${bbtn.button_name}" ></button>
-                                        <div th:value="${bbtn.button_name}" th:attr="onclick=|deletebut('${bbtn.link}')|"
-                                            class="absolute top-2 -right-4 h-4 w-4 mt-1 mr-2 bg-red-500 rounded-full cursor-pointer hover:animate-pulse"><a
-                                                class="text-white absolute top-[-6px] left-[3.5px]">x</a></div>
+                                    <div class="relative" th:each="bbtn : ${btnstyle}"
+                                        th:if="${bbtn.button_name != null}">
+                                        <button th:style="|background: ${bbtn.button_style}|"
+                                            th:class="${bbtn.button_text_color == null or bbtn.button_animation == null ? 'min-w-full rounded-lg px-4 py-2 mb-3 text-white hover:brightness-90' : 'min-w-full rounded-lg px-4 py-2 mb-3 hover:brightness-90 ' + bbtn.button_text_color +' '+ bbtn.button_animation}"
+                                            th:text="${bbtn.button_name}"></button>
+                                        <div th:value="${bbtn.button_name}"
+                                            th:attr="onclick=|deletebut('${bbtn.link}')|"
+                                            class="absolute top-2 -right-4 h-4 w-4 mt-1 mr-2 bg-red-500 rounded-full cursor-pointer hover:animate-pulse">
+                                            <a class="text-white absolute top-[-6px] left-[3.5px]">x</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -175,42 +225,128 @@
         </main>
     </div>
 
-    <div class="fixed z-10 overflow-y-auto top-0 w-full left-0 hidden" id="modal">
-        <div class="flex items-center justify-center min-height-100vh pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 transition-opacity">
-                <div class="absolute inset-0 bg-gray-900 opacity-75" />
-            </div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-            <div class="inline-block align-center bg-white rounded-lg text-left shadow-xl transform transition-all max-h-[734px] overflow-scroll sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-                role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-                <span
-                    class="absolute top-2 -right-0 h-4 w-4 mt-1 mr-2 bg-red-500 rounded-full cursor-pointer  hover:bg-red-700"
-                    onclick="toggleModal()"><span class="text-white absolute top-[-6px] left-[3.5px]">x</span></span>
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" id="tempatlagi">
-                    <label class="font-medium text-gray-800">Name</label>
-                    <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3"
-                        name="button_name[]" />
-                    <label class="font-medium text-gray-800">Url</label>
-                    <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" name="link[]" />
 
-                    <div>
-                        <label for="color-picker" class="block mb-1 font-semibold">Select a color</label>
-                        <input id="nativeColorPicker1" type="color" value="#6590D5" class="w-full rounded"
-                            name="button_style[]" />
+
+
+
+
+
+</body>
+
+
+
+
+<div class="add-modal fixed w-full inset-0 z-50 overflow-hidden hidden justify-center items-center animated fadeIn faster"
+    style="background: rgba(0,0,0,.7);">
+    <div
+        class="border border-blue-500 shadow-lg modal-container  bg-white w-4/12 md:max-w-11/12 mx-auto rounded-xl  z-50 max-h-[734px] overflow-scroll">
+        <div class="modal-content py-4 text-left px-6">
+            <!--Title-->
+            <div class="flex justify-between items-center pb-3">
+                <p class="text-2xl font-bold text-gray-500">Add Button</p>
+                <div class="modal-close cursor-pointer z-50" onclick="modalClose('add-modal')">
+                    <svg class="fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                        viewBox="0 0 18 18">
+                        <path
+                            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="my-5 mr-5 ml-5 flex justify-center">
+                <form class="w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" id="tempatlagi">
+                        <label class="font-medium text-gray-800">Name</label>
+                        <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3"
+                            name="button_name[]" />
+                        <label class="font-medium text-gray-800">Url</label>
+                        <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3"
+                            name="link[]" />
+
+                        <label class="font-medium text-gray-800">Text Color</label>
+                        <select name="text-col[]" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3">
+                            <option value="" disabled selected>--Select--</option>
+                            <option value="text-white">White</option>
+                            <option value="text-black">Black</option>
+                        </select>
+
+                        <label class="font-medium text-gray-800">Button Animation</label>
+                        <select name="button-animate[]" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3">
+                            <option value="" disabled selected>--Select--</option>
+                            <option value="animate-none">None</option>
+                            <option value="animate-spin">Spin</option>
+                            <option value="animate-ping">Ping</option>
+                            <option value="animate-pulse">Pulse</option>
+                        </select>
+
+
+                        <div>
+                            <label for="color-picker" class="block mb-1 font-semibold">Select a color for button</label>
+                            <input id="nativeColorPicker1" type="color" value="#6590D5" class="w-full rounded"
+                                name="button_style[]" />
+                        </div>
                     </div>
-                </div>
-                <div class="bg-gray-200 px-4 py-3 text-right">
-                    <button type="button" id="addbtn"
-                        class="py-2 px-4 bg-green-500 text-white rounded hover:bg-green-700 mr-2"><i
-                            class="fas fa-times"></i> Add</button>
-                    <button type="button" class="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-700 mr-2"
-                        onclick="tambahdata()"><i class="fas fa-plus"></i> Save</button>
-                </div>
+                </form>
+            </div>
+            <!--Footer-->
+            <div class="flex justify-end pt-2 space-x-1">
+                <button type="button" id="addbtn"
+                    class="py-2 px-4 bg-green-500 text-white rounded hover:bg-green-700 mr-2"><i
+                        class="fas fa-times"></i> Add</button>
+                <button type="button" class="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-700 mr-2"
+                    onclick="tambahdata()"><i class="fas fa-plus"></i> Save</button>
             </div>
         </div>
     </div>
+</div>
 
-</body>
+
+<div class="edit-modal fixed w-full inset-0 z-50 overflow-hidden hidden justify-center items-center animated fadeIn faster"
+    style="background: rgba(0,0,0,.7);">
+    <div
+        class="border border-blue-500 shadow-lg modal-container bg-white w-4/12 md:max-w-11/12 mx-auto rounded-xl shadow-lg z-50 overflow-y-auto">
+        <div class="modal-content py-4 text-left px-6">
+            <!--Title-->
+            <div class="flex justify-between items-center pb-3">
+                <p class="text-2xl font-bold text-gray-500">Edit</p>
+                <div class="modal-close cursor-pointer z-50" onclick="modalClose('edit-modal')">
+                    <svg class="fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                        viewBox="0 0 18 18">
+                        <path
+                            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="my-5 mr-5 ml-5 flex justify-center">
+                <form class="w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" id="tempatlagi">
+                        <label class="font-medium text-gray-800">Custom URL</label>
+                        <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="cusUrl" />
+                        <label class="font-medium text-gray-800">Headline</label>
+                        <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3"
+                            id="headline" />
+                        <label class="font-medium text-gray-800">Short Bio</label>
+                        <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="bio" />
+                        <label class="font-medium text-gray-800">Profile Picture</label>
+                        <input type="file" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="inp1" />
+                        <label class="font-medium text-gray-800">Background Picture</label>
+                        <input type="file" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="inp2" />
+                    </div>
+                </form>
+            </div>
+            <!--Footer-->
+            <div class="flex justify-end pt-2 space-x-1">
+                <button class="px-4 bg-gray-200 p-3 rounded-lg text-black hover:bg-gray-300 font-semibold"
+                    onclick="modalClose('edit-modal')">Cancel</button>
+                <button class="px-4 bg-blue-500 p-3 ml-3 rounded-lg font-semibold text-white hover:bg-teal-400"
+                    onclick="readFormData()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </html>
 
@@ -218,13 +354,23 @@
     integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"
     referrerpolicy="no-referrer"></script>
 
-    <script src="/js/dashboard.js"></script>
+<script src="/js/dashboard.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
     $(document).ready(function () {
+        
         var data = /*[[${btnstyle}]]*/""
         console.log(data)
+
+        all_modals = ['add-modal', 'edit-modal']
+        all_modals.forEach((modal) => {
+            const modalSelected = document.querySelector('.' + modal);
+            modalSelected.classList.remove('fadeIn');
+            modalSelected.classList.add('fadeOut');
+            modalSelected.style.display = 'none';
+        })
 
         function darkModeListener() {
             document.querySelector("html").classList.toggle("dark");
@@ -233,6 +379,6 @@
         document.querySelector("input[type='checkbox']#dark-toggle").addEventListener("click", darkModeListener);
     })
 
-   
+
     /*]]>*/
 </script>
