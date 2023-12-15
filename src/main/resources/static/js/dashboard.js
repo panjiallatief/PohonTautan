@@ -1,6 +1,6 @@
 function readFormData() {
     // Get values from input fields
-    var curl = document.getElementById('cusUrl').value;
+    var customUrl = document.getElementById('cusUrl').value;
     var headline = document.getElementById('headline').value;
     var bio = document.getElementById('bio').value;
 
