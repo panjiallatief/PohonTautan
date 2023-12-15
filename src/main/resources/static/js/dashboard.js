@@ -20,7 +20,7 @@ function readFormData() {
             formData.append('bg', fileData2);
 
             // Send the FormData using fetch
-            fetch('/inputstyle', {
+            fetch('/adm/inputstyle', {
                 method: 'POST',
                 body: formData
             })
