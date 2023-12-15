@@ -1,6 +1,6 @@
 function readFormData() {
     // Get values from input fields
-    var customUrl = document.getElementById('cusUrl').value;
+    var curl = document.getElementById('cusUrl').value;
     var headline = document.getElementById('headline').value;
     var bio = document.getElementById('bio').value;
 
@@ -11,7 +11,7 @@ function readFormData() {
 
             // Create FormData object to store form data
             var formData = new FormData();
-            formData.append('customUrl', customUrl);
+            formData.append('curl', customUrl);
             formData.append('headline', headline);
             formData.append('bio', bio);
 
