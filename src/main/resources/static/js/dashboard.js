@@ -8,7 +8,8 @@ function readFormData() {
 //   var imagePro = document.getElementById("inp1");
   dataI = $("#inp1")[0].files[0];
 
-  dataImage.append("file", dataI);
+  dataImage.append("images", dataI);
+  dataImage.append("bg", dataI);
   // for(i = 0; i < imagePro.length; i++){
   //     var a = imagePro[i].files[0]
   //     dataImage.push(a)
