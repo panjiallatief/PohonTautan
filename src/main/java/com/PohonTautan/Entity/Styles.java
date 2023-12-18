@@ -36,13 +36,11 @@ public class Styles extends DateAudity{
     @Column(name = "id_style")
     private Integer id_style;
 
-    @Lob
-    @Column(name = "image")
-    private Blob image;
+    @Column(name = "nama_image")
+    private String image;
 
-    @Lob
-    @Column(name = "bg")
-    private Blob bg;
+    @Column(name = "nama_bg")
+    private String bg;
 
     @Column(name = "button_style")
     private String button_style;

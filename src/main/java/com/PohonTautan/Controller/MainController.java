@@ -1,33 +1,41 @@
 package com.PohonTautan.Controller;
 
-import java.sql.Blob;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
-import javax.swing.text.Style;
+import javax.sql.DataSource;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import com.PohonTautan.Entity.Log;
-import com.PohonTautan.Entity.Sessionid;
 import com.PohonTautan.Entity.Styles;
 import com.PohonTautan.Repository.LogRepository;
 import com.PohonTautan.Repository.SessionoidRepositori;
@@ -35,6 +43,7 @@ import com.PohonTautan.Repository.StylesRepository;
 import com.PohonTautan.Repository.UsersRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -56,6 +65,15 @@ public class MainController {
     @Autowired
     private HttpSession httpSession;
 
+    private final DataSource dataSource;
+
+    @Autowired
+    private Environment env;
+
+    public MainController(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @RequestMapping(value = "/dasboard", method = RequestMethod.GET)
     public String adm(Model model) throws SQLException {
 
@@ -63,11 +81,13 @@ public class MainController {
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
         Styles st = stylesRepository.getstStyles2(usnn);
         Date date = new Date();
-        // List<Styles> stylesList = new ArrayList<>();
         List<Map<String, Object>> stylesList = new ArrayList<>();
         Map<String, Object> styleMap = new HashMap<>();
         Long countday = sessionoidRepositori.countsession(date, usnn);
         model.addAttribute("countday", countday);
+        Long countbuttonday = logRepository.countbutton(date, usnn);
+        model.addAttribute("countbuttonday", countbuttonday);
+
 
         String[] btn = null;
         String[] btnstyle = null;
@@ -76,71 +96,108 @@ public class MainController {
         String[] btntc = null;
         String bg = null;
         String image = null;
-
-        if (st.getButton_name() != null || st.getButton_style() != null || st.getLink() != null
-                || st.getButton_animation() != null || st.getButton_text_color() != null) {
+        String curl = null;
+        String headline = null;
+        String bio = null;
         
-            if (st.getButton_name() != null) {
-                btn = st.getButton_name().split(",");
-            }
+        if (st.getButton_name() != null) {
+            btn = st.getButton_name().split(",");
+        } else {
+            btn = null;
+        }
 
-            if (st.getButton_style() != null) {
-                btnstyle = st.getButton_style().split(",");
-            }
+        if (st.getButton_style() != null) {
+            btnstyle = st.getButton_style().split(",");
+        } else {
+            btnstyle = null;
+        }
 
-            if (st.getLink() != null) {
-                link = st.getLink().split(",");
-            } else {
-                link = new String[0];
-            }
+        if (st.getLink() != null) {
+            link = st.getLink().split(",");
+        } else {
+            link = null;
+        }
 
-            if (st.getButton_animation() != null) {
-                btnanim = st.getButton_animation().split(",");
-            }
+        if (st.getButton_animation() != null) {
+            btnanim = st.getButton_animation().split(",");
+        } else {
+            btnanim = null;
+        }
 
-            if (st.getButton_text_color() != null) {
-                btntc = st.getButton_text_color().split(",");
-            }
+        if (st.getButton_text_color() != null) {
+            btntc = st.getButton_text_color().split(",");
+        } else {
+            btntc = null;
+        }
 
-            if(st.getBg() != null){
-                Blob blob = st.getBg();
-                byte[] bytes = blob.getBytes(1, (int) blob.length());
-                String base64String = Base64.getEncoder().encodeToString(bytes);
-                String gambars = base64String.replace("dataimage/pngbase64",
-                        "data:image/png;base64,");
-                bg = gambars.replace("=", "");
-            }
+        if (st.getBg() != null) {
+            bg = st.getBg();
+        } else {
+            bg = null;
+        }
 
-            if(st.getImage() != null){
-                Blob blobs = st.getImage();
-                byte[] bytess = blobs.getBytes(1, (int) blobs.length());
-                String base64Strings = Base64.getEncoder().encodeToString(bytess);
-                String gambarss = base64Strings.replace("dataimage/pngbase64",
-                        "data:image/png;base64,");
-                image = gambarss.replace("=", "");
-            }
+        if (st.getImage() != null) {
+            image = st.getImage();
+        } else {
+            image = null;
+        }
 
+        if (st.getCustom_url() != null) {
+            curl = st.getCustom_url();
+        } else {
+            curl = null;
+        }
+
+        if (st.getHeadline() != null) {
+            headline = st.getHeadline();
+        } else {
+            headline = null;
+        }
+
+        if (st.getBio() != null) {
+            bio = st.getBio();
+        } else {
+            bio = null;
+        }
+
+        if(link != null){
             for (Integer i = 0; i < link.length; i++) {
                 styleMap.put("tempBg", bg);
                 styleMap.put("tempImg", image);
                 styleMap.put("button_name", btn[i]);
                 styleMap.put("button_style", "#" + btnstyle[i]);
-                styleMap.put("custom_url", st.getCustom_url());
+                styleMap.put("custom_url", curl);
                 styleMap.put("id_user", st.getId_user());
                 styleMap.put("created_at", st.getCreatedAt());
                 styleMap.put("updated_at", st.getUpdatedAt());
                 styleMap.put("id_style", st.getId_style());
-                styleMap.put("headline", st.getHeadline());
-                styleMap.put("bio", st.getBio());
+                styleMap.put("headline", headline);
+                styleMap.put("bio", bio);
                 styleMap.put("bg_default", st.getBg_default());
                 styleMap.put("link", link[i]);
                 styleMap.put("button_animation", btnanim[i]);
                 styleMap.put("button_text_color", btntc[i]);
                 stylesList.add(styleMap);
             }
-
+        } else if (bg != null){
+            styleMap.put("tempBg", bg);
+            styleMap.put("tempImg", image);
+            styleMap.put("button_name", btn);
+            styleMap.put("button_style", btnstyle);
+            styleMap.put("custom_url", curl);
+            styleMap.put("id_user", st.getId_user());
+            styleMap.put("created_at", st.getCreatedAt());
+            styleMap.put("updated_at", st.getUpdatedAt());
+            styleMap.put("id_style", st.getId_style());
+            styleMap.put("headline", headline);
+            styleMap.put("bio", bio);
+            styleMap.put("bg_default", st.getBg_default());
+            styleMap.put("link", link);
+            styleMap.put("button_animation", btnanim);
+            styleMap.put("button_text_color", btntc);
+            stylesList.add(styleMap);
         } else {
-            styleMap.put("tempBg", null);
+                styleMap.put("tempBg", null);
             styleMap.put("tempImg", null);
             styleMap.put("button_name", null);
             styleMap.put("button_style", null);
@@ -161,6 +218,38 @@ public class MainController {
         model.addAttribute("btnstyle", stylesList);
 
         return "dashboard";
+    }
+
+    @GetMapping(value = "/streamBG")
+    public StreamingResponseBody handleRequests (@RequestParam String filename, HttpServletResponse response) {
+    response.setContentType("image/jpeg");
+        return new StreamingResponseBody() {
+            public void writeTo (OutputStream out) throws IOException {
+                File Image = new File(env.getProperty("URL.PATH_BG") + "/" + filename);
+                try {
+                    byte[] fileContent = Files.readAllBytes(Image.toPath());
+                    out.write(fileContent);
+                } catch (IOException image) {
+                    System.out.println(image);
+                }
+            }
+        };
+    }
+
+    @GetMapping(value = "/streamImage")
+    public StreamingResponseBody handleRequest (@RequestParam String filename, HttpServletResponse response) {
+    response.setContentType("image/jpeg");
+        return new StreamingResponseBody() {
+            public void writeTo (OutputStream out) throws IOException {
+                File Image = new File(env.getProperty("URL.PATH_PROFIL") + "/" + filename);
+                try {
+                    byte[] fileContent = Files.readAllBytes(Image.toPath());
+                    out.write(fileContent);
+                } catch (IOException image) {
+                    System.out.println(image);
+                }
+            }
+        };
     }
 
     @RequestMapping(value = "/countday", method = RequestMethod.GET)
@@ -242,42 +331,62 @@ public class MainController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/inputstyle", method = RequestMethod.POST)
-    public ResponseEntity<Map> inputstyle(@RequestParam String[] link, @RequestParam String[] button,
-            @RequestParam String[] buttonname, @RequestParam String bg, @RequestParam String image,
+    // @RequestMapping(value = "/inputstyle", method = RequestMethod.POST)
+    @RequestMapping(value = "/inputstyle", consumes = {
+        MediaType.MULTIPART_FORM_DATA_VALUE }, produces = APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Map> inputstyle(@RequestParam String bio, @RequestParam String headline,
+            @RequestPart("bg") MultipartFile bg, @RequestPart("image") MultipartFile image,
             @RequestParam String curl)
             throws SerialException, SQLException {
-        Map data = new HashMap<>();
+        Map data = new HashMap<>();   
 
         String usn = httpSession.getAttribute("username").toString();
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
 
-        if (!stylesRepository.booleanstyle(usnn)) {
-            String gambarimage = image.replace(" ", "+");
-            byte[] binarydataimage = Base64.getMimeDecoder().decode(gambarimage);
-            Blob blobimage = new SerialBlob(binarydataimage);
+        String arrSplit[] = bg.getOriginalFilename().split("\\.");
+        String originalExtension_bg = arrSplit[arrSplit.length - 1];
+        String arrSplits[] = image.getOriginalFilename().split("\\.");
+        String originalExtension_image = arrSplits[arrSplits.length - 1];
 
-            String gambarbg = image.replace(" ", "+");
-            byte[] binarydatabg = Base64.getMimeDecoder().decode(gambarbg);
-            Blob blobbg = new SerialBlob(binarydatabg);
+        String namafile_bg = usnn + "_" + usn + "_" + "BG" ;        
+        String namafile_image = usnn + "_" + usn + "_" + "Image" ;
 
-            String A = null;
-            String B = null;
-            String C = null;
 
-            if (link != null) {
-                A = Arrays.toString(link).replace("[", "").replace("]", "");
-                B = Arrays.toString(button).replace("[", "").replace("]", "");
-                C = Arrays.toString(buttonname).replace("[", "").replace("]", "");
+        if (stylesRepository.booleanstyle(usnn)) {
+            if (bg != null && image != null) {
+                try {
+                    bg.transferTo(new File(
+                            env.getProperty("URL.PATH_BG") + "/" + namafile_bg + "." + originalExtension_bg));
+                    image.transferTo(new File(
+                            env.getProperty("URL.PATH_PROFIL") + "/" + namafile_image + "." + originalExtension_image));
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            } else if (bg != null && image == null) {
+                try {
+                    bg.transferTo(new File(
+                            env.getProperty("URL.PATH_BG") + "/" + namafile_bg + "." + originalExtension_bg));
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            } else if (bg == null && image != null) {
+                try {
+                    image.transferTo(new File(
+                            env.getProperty("URL.PATH_PROFIL") + "/" + namafile_image + "." + originalExtension_image));
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            } else {
+                System.out.println("Tidak ada File.");
             }
 
-            Styles st = new Styles();
+            Styles st = stylesRepository.getstStyles2(usnn);
             st.setId_user(usnn);
-            st.setLink(A);
-            st.setButton_style(B);
-            st.setButton_name(C);
-            st.setBg(blobbg);
-            st.setImage(blobimage);
+            st.setBio(bio);
+            st.setHeadline(headline);
+            st.setBg(namafile_bg);
+            st.setImage(namafile_image);
             st.setCustom_url(curl);
             stylesRepository.save(st);
 
@@ -287,7 +396,7 @@ public class MainController {
         }
 
         data.put("icon", "error");
-        data.put("message", "Style Sudah Ada");
+        data.put("message", "Gagal Insert Style");
         return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
     }
 
@@ -392,15 +501,12 @@ public class MainController {
         String E = "";
 
         String ta = tautan.replace("_", ".");
-
-        // Integer index = Arrays.asList(link).indexOf(tautan);        
         Integer index = -1;
-
 
         for (int i = 0; i < link.length; i++) {
             if (link[i].contains(ta)) {
                 index = i;
-                break; // Hentikan iterasi setelah menemukan indeks
+                break; 
             }
         }
 
