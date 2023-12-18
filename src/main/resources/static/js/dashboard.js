@@ -4,11 +4,13 @@ function readFormData() {
     var headline = document.getElementById('headline').value;
     var bio = document.getElementById('bio').value;
 
-    var imagePro = document.getElementById('inp1')
+    var imagePro = document.getElementsByName('inp1')
     var dataImage = new FormData();
 
-    imagePro.append(dataImage, imagePro.files[0])
-    // for(i = 0; i < imagePro.length; i++)
+    dataImage.append("files", imagePro.files[0])
+    // for(i = 0; i < imagePro.length; i++){
+    //     data
+    // }
 
 
 
