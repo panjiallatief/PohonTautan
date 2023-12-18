@@ -6,10 +6,12 @@ function readFormData() {
 
     var imagePro = document.getElementsByName('inp1')
     var dataImage = new FormData();
+    dataI = []
 
-    dataImage.append("files", imagePro.files)
+    dataImage.push(imagePro.files)
     // for(i = 0; i < imagePro.length; i++){
-    //     data
+    //     var a = imagePro[i].files[0]
+    //     dataImage.push(a)
     // }
 
 
