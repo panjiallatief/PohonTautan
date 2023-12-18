@@ -23,9 +23,11 @@ function readFormData() {
     //   console.log(url);
         alrt.innerText = response.message;
         modalClose('edit-modal')
-        alrt.classList.remove('hidden')
+        // alrt.classList.remove('hidden')
+        openModal('alert-success')
         setTimeout(function(){
-            alrt.classList.add('hidden')
+            // alrt.classList.add('hidden')
+            modalClose('alert-success')
         }, 5000)
     },
   });
