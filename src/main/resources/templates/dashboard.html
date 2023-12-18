@@ -66,168 +66,237 @@
 </head>
 
 <body class="flex bg-gray-100 min-h-screen dark:bg-slate-900">
-
     <div class="flex-grow text-gray-800 dark:text-gray-400">
-        <header class="flex items-center h-20 px-6 sm:px-10 bg-white dark:bg-slate-800">
-            <div class="relative w-full max-w-md sm:-ml-2">
-                <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor"
-                    class="absolute h-6 w-6 mt-2.5 ml-2 text-gray-400">
-                    <path fill-rule="evenodd"
-                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                        clip-rule="evenodd" />
-                </svg>
-                <input type="text" role="search" placeholder="Search..."
-                    class="py-2 pl-10 pr-4 w-full border-4 border-transparent placeholder-gray-400 focus:bg-gray-50 dark:bg-slate-800 dark:focus:bg-slate-700 rounded-lg" />
-            </div>
-            <div class="flex flex-shrink-0 items-center ml-auto">
-                <div class="hidden md:flex md:flex-col md:items-end md:leading-tight">
-                    <span class="font-semibold" th:text="${session.username}"></span>
-                </div>
-                <span class="h-12 w-12 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
-                    <img src="https://source.unsplash.com/150x150" alt="user profile photo"
-                        class="h-full w-full object-cover">
-                </span>
-                <div class="border-l pl-3 ml-3 mr-1 space-x-1">
-                    <label for="dark-toggle" class="flex items-center cursor-pointer">
-                        <div class="relative">
-                            <input type="checkbox" name="dark-mode" id="dark-toggle" class="checkbox hidden">
-                            <div class="block border-[1px] dark:border-white border-gray-900 w-9 h-5 rounded-full">
-                            </div>
-                            <div
-                                class="dot absolute left-[2px] top-[2px] dark:bg-white bg-gray-800 w-4 h-4 rounded-full transition">
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <button onclick="location.href='/logout'"
-                    class="relative p-2  dark:text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
-                    <span class="sr-only">Log out</span>
-                    <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                    </svg>
-                </button>
-            </div>
-        </header>
-        <main class="p-6 sm:p-10 space-y-6">
-             <div class="rounded-lg bottom-10 right-10 absolute bg-green-100 px-6 py-5 text-base animated fadeIn faster hidden alert-success" id="ber" role="alert">
-                    Berhasil
-                </div>
-            <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between">
-                <div class="mr-6">
-                    <h1 class="text-4xl font-semibold mb-2">Dashboard</h1>
-                </div>
-               
-
-            </div>
 
 
-            <section class="grid md:grid-cols-2 md:grid-rows-3 xl:grid-rows-3 xl:grid-flow-col gap-6 ">
+        <section class="p-6 sm:p-10 space-y-6 my-20" id="lazy-load">
+
+            <section class="grid md:grid-cols-2 md:grid-rows-3 xl:grid-rows-3 xl:grid-flow-col gap-6 animate-pulse">
                 <div class="flex flex-col md:col-span-2 md:row-span-2 bg-white shadow rounded-lg dark:bg-slate-800">
-                    <div class="px-6 py-5 font-semibold border-b border-gray-100 dark:border-gray-800">Total visitor per
-                        month</div>
+                    <div class="px-6 py-5 font-semibold border-b border-gray-100 dark:border-gray-800">
+                        <div class="h-6 bg-gray-300 mb-2"></div>
+                    </div>
                     <div class="p-4 flex-grow">
-                        <div
-                            class="flex items-center justify-center h-full px-4 py-16 text-gray-400 text-3xl font-semibold bg-gray-100 border-2 border-gray-200 dark:bg-slate-800 border-dashed rounded-md">
-                            Chart</div>
+                        <div class="h-full bg-gray-300 mb-2 rounded-md"></div>
                     </div>
                 </div>
                 <div class="flex items-center p-8 bg-white dark:bg-slate-800 shadow rounded-lg">
                     <div
-                        class="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-yellow-600 bg-yellow-100 rounded-full mr-6">
-                        <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-                            <path fill="#fff" d="M12 14l9-5-9-5-9 5 9 5z" />
-                            <path fill="#fff"
-                                d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-                        </svg>
+                        class="inline-flex flex-shrink-0 items-center justify-center h-16 w-16  bg-gray-200 rounded-full mr-6">
+
                     </div>
-                    <div>
-                        <span class="block text-2xl font-bold" th:text="${countday}"></span>
-                        <span class="block text-gray-500 dark:text-gray-200">Total Today Visitor</span>
+                    <div class="w-full">
+                        <span class="block">
+                            <div class="h-4 bg-gray-300 mb-2"></div>
+                            <div class="h-6 bg-gray-300 mb-2"></div>
+                        </span>
                     </div>
                 </div>
                 <div class="flex items-center p-8 bg-white dark:bg-slate-800 shadow rounded-lg">
                     <div
-                        class="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-teal-600 bg-teal-100 rounded-full mr-6">
-                        <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+                        class="inline-flex flex-shrink-0 items-center justify-center h-16 w-16  bg-gray-200 rounded-full mr-6">
+
                     </div>
-                    <div>
-                        <span class="block text-2xl font-bold" th:text="${countbuttonday}"></span>
-                        <span class="block text-gray-500 dark:text-gray-200">Total Button Click</span>
+                    <div class="w-full">
+                        <span class="block">
+                            <div class="h-4 bg-gray-300 mb-2"></div>
+                            <div class="h-6 bg-gray-300 mb-2"></div>
+                        </span>
                     </div>
                 </div>
                 <div class=" bg-white dark:bg-slate-800 shadow rounded-lg xl:row-span-3 md:col-span-2 overflow-clip">
                     <div
-                        class="flex items-center justify-between px-6 py-5 font-semibold border-b border-gray-100 dark:border-gray-600">
-                        <span>Preview</span>
-                        <div>
-                            <button id="tambah" onclick="openModal('add-modal')"
-                                class="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="dark:fill-gray-400" height="16"
-                                    width="14"
-                                    viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
-                                    <path
-                                        d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
-                                </svg>
-                            </button>
-                            <button id="editbut" onclick="openModal('edit-modal')"
-                                class="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"
-                                    class="dark:fill-gray-400">
-                                    <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
-                                    <path
-                                        d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z" />
-                                </svg>
-                            </button>
-                        </div>
+                        class="flex items-center justify-between px-6 py-5 font-semibold border-b border-gray-100  dark:border-gray-600">
+                        <span class="w-full">
+                            <div class="h-4 bg-gray-300 mb-2"></div>
+                        </span>
+
 
                     </div>
                     <div class="xl:min-w-[30rem] overflow-y-auto md:max-w-full ">
 
                         <!-- <h2 th:text="${potentially_complex_expression != null ? potentially_complex_expression.property : 'Default'}"></h2> -->
 
-                        <div class="bg-cover flex justify-center items-center py-12 xl:max-w-[410] xl:max-h-[539]"
-                            th:style="${btnstyle[0].tempBg == null ? 'background-image:url(' + btnstyle[0].bg_default + ');' : 'background-image:url(' + btnstyle[0].tempBg  + ')'}">
-                            <div class="w-1/2 bg-slate-50 p-5 rounded-xl bg-opacity-5 backdrop-blur-lg shadow-2xl">
-                                <div class="rounded-full mx-auto">
-                                    <img th:src="${btnstyle[0].tempImg == null ? 'https://source.unsplash.com/150x150' : btnstyle[0].tempImg}"
-                                        class="rounded-full mx-auto" alt="profile picture"
-                                        style="max-width: 150px; max-height: 150px; object-fit: cover;">
-                                </div>
-                                <div class="justify-center text-center">
-                                    <h2 class="mx-auto text-3xl text-white mt-1 font-bold"
-                                        th:text="${btnstyle[0].headline == null ? 'Lorem Ipsum' : btnstyle[0].headline }">
-                                    </h2>
-                                    <a class="mx-auto text-slate-200"
-                                        th:text="${btnstyle[0].bio == null ? 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, ullam!' : btnstyle[0].bio }"></a>
-                                </div>
+                        <div
+                            class="bg-gray-200 h-full flex justify-center items-center py-48 xl:max-w-[410] xl:max-h-[539]">
 
-                                <div id="buttontmpt" class="w-full mt-3">
-                                    <div class="relative" th:each="bbtn : ${btnstyle}"
-                                        th:if="${bbtn.button_name != null}">
-                                        <button th:style="|background: ${bbtn.button_style}|"
-                                            th:class="${bbtn.button_text_color == null or bbtn.button_animation == null ? 'min-w-full rounded-lg px-4 py-2 mb-3 text-white hover:brightness-90' : 'min-w-full rounded-lg px-4 py-2 mb-3 hover:brightness-90 ' + bbtn.button_text_color +' '+ bbtn.button_animation}"
-                                            th:text="${bbtn.button_name}"></button>
-                                        <div th:value="${bbtn.button_name}"
-                                            th:attr="onclick=|deletebut('${bbtn.link}')|"
-                                            class="absolute top-2 -right-4 h-4 w-4 mt-1 mr-2 bg-red-500 rounded-full cursor-pointer hover:animate-pulse">
-                                            <a class="text-white absolute top-[-6px] left-[3.5px]">x</a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </section>
+
+        <section class="hidden" id="main">
+            <header class="flex items-center h-20 px-6 sm:px-10 bg-white dark:bg-slate-800">
+                <div class="relative w-full max-w-md sm:-ml-2">
+                    <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor"
+                        class="absolute h-6 w-6 mt-2.5 ml-2 text-gray-400">
+                        <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <input type="text" role="search" placeholder="Search..."
+                        class="py-2 pl-10 pr-4 w-full border-4 border-transparent placeholder-gray-400 focus:bg-gray-50 dark:bg-slate-800 dark:focus:bg-slate-700 rounded-lg" />
+                </div>
+                <div class="flex flex-shrink-0 items-center ml-auto">
+                    <div class="hidden md:flex md:flex-col md:items-end md:leading-tight">
+                        <span class="font-semibold" th:text="${session.username}"></span>
+                    </div>
+                    <span class="h-12 w-12 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
+                        <img src="https://source.unsplash.com/150x150" alt="user profile photo"
+                            class="h-full w-full object-cover">
+                    </span>
+                    <div class="border-l pl-3 ml-3 mr-1 space-x-1">
+                        <label for="dark-toggle" class="flex items-center cursor-pointer">
+                            <div class="relative">
+                                <input type="checkbox" name="dark-mode" id="dark-toggle" class="checkbox hidden">
+                                <div class="block border-[1px] dark:border-white border-gray-900 w-9 h-5 rounded-full">
+                                </div>
+                                <div
+                                    class="dot absolute left-[2px] top-[2px] dark:bg-white bg-gray-800 w-4 h-4 rounded-full transition">
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    <button onclick="location.href='/logout'"
+                        class="relative p-2  dark:text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
+                        <span class="sr-only">Log out</span>
+                        <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+            <main class="p-6 sm:p-10 space-y-6">
+                <div class="rounded-lg bottom-10 right-10 absolute bg-green-100 px-6 py-5 text-base animated fadeIn faster hidden alert-success"
+                    id="ber" role="alert">
+                    Berhasil
+                </div>
+                <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between">
+                    <div class="mr-6">
+                        <h1 class="text-4xl font-semibold mb-2">Dashboard</h1>
+                    </div>
+
+
+                </div>
+
+
+                <section class="grid md:grid-cols-2 md:grid-rows-3 xl:grid-rows-3 xl:grid-flow-col gap-6 ">
+                    <div class="flex flex-col md:col-span-2 md:row-span-2 bg-white shadow rounded-lg dark:bg-slate-800">
+                        <div class="px-6 py-5 font-semibold border-b border-gray-100 dark:border-gray-800">Total visitor
+                            per
+                            month</div>
+                        <div class="p-4 flex-grow">
+                            <div
+                                class="flex items-center justify-center h-full px-4 py-16 text-gray-400 text-3xl font-semibold bg-gray-100 border-2 border-gray-200 dark:bg-slate-800 border-dashed rounded-md">
+                                Chart</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-8 bg-white dark:bg-slate-800 shadow rounded-lg">
+                        <div
+                            class="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-yellow-600 bg-yellow-100 rounded-full mr-6">
+                            <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                class="h-6 w-6">
+                                <path fill="#fff" d="M12 14l9-5-9-5-9 5 9 5z" />
+                                <path fill="#fff"
+                                    d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="block text-2xl font-bold" th:text="${countday}"></span>
+                            <span class="block text-gray-500 dark:text-gray-200">Total Today Visitor</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-8 bg-white dark:bg-slate-800 shadow rounded-lg">
+                        <div
+                            class="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-teal-600 bg-teal-100 rounded-full mr-6">
+                            <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                class="h-6 w-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="block text-2xl font-bold" th:text="${countbuttonday}"></span>
+                            <span class="block text-gray-500 dark:text-gray-200">Total Button Click</span>
+                        </div>
+                    </div>
+                    <div
+                        class=" bg-white dark:bg-slate-800 shadow rounded-lg xl:row-span-3 md:col-span-2 overflow-clip">
+                        <div
+                            class="flex items-center justify-between px-6 py-5 font-semibold border-b border-gray-100 dark:border-gray-600">
+                            <span>Preview</span>
+                            <div>
+                                <button id="tambah" onclick="openModal('add-modal')"
+                                    class="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="dark:fill-gray-400" height="16"
+                                        width="14"
+                                        viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
+                                        <path
+                                            d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
+                                    </svg>
+                                </button>
+                                <button id="editbut" onclick="openModal('edit-modal')"
+                                    class="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"
+                                        class="dark:fill-gray-400">
+                                        <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
+                                        <path
+                                            d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="xl:min-w-[30rem] overflow-y-auto md:max-w-full ">
+
+                            <!-- <h2 th:text="${potentially_complex_expression != null ? potentially_complex_expression.property : 'Default'}"></h2> -->
+
+                            <div class="bg-cover flex justify-center items-center py-12 xl:max-w-[410] xl:max-h-[539]"
+                                th:style="${btnstyle[0].tempBg == null ? 'background-image:url(' + btnstyle[0].bg_default + ');' : 'background-image:url(' + btnstyle[0].tempBg  + ')'}">
+                                <div class="w-1/2 bg-slate-50 p-5 rounded-xl bg-opacity-5 backdrop-blur-lg shadow-2xl">
+                                    <div class="rounded-full mx-auto">
+                                        <img th:src="${btnstyle[0].tempImg == null ? 'https://source.unsplash.com/150x150' : btnstyle[0].tempImg}"
+                                            class="rounded-full mx-auto" alt="profile picture"
+                                            style="max-width: 150px; max-height: 150px; object-fit: cover;">
+                                    </div>
+                                    <div class="justify-center text-center">
+                                        <h2 class="mx-auto text-3xl text-white mt-1 font-bold"
+                                            th:text="${btnstyle[0].headline == null ? 'Lorem Ipsum' : btnstyle[0].headline }">
+                                        </h2>
+                                        <a class="mx-auto text-slate-200"
+                                            th:text="${btnstyle[0].bio == null ? 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, ullam!' : btnstyle[0].bio }"></a>
+                                    </div>
+
+                                    <div id="buttontmpt" class="w-full mt-3">
+                                        <div class="relative" th:each="bbtn : ${btnstyle}"
+                                            th:if="${bbtn.button_name != null}">
+                                            <button th:style="|background: ${bbtn.button_style}|"
+                                                th:class="${bbtn.button_text_color == null or bbtn.button_animation == null ? 'min-w-full rounded-lg px-4 py-2 mb-3 text-white hover:brightness-90' : 'min-w-full rounded-lg px-4 py-2 mb-3 hover:brightness-90 ' + bbtn.button_text_color +' '+ bbtn.button_animation}"
+                                                th:text="${bbtn.button_name}"></button>
+                                            <div th:value="${bbtn.button_name}"
+                                                th:attr="onclick=|deletebut('${bbtn.link}')|"
+                                                class="absolute top-2 -right-4 h-4 w-4 mt-1 mr-2 bg-red-500 rounded-full cursor-pointer hover:animate-pulse">
+                                                <a class="text-white absolute top-[-6px] left-[3.5px]">x</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </section>
+                </section>
 
-        </main>
+            </main>
+
+        </section>
+
     </div>
 
 
@@ -366,6 +435,13 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     $(document).ready(function () {
+
+        setTimeout(function () {
+            document.getElementById('lazy-load').classList.add('hidden')
+            document.getElementById('main').classList.remove('hidden')
+        }, 2000)
+
+
 
         var data = /*[[${btnstyle}]]*/""
         console.log(data)
