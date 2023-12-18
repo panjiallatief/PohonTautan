@@ -4,6 +4,7 @@ function readFormData() {
   var headline = document.getElementById("headline").value;
   var bio = document.getElementById("bio").value;
   var dataImage = new FormData();
+  var alrt = document.getElementById('ber')
 
   dataI = $("#inp1")[0].files[0];
   dataB = $("#inp2")[0].files[0];
@@ -18,12 +19,13 @@ function readFormData() {
     data: dataImage,
     contentType: false,
     processData: false,
-    success: function (data) {
+    success: function (response) {
     //   console.log(url);
+        alrt.innerText = response.data.message;
         modalClose('edit-modal')
-        document.getElementById('ber').classList.remove('hidden')
+        alrt.classList.remove('hidden')
         setTimeout(function(){
-            document.getElementById('ber').classList.add('hidden')
+            alrt.classList.add('hidden')
         }, 5000)
     },
   });
