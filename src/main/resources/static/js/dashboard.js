@@ -21,7 +21,7 @@ function readFormData() {
     processData: false,
     success: function (response) {
     //   console.log(url);
-        console.log(response.data.message);
+        alrt.innerText = response.message;
         modalClose('edit-modal')
         alrt.classList.remove('hidden')
         setTimeout(function(){
