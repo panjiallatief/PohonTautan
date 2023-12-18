@@ -3,12 +3,12 @@ function readFormData() {
     var customUrl = document.getElementById('cusUrl').value;
     var headline = document.getElementById('headline').value;
     var bio = document.getElementById('bio').value;
-
-    var imagePro = document.getElementsByName('inp1')
     var dataImage = new FormData();
-    dataI = []
 
-    dataImage.push(imagePro.files)
+    var imagePro = document.getElementById('inp1')
+    dataI = imagePro[0].files[0]
+
+    dataImage.append('file',dataI)
     // for(i = 0; i < imagePro.length; i++){
     //     var a = imagePro[i].files[0]
     //     dataImage.push(a)
