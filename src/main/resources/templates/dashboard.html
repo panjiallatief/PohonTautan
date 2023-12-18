@@ -188,11 +188,11 @@
                         <!-- <h2 th:text="${potentially_complex_expression != null ? potentially_complex_expression.property : 'Default'}"></h2> -->
 
                         <div class="bg-cover flex justify-center items-center py-12 xl:max-w-[410] xl:max-h-[539]"
-                            >
+                            th:style="${btnstyle[0].tempBg == null ? 'background-image:url(' + btnstyle[0].bg_default + ');' : 'background-image:url(' + btnstyle[0].tempBg  + ')'}">
                             <div class="w-1/2 bg-slate-50 p-5 rounded-xl bg-opacity-5 backdrop-blur-lg shadow-2xl">
                                 <div class="rounded-full mx-auto">
-                                    <!-- <img th:src="${btnstyle[0].tempImg == null ? 'https://source.unsplash.com/150x150' : btnstyle[0].tempImg}" class="rounded-full mx-auto"
-                                        alt="profile picture" style="max-width: 150px; max-height: 150px; object-fit: cover;"> -->
+                                    <img th:src="${btnstyle[0].tempImg == null ? 'https://source.unsplash.com/150x150' : btnstyle[0].tempImg}" class="rounded-full mx-auto"
+                                        alt="profile picture" style="max-width: 150px; max-height: 150px; object-fit: cover;">
                                 </div>
                                 <div class="justify-center text-center">
                                     <h2 class="mx-auto text-3xl text-white mt-1 font-bold"

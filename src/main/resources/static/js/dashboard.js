@@ -4,54 +4,71 @@ function readFormData() {
     var headline = document.getElementById('headline').value;
     var bio = document.getElementById('bio').value;
 
+    var imagePro = document.getElementById('inp1')
+    var dataImage = new FormData();
+
+    imagePro.append(dataImage, imagePro.files[0])
+    // for(i = 0; i < imagePro.length; i++)
+
+
+
+    $.ajax({
+        url: `/adm/inputstyle?bio=${bio}&headline=${headline}&curl=${customUrl}`,
+        method: 'post',
+        data: dataImage,
+        success: function(data){
+            console.log(url)
+        }
+    })
+
     // Use the readFile function to read the file and get the result for each file input
-    readFile(document.getElementById('inp1'), function (fileData1) {
-        readFile(document.getElementById('inp2'), function (fileData2) {
-            // Add your logic to further process the gathered information here
+    // readFile(document.getElementById('inp1'), function (fileData1) {
+    //     readFile(document.getElementById('inp2'), function (fileData2) {
+    //         // Add your logic to further process the gathered information here
 
-            // Create FormData object to store form data
-            var formData = new FormData();
-            formData.append('curl', customUrl);
-            formData.append('headline', headline);
-            formData.append('bio', bio);
+    //         // Create FormData object to store form data
+    //         var formData = new FormData();
+    //         formData.append('curl', customUrl);
+    //         formData.append('headline', headline);
+    //         formData.append('bio', bio);
 
-            // Append the profile pictures to the FormData
-            formData.append('image', fileData1);
-            formData.append('bg', fileData2);
+    //         // Append the profile pictures to the FormData
+    //         formData.append('image', fileData1);
+    //         formData.append('bg', fileData2);
 
-            // Send the FormData using fetch
-            fetch('/adm/inputstyle', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json()) // Adjust based on your server response format
-            .then(data => {
-                // Handle the response from the server
-                console.log('Server response:', data);
-            })
-            .catch(error => {
-                // Handle errors
-                console.error('Error:', error);
-            });
-        });
-    });
+    //         // Send the FormData using fetch
+    //         fetch('/adm/inputstyle', {
+    //             method: 'POST',
+    //             body: formData
+    //         })
+    //         .then(response => response.json()) // Adjust based on your server response format
+    //         .then(data => {
+    //             // Handle the response from the server
+    //             console.log('Server response:', data);
+    //         })
+    //         .catch(error => {
+    //             // Handle errors
+    //             console.error('Error:', error);
+    //         });
+    //     });
+    // });
 }
 
-function readFile(fileInput, callback) {
-    if (!fileInput.files || !fileInput.files[0]) return;
+// function readFile(fileInput, callback) {
+//     if (!fileInput.files || !fileInput.files[0]) return;
 
-    var reader = new FileReader();
+//     var reader = new FileReader();
 
-    reader.addEventListener('load', function (evt) {
-        // Access the result inside the load event
-        var result = evt.target.result;
+//     reader.addEventListener('load', function (evt) {
+//         // Access the result inside the load event
+//         var result = evt.target.result;
 
-        // Call the callback function with the result
-        callback(result);
-    });
+//         // Call the callback function with the result
+//         callback(result);
+//     });
 
-    reader.readAsDataURL(fileInput.files[0]);
-}
+//     reader.readAsDataURL(fileInput.files[0]);
+// }
 
 function dataEdit() {
    var cusUrl = $("#cusUrl").val();
