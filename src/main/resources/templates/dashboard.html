@@ -114,6 +114,9 @@
                 <div class="mr-6">
                     <h1 class="text-4xl font-semibold mb-2">Dashboard</h1>
                 </div>
+                <div class="mx-28 rounded-lg bg-green-100 px-6 py-5 text-base hidden" id="ber" role="alert">
+                    Berhasil
+                </div>
 
             </div>
 
@@ -191,8 +194,9 @@
                             th:style="${btnstyle[0].tempBg == null ? 'background-image:url(' + btnstyle[0].bg_default + ');' : 'background-image:url(' + btnstyle[0].tempBg  + ')'}">
                             <div class="w-1/2 bg-slate-50 p-5 rounded-xl bg-opacity-5 backdrop-blur-lg shadow-2xl">
                                 <div class="rounded-full mx-auto">
-                                    <img th:src="${btnstyle[0].tempImg == null ? 'https://source.unsplash.com/150x150' : btnstyle[0].tempImg}" class="rounded-full mx-auto"
-                                        alt="profile picture" style="max-width: 150px; max-height: 150px; object-fit: cover;">
+                                    <img th:src="${btnstyle[0].tempImg == null ? 'https://source.unsplash.com/150x150' : btnstyle[0].tempImg}"
+                                        class="rounded-full mx-auto" alt="profile picture"
+                                        style="max-width: 150px; max-height: 150px; object-fit: cover;">
                                 </div>
                                 <div class="justify-center text-center">
                                     <h2 class="mx-auto text-3xl text-white mt-1 font-bold"
@@ -331,7 +335,8 @@
                         <label class="font-medium text-gray-800">Short Bio</label>
                         <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="bio" />
                         <label class="font-medium text-gray-800">Profile Picture</label>
-                        <input type="file" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="inp1" name="inp1" />
+                        <input type="file" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="inp1"
+                            name="inp1" />
                         <label class="font-medium text-gray-800">Background Picture</label>
                         <input type="file" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="inp2" />
                     </div>
@@ -360,7 +365,7 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     $(document).ready(function () {
-        
+
         var data = /*[[${btnstyle}]]*/""
         console.log(data)
 

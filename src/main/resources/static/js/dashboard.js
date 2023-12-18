@@ -5,15 +5,12 @@ function readFormData() {
   var bio = document.getElementById("bio").value;
   var dataImage = new FormData();
 
-//   var imagePro = document.getElementById("inp1");
   dataI = $("#inp1")[0].files[0];
+  dataB = $("#inp2")[0].files[0];
 
-  dataImage.append("images", dataI);
-  dataImage.append("bg", dataI);
-  // for(i = 0; i < imagePro.length; i++){
-  //     var a = imagePro[i].files[0]
-  //     dataImage.push(a)
-  // }
+  dataImage.append("image", dataI);
+  dataImage.append("bg", dataB);
+  
 
   $.ajax({
     url: `/adm/inputstyle?bio=${bio}&headline=${headline}&curl=${customUrl}`,
@@ -22,58 +19,17 @@ function readFormData() {
     contentType: false,
     processData: false,
     success: function (data) {
-      console.log(url);
+    //   console.log(url);
+        modalClose('edit-modal')
+        document.getElementById('ber').classList.remove('hidden')
+        setTimeout(function(){
+            document.getElementById('ber').classList.add('hidden')
+        }, 5000)
     },
   });
-
-  // Use the readFile function to read the file and get the result for each file input
-  // readFile(document.getElementById('inp1'), function (fileData1) {
-  //     readFile(document.getElementById('inp2'), function (fileData2) {
-  //         // Add your logic to further process the gathered information here
-
-  //         // Create FormData object to store form data
-  //         var formData = new FormData();
-  //         formData.append('curl', customUrl);
-  //         formData.append('headline', headline);
-  //         formData.append('bio', bio);
-
-  //         // Append the profile pictures to the FormData
-  //         formData.append('image', fileData1);
-  //         formData.append('bg', fileData2);
-
-  //         // Send the FormData using fetch
-  //         fetch('/adm/inputstyle', {
-  //             method: 'POST',
-  //             body: formData
-  //         })
-  //         .then(response => response.json()) // Adjust based on your server response format
-  //         .then(data => {
-  //             // Handle the response from the server
-  //             console.log('Server response:', data);
-  //         })
-  //         .catch(error => {
-  //             // Handle errors
-  //             console.error('Error:', error);
-  //         });
-  //     });
-  // });
 }
 
-// function readFile(fileInput, callback) {
-//     if (!fileInput.files || !fileInput.files[0]) return;
 
-//     var reader = new FileReader();
-
-//     reader.addEventListener('load', function (evt) {
-//         // Access the result inside the load event
-//         var result = evt.target.result;
-
-//         // Call the callback function with the result
-//         callback(result);
-//     });
-
-//     reader.readAsDataURL(fileInput.files[0]);
-// }
 
 function dataEdit() {
   var cusUrl = $("#cusUrl").val();
@@ -107,15 +63,6 @@ const openModal = (modal) => {
   modalToOpen.style.display = "flex";
 };
 
-// function toggleModal() {
-//     var modal = document.getElementById('modal');
-//     modal.style.display = (modal.style.display === 'none' || modal.style.display === '') ? 'block' : 'none';
-// }
-
-// function toggleModalEdit() {
-//     var modalEdit = document.getElementById('modalEdit');
-//     modalEdit.style.display = (modalEdit.style.display === 'none' || modalEdit.style.display === '') ? 'block' : 'none';
-// }
 
 $("#addbtn").on("click", function () {
   $("#tempatlagi").append(
