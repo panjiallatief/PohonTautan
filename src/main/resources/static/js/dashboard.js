@@ -1,4 +1,6 @@
-function readFormData(response) {
+var ImageProfile, ImageBg;
+
+function readFormData() {
   // Get values from input fields
   var customUrl = document.getElementById("cusUrl").value;
   var headline = document.getElementById("headline").value;
@@ -7,10 +9,12 @@ function readFormData(response) {
   var alrt = document.getElementById("ber");
 
   // dataI = $("#inp1")[0].files[0];
-  dataB = $("#inp2")[0].files[0];
+  // dataB = $("#inp2")[0].files[0];
 
-  dataImage.append("image", response);
-  dataImage.append("bg", dataB);
+  dataImage.append("image", ImageProfile);
+  dataImage.append("bg", ImageBg);
+
+  // console.log(ImageProfile)
 
   $.ajax({
     url: `/adm/inputstyle?bio=${bio}&headline=${headline}&curl=${customUrl}`,
@@ -175,12 +179,49 @@ $(".crop_image").on("click", function (event) {
       type: "base64",
       format: "jpeg",
       //type: 'canvas',
+      quality: 1,
+      circle: true,
       size: "viewport",
       //size: {width: 150, height: 200}
     })
     .then(function (response) {
       $("#item-img-output").attr("src", response);
+      ImageProfile = response;
       // $('#uploadimageModal').modal('hide');
       modalClose("crop-modal");
+    });
+});
+
+$("#inp2").on("change", function () {
+  var reader = new FileReader();
+  reader.onload = function (event) {
+    $bg_crop
+      .croppie("bind", {
+        url: event.target.result,
+      })
+      .then(function () {
+        console.log("jQuery bind complete");
+      });
+  };
+  reader.readAsDataURL(this.files[0]);
+  openModal("cropi-modal");
+});
+
+$(".crop_imagei").on("click", function (event) {
+  $bg_crop
+    .croppie("result", {
+      type: "base64",
+      format: "jpeg",
+      //type: 'canvas',
+      quality: 1,
+      // circle: true,
+      size: "original",
+      //size: {width: 150, height: 200}
+    })
+    .then(function (response) {
+      $("#item-bg-output").attr("src", response);
+      ImageBg = response;
+      // $('#uploadimageModal').modal('hide');
+      modalClose("cropi-modal");
     });
 });
