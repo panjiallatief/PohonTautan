@@ -1,17 +1,16 @@
-function readFormData() {
+function readFormData(response) {
   // Get values from input fields
   var customUrl = document.getElementById("cusUrl").value;
   var headline = document.getElementById("headline").value;
   var bio = document.getElementById("bio").value;
   var dataImage = new FormData();
-  var alrt = document.getElementById('ber')
+  var alrt = document.getElementById("ber");
 
-  dataI = $("#inp1")[0].files[0];
+  // dataI = $("#inp1")[0].files[0];
   dataB = $("#inp2")[0].files[0];
 
-  dataImage.append("image", dataI);
+  dataImage.append("image", response);
   dataImage.append("bg", dataB);
-  
 
   $.ajax({
     url: `/adm/inputstyle?bio=${bio}&headline=${headline}&curl=${customUrl}`,
@@ -19,21 +18,19 @@ function readFormData() {
     data: dataImage,
     contentType: false,
     processData: false,
-    success: function (response) {
-    //   console.log(url);
-        alrt.innerText = response.message;
-        modalClose('edit-modal')
-        // alrt.classList.remove('hidden')
-        openModal('alert-success')
-        setTimeout(function(){
-            // alrt.classList.add('hidden')
-            modalClose('alert-success')
-        }, 5000)
+    success: function (data) {
+      //   console.log(url);
+      alrt.innerText = data.message;
+      modalClose("edit-modal");
+      // alrt.classList.remove('hidden')
+      openModal("alert-success");
+      setTimeout(function () {
+        // alrt.classList.add('hidden')
+        modalClose("alert-success");
+      }, 5000);
     },
   });
 }
-
-
 
 function dataEdit() {
   var cusUrl = $("#cusUrl").val();
@@ -66,7 +63,6 @@ const openModal = (modal) => {
   modalToOpen.classList.add("fadeIn");
   modalToOpen.style.display = "flex";
 };
-
 
 $("#addbtn").on("click", function () {
   $("#tempatlagi").append(
@@ -157,3 +153,34 @@ function tambahdata() {
     },
   });
 }
+
+$("#inp1").on("change", function () {
+  var reader = new FileReader();
+  reader.onload = function (event) {
+    $image_crop
+      .croppie("bind", {
+        url: event.target.result,
+      })
+      .then(function () {
+        console.log("jQuery bind complete");
+      });
+  };
+  reader.readAsDataURL(this.files[0]);
+  openModal("crop-modal");
+});
+
+$(".crop_image").on("click", function (event) {
+  $image_crop
+    .croppie("result", {
+      type: "base64",
+      format: "jpeg",
+      //type: 'canvas',
+      size: "viewport",
+      //size: {width: 150, height: 200}
+    })
+    .then(function (response) {
+      $("#item-img-output").attr("src", response);
+      // $('#uploadimageModal').modal('hide');
+      modalClose("crop-modal");
+    });
+});

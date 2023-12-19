@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="../static/croppie/croppie.css"></script> -->
+    <link rel="stylesheet" href="/croppie/croppie.css" />
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
     <title>Dashboard - Pohon Tautan</title>
 
@@ -272,7 +275,7 @@
                                             th:text="${btnstyle[0].bio == null ? 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, ullam!' : btnstyle[0].bio }"></a>
                                     </div>
 
-                                    <div id="buttontmpt" class="w-full mt-3" >
+                                    <div id="buttontmpt" class="w-full mt-3">
                                         <div class="relative" th:each="bbtn : ${btnstyle}"
                                             th:if="${bbtn.button_name != null}">
                                             <button th:style="|background: ${bbtn.button_style}|"
@@ -406,6 +409,8 @@
                         <label class="font-medium text-gray-800">Profile Picture</label>
                         <input type="file" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="inp1"
                             name="inp1" />
+                            <div id="uploaded_image"></div>
+                            <img src="" class="gambar img-responsive img-thumbnail mx-auto" id="item-img-output" />
                         <label class="font-medium text-gray-800">Background Picture</label>
                         <input type="file" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="inp2" />
                     </div>
@@ -422,6 +427,41 @@
     </div>
 </div>
 
+<div class="crop-modal fixed w-full inset-0 z-50 overflow-hidden hidden justify-center items-center animated fadeIn faster"
+    style="background: rgba(0,0,0,.7);">
+    <div
+        class="border border-blue-500 shadow-lg modal-container bg-white w-4/12 md:max-w-11/12 mx-auto rounded-xl shadow-lg z-50 overflow-y-auto">
+        <div class="modal-content py-4 text-left px-6">
+            <!--Title-->
+            <div class="flex justify-between items-center pb-3">
+                <p class="text-2xl font-bold text-gray-500">Profile Picture</p>
+                <div class="modal-close cursor-pointer z-50" onclick="modalClose('crop-modal')">
+                    <svg class="fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                        viewBox="0 0 18 18">
+                        <path
+                            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="my-5 mr-5 ml-5 flex justify-center">
+                <form class="w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" id="tempatlagi">
+                        <div id="image_demo" style="width:350px; margin-top:30px"></div>
+                    </div>
+                </form>
+            </div>
+            <!--Footer-->
+            <div class="flex justify-end pt-2 space-x-1">
+                <button class="px-4 bg-gray-200 p-3 rounded-lg text-black hover:bg-gray-300 font-semibold"
+                    onclick="modalClose('crop-modal')">Cancel</button>
+                <button class="px-4 bg-blue-500 p-3 ml-3 rounded-lg font-semibold text-white hover:bg-teal-400 crop_image" >Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </html>
 
 <script th:src="@{https://code.jquery.com/jquery-3.7.0.js}"
@@ -429,6 +469,7 @@
     referrerpolicy="no-referrer"></script>
 
 <script src="/js/dashboard.js"></script>
+<script src="/croppie/croppie.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 
 <script th:inline="javascript">
@@ -440,6 +481,20 @@
             document.getElementById('main').classList.remove('hidden')
         }, 2000)
 
+        $image_crop = $('#image_demo').croppie({
+            enableExif: true,
+            viewport: {
+                width: 200,
+                height: 200,
+                type: 'circle' //circle
+            },
+            boundary: {
+                width: 300,
+                height: 300
+            }
+        });
+
+        
 
 
         var data = /*[[${btnstyle}]]*/""
