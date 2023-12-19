@@ -409,8 +409,8 @@
                         <label class="font-medium text-gray-800">Profile Picture</label>
                         <input type="file" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="inp1"
                             name="inp1" />
-                            <div id="uploaded_image"></div>
-                            <img src="" class="gambar img-responsive img-thumbnail mx-auto" id="item-img-output" />
+                        <div id="uploaded_image"></div>
+                        <img src="" class="gambar img-responsive img-thumbnail mx-auto" id="item-img-output" />
                         <label class="font-medium text-gray-800">Background Picture</label>
                         <input type="file" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="inp2" />
                         <img src="" class="gambar img-responsive img-thumbnail mx-auto" id="item-bg-output" />
@@ -458,7 +458,8 @@
             <div class="flex justify-end pt-2 space-x-1">
                 <button class="px-4 bg-gray-200 p-3 rounded-lg text-black hover:bg-gray-300 font-semibold"
                     onclick="modalClose('crop-modal')">Cancel</button>
-                <button class="px-4 bg-blue-500 p-3 ml-3 rounded-lg font-semibold text-white hover:bg-teal-400 crop_image" >Save</button>
+                <button
+                    class="px-4 bg-blue-500 p-3 ml-3 rounded-lg font-semibold text-white hover:bg-teal-400 crop_image">Save</button>
             </div>
         </div>
     </div>
@@ -493,7 +494,8 @@
             <div class="flex justify-end pt-2 space-x-1">
                 <button class="px-4 bg-gray-200 p-3 rounded-lg text-black hover:bg-gray-300 font-semibold"
                     onclick="modalClose('cropi-modal')">Cancel</button>
-                <button class="px-4 bg-blue-500 p-3 ml-3 rounded-lg font-semibold text-white hover:bg-teal-400 crop_imagei" >Save</button>
+                <button
+                    class="px-4 bg-blue-500 p-3 ml-3 rounded-lg font-semibold text-white hover:bg-teal-400 crop_imagei">Save</button>
             </div>
         </div>
     </div>
@@ -544,7 +546,14 @@
             }
         });
 
-        
+        fetch('/testblob')
+            .then((res) => res.blob())
+            .then((myBlob) => {
+                console.log(myBlob.bg);
+                // logs: Blob { size: 1024, type: "image/jpeg" }
+            });
+
+
 
 
         var data = /*[[${btnstyle}]]*/""
