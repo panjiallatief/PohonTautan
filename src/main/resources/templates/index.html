@@ -1,37 +1,55 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Pohon Tautan</title>
 </head>
+
 <body>
-    <div class="container bg-cover min-h-screen min-w-full flex justify-center items-center" style="background-image: url('https://source.unsplash.com/1080x1920?pattren');">
+    <div class="bg-cover flex justify-center items-center py-12 xl:max-w-[410] xl:max-h-[539]"
+        th:style="${btnstyle[0].tempBg == null ? 'background-image:url(' + btnstyle[0].bg_default + ');' : 'background-image:url(' +btnstyle[0].tempBg + ')'}">
         <div class="w-1/2 bg-slate-50 p-5 rounded-xl bg-opacity-5 backdrop-blur-lg shadow-2xl">
-            <div class="rounded-full mx-auto">
-                <img src="https://source.unsplash.com/150x150" class="rounded-full mx-auto" alt="profile picture">
+            <div class="rounded-full mx-auto w-[150px] h-[150px] overflow-auto">
+                <img th:src="${btnstyle[0].tempImg == null ? 'https://source.unsplash.com/150x150' : btnstyle[0].tempImg}"
+                    class="rounded-full mx-auto" alt="profile picture">
             </div>
-            <h2 class="mx-auto text-center text-3xl text-white mt-1 font-bold">Lorem ipsum</h2>
-            <div class="w-full mt-3">
-                <button class="min-w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-800 rounded-lg px-4 py-2 mb-3">Lorem ipsum dolor</button>
-                <button class="min-w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-800 rounded-lg px-4 py-2 mb-3">Lorem ipsum dolor</button>
-                <button class="min-w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-800 rounded-lg px-4 py-2 mb-3">Lorem ipsum dolor</button>
+            <div class="justify-center text-center">
+                <h2 class="mx-auto text-3xl text-white mt-1 font-bold"
+                    th:text="${btnstyle[0].headline == null ? 'Lorem Ipsum' : btnstyle[0].headline }">
+                </h2>
+                <a class="mx-auto text-slate-200"
+                    th:text="${btnstyle[0].bio == null ? 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, ullam!' : btnstyle[0].bio }"></a>
+            </div>
+
+            <div id="buttontmpt" class="w-full mt-3">
+                <div class="relative" th:each="bbtn : ${btnstyle}" th:if="${bbtn.button_name != null}">
+                    <button th:style="|background: ${bbtn.button_style}|"
+                        th:class="${bbtn.button_text_color == null or bbtn.button_animation == null ? 'min-w-full rounded-lg px-4 py-2 mb-3 text-white hover:brightness-90' : 'min-w-full rounded-lg px-4 py-2 mb-3 hover:brightness-90 ' + bbtn.button_text_color +' '+ bbtn.button_animation}"
+                        th:text="${bbtn.button_name}"></button>
+                    <div th:value="${bbtn.button_name}" th:attr="onclick=|deletebut('${bbtn.link}')|"
+                        class="absolute top-2 -right-4 h-4 w-4 mt-1 mr-2 bg-red-500 rounded-full cursor-pointer hover:animate-pulse">
+                        <a class="text-white absolute top-[-6px] left-[3.5px]">x</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
+
 </body>
+
 </html>
 
 <script th:src="@{https://code.jquery.com/jquery-3.7.0.js}"
-  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"
-  referrerpolicy="no-referrer"></script>
+    integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
     $(document).ready(function () {
-      
+
     })
-  /*]]>*/
+    /*]]>*/
 </script>
