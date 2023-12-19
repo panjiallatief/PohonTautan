@@ -349,8 +349,8 @@ public class MainController {
         String arrSplits[] = image.getOriginalFilename().split("\\.");
         String originalExtension_image = arrSplits[arrSplits.length - 1];
 
-        String namafile_bg = usnn + "_" + usn + "_" + "BG" ;        
-        String namafile_image = usnn + "_" + usn + "_" + "Image" ;
+        String namafile_bg = usnn + "_" + usn + "_" + "BG" + "." + originalExtension_bg ;        
+        String namafile_image = usnn + "_" + usn + "_" + "Image" + "." + originalExtension_image ;
 
 
         if (stylesRepository.booleanstyle(usnn)) {
