@@ -564,7 +564,14 @@
 
 
         var data = /*[[${countmonth}]]*/""
-        console.log(data)
+        console.log(data[0])
+
+        bulan = [];
+        jum = [];
+        for (var i = 0; i< data.length; i++){
+            bulan.push(data[i][0])
+            jum.push(data[i][1])
+        }
 
         all_modals = ['add-modal', 'edit-modal']
         all_modals.forEach((modal) => {
@@ -621,13 +628,13 @@
         var chart = new Chart(ctx, {
             type: "line",
             data: {
-                labels: [1, 2, 1, 3, 5, 4, 7],
+                labels: bulan,
                 datasets: [
                     {
                         backgroundColor: "rgba(101, 116, 205, 0.1)",
                         borderColor: "rgba(101, 116, 205, 0.8)",
                         borderWidth: 2,
-                        data: [1, 2, 1, 3, 5, 4, 7],
+                        data: jum,
                     },
                 ],
             },
