@@ -89,7 +89,7 @@ public class SecurityConfig {
             .formLogin()
             .failureUrl("/login?error")
             .loginPage("/login")
-            .defaultSuccessUrl("/adm/dasboard")
+            .defaultSuccessUrl("/adm/dasboard", true)
             .permitAll()
             .and()
             .logout()

@@ -1,30 +1,36 @@
 package com.PohonTautan.Controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.sql.Blob;
 import java.nio.file.Files;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.*;
 
+import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
+import javax.swing.text.Style;
+
 import javax.sql.DataSource;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Base64Utils;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +40,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+import org.thymeleaf.expression.Objects;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 
 import com.PohonTautan.Entity.Log;
 import com.PohonTautan.Entity.Styles;
@@ -43,7 +53,6 @@ import com.PohonTautan.Repository.StylesRepository;
 import com.PohonTautan.Repository.UsersRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -65,14 +74,14 @@ public class MainController {
     @Autowired
     private HttpSession httpSession;
 
-    private final DataSource dataSource;
+    // private final DataSource dataSource;
 
     @Autowired
-    private Environment env;
+    private static Environment env;
 
-    public MainController(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    // public MainController(DataSource dataSource) {
+    //     this.dataSource = dataSource;
+    // }
 
     @RequestMapping(value = "/dasboard", method = RequestMethod.GET)
     public String adm(Model model) throws SQLException {
@@ -87,7 +96,6 @@ public class MainController {
         model.addAttribute("countday", countday);
         Long countbuttonday = logRepository.countbutton(date, usnn);
         model.addAttribute("countbuttonday", countbuttonday);
-
 
         String[] btn = null;
         String[] btnstyle = null;
@@ -131,13 +139,21 @@ public class MainController {
         }
 
         if (st.getBg() != null) {
-            bg = st.getBg();
+            byte[] bgBytes = st.getBg().getBytes(1, (int) st.getBg().length());
+            String base64String = Base64.getEncoder().encodeToString(bgBytes);
+            String gambars = base64String.replace("dataimage/jpegbase64",
+                    "data:image/png;base64,");
+            bg = gambars.replace("=", "");
         } else {
             bg = null;
         }
 
         if (st.getImage() != null) {
-            image = st.getImage();
+            byte[] imageBytes = st.getImage().getBytes(1, (int) st.getBg().length());
+            String base64Strings = Base64.getEncoder().encodeToString(imageBytes);
+            String gambar = base64Strings.replace("dataimage/jpegbase64",
+                    "data:image/png;base64,");
+            image = gambar.replace("=", "");
         } else {
             image = null;
         }
@@ -197,7 +213,7 @@ public class MainController {
             styleMap.put("button_text_color", btntc);
             stylesList.add(styleMap);
         } else {
-                styleMap.put("tempBg", null);
+            styleMap.put("tempBg", null);
             styleMap.put("tempImg", null);
             styleMap.put("button_name", null);
             styleMap.put("button_style", null);
@@ -218,38 +234,6 @@ public class MainController {
         model.addAttribute("btnstyle", stylesList);
 
         return "dashboard";
-    }
-
-    @GetMapping(value = "/streamBG")
-    public StreamingResponseBody handleRequests (@RequestParam String filename, HttpServletResponse response) {
-    response.setContentType("image/jpeg");
-        return new StreamingResponseBody() {
-            public void writeTo (OutputStream out) throws IOException {
-                File Image = new File(env.getProperty("URL.PATH_BG") + "/" + filename);
-                try {
-                    byte[] fileContent = Files.readAllBytes(Image.toPath());
-                    out.write(fileContent);
-                } catch (IOException image) {
-                    System.out.println(image);
-                }
-            }
-        };
-    }
-
-    @GetMapping(value = "/streamImage")
-    public StreamingResponseBody handleRequest (@RequestParam String filename, HttpServletResponse response) {
-    response.setContentType("image/jpeg");
-        return new StreamingResponseBody() {
-            public void writeTo (OutputStream out) throws IOException {
-                File Image = new File(env.getProperty("URL.PATH_PROFIL") + "/" + filename);
-                try {
-                    byte[] fileContent = Files.readAllBytes(Image.toPath());
-                    out.write(fileContent);
-                } catch (IOException image) {
-                    System.out.println(image);
-                }
-            }
-        };
     }
 
     @RequestMapping(value = "/countday", method = RequestMethod.GET)
@@ -331,62 +315,32 @@ public class MainController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-    // @RequestMapping(value = "/inputstyle", method = RequestMethod.POST)
-    @RequestMapping(value = "/inputstyle", consumes = {
-        MediaType.MULTIPART_FORM_DATA_VALUE }, produces = APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    @ResponseBody
+    @RequestMapping(value = "/inputstyle", method = RequestMethod.POST)
     public ResponseEntity<Map> inputstyle(@RequestParam String bio, @RequestParam String headline,
-            @RequestPart("bg") MultipartFile bg, @RequestPart("image") MultipartFile image,
+            @RequestParam String bg, @RequestParam String image,
             @RequestParam String curl)
-            throws SerialException, SQLException {
+            throws SerialException, SQLException, IOException {
         Map data = new HashMap<>();   
 
         String usn = httpSession.getAttribute("username").toString();
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
 
-        String arrSplit[] = bg.getOriginalFilename().split("\\.");
-        String originalExtension_bg = arrSplit[arrSplit.length - 1];
-        String arrSplits[] = image.getOriginalFilename().split("\\.");
-        String originalExtension_image = arrSplits[arrSplits.length - 1];
+        String gambarimage = image.replace(" ", "+");
+        byte[] binarydataimage = Base64.getMimeDecoder().decode(gambarimage);
+        Blob blobimage = new SerialBlob(binarydataimage);
 
-        String namafile_bg = usnn + "_" + usn + "_" + "BG" + "." + originalExtension_bg ;        
-        String namafile_image = usnn + "_" + usn + "_" + "Image" + "." + originalExtension_image ;
-
+        String gambarbg = bg.replace(" ", "+");
+        byte[] binarydatabg = Base64.getMimeDecoder().decode(gambarbg);
+        Blob blobbg = new SerialBlob(binarydatabg);
 
         if (stylesRepository.booleanstyle(usnn)) {
-            if (bg != null && image != null) {
-                try {
-                    bg.transferTo(new File(
-                            env.getProperty("URL.PATH_BG") + "/" + namafile_bg + "." + originalExtension_bg));
-                    image.transferTo(new File(
-                            env.getProperty("URL.PATH_PROFIL") + "/" + namafile_image + "." + originalExtension_image));
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
-                }
-            } else if (bg != null && image == null) {
-                try {
-                    bg.transferTo(new File(
-                            env.getProperty("URL.PATH_BG") + "/" + namafile_bg + "." + originalExtension_bg));
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
-                }
-            } else if (bg == null && image != null) {
-                try {
-                    image.transferTo(new File(
-                            env.getProperty("URL.PATH_PROFIL") + "/" + namafile_image + "." + originalExtension_image));
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
-                }
-            } else {
-                System.out.println("Tidak ada File.");
-            }
 
             Styles st = stylesRepository.getstStyles2(usnn);
             st.setId_user(usnn);
             st.setBio(bio);
             st.setHeadline(headline);
-            st.setBg(namafile_bg);
-            st.setImage(namafile_image);
+            st.setBg(blobbg);
+            st.setImage(blobimage);
             st.setCustom_url(curl);
             stylesRepository.save(st);
 
