@@ -165,9 +165,9 @@ $("#inp1").on("change", function () {
       .croppie("bind", {
         url: event.target.result,
       })
-      .then(function () {
-        console.log("jQuery bind complete");
-      });
+      // .then(function () {
+      //   console.log("jQuery bind complete");
+      // });
   };
   reader.readAsDataURL(this.files[0]);
   openModal("crop-modal");
@@ -199,9 +199,9 @@ $("#inp2").on("change", function () {
       .croppie("bind", {
         url: event.target.result,
       })
-      .then(function () {
-        console.log("jQuery bind complete");
-      });
+      // .then(function () {
+      //   console.log("jQuery bind complete");
+      // });
   };
   reader.readAsDataURL(this.files[0]);
   openModal("cropi-modal");
