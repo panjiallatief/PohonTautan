@@ -213,7 +213,7 @@ $(".crop_imagei").on("click", function (event) {
       type: "base64",
       format: "jpeg",
       //type: 'canvas',
-      quality: 0,
+      quality: 1,
       // circle: true,
       size: "original",
       //size: {width: 150, height: 200}
