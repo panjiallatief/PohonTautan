@@ -72,7 +72,7 @@ public class IndexController {
             st.setSession_visitor(sessionId);
             st.setIp_visitor(userIp);
             st.setId_user(usnn);
-            sessionoidRepositori.save(st);
+            sessionoidRepositori.save(st); 
         }
 
         Styles st = stylesRepository.getstStyles2(usnn);
