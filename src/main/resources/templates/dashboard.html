@@ -150,8 +150,10 @@
                         <span class="font-semibold" th:text="${session.username}"></span>
                     </div>
                     <span class="h-12 w-12 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
-                        <img src="https://source.unsplash.com/150x150" alt="user profile photo"
-                            class="h-full w-full object-cover">
+                        <!-- <img src="https://source.unsplash.com/150x150" alt="user profile photo"
+                            class="h-full w-full object-cover"> -->
+                        <img th:src="${btnstyle[0].tempImg == null ? 'https://source.unsplash.com/150x150' : btnstyle[0].tempImg}"
+                            class="rounded-full mx-auto" alt="profile picture">
                     </span>
                     <div class="border-l pl-3 ml-3 mr-1 space-x-1">
                         <label for="dark-toggle" class="flex items-center cursor-pointer">
@@ -195,10 +197,13 @@
                             per
                             month</div>
                         <div class="p-4 flex-grow">
-                            <div
-                                class="flex items-center justify-center h-full px-4 py-1 text-3xl font-semibold  dark:bg-slate-800 border-dashed rounded-md">
+                            <div class="flex items-center justify-center h-full px-4 py-1 text-3xl font-semibold  dark:bg-slate-800 border-dashed rounded-md"
+                                id="tmtchart">
                                 <canvas id="chart1" height="70"></canvas>
                             </div>
+                            <div id="tmterr"
+                                class="flex mx-auto text-center items-center text-slate-400 justify-center h-full px-4 py-1 text-3xl font-semibold  dark:bg-slate-800 border-dashed rounded-md"
+                                style="display: none;">No Data</div>
                         </div>
                     </div>
                     <div class="flex items-center p-8 bg-white dark:bg-slate-800 shadow rounded-lg">
@@ -354,7 +359,7 @@
                         <select name="button-animate[]" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3">
                             <option value="" disabled selected>--Select--</option>
                             <option value="animate-none">None</option>
-                            <option value="animate-spin">Spin</option>
+                            <!-- <option value="animate-spin">Spin</option> -->
                             <option value="animate-ping">Ping</option>
                             <option value="animate-pulse">Pulse</option>
                         </select>
@@ -416,6 +421,8 @@
                         <img src="" class="gambar img-responsive img-thumbnail mx-auto" id="item-img-output" />
                         <label class="font-medium text-gray-800">Background Picture</label>
                         <input type="file" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="inp2" />
+                        <small class="text-slate-500">if you want to random background, just leave it blank. don't
+                            choose a file</small>
                         <img src="" class="gambar img-responsive img-thumbnail mx-auto" id="item-bg-output" />
 
                     </div>
@@ -568,12 +575,16 @@
 
         bulan = [];
         jum = [];
-        for (var i = 0; i< data.length; i++){
+        for (var i = 0; i < data.length; i++) {
             bulan.push(data[i][0])
             jum.push(data[i][1])
         }
 
-        console.log(bulan, jum)
+        // console.log(bulan, jum)
+        if (jum.length == 0) {
+            document.getElementById('tmtchart').style.display = 'none'
+            document.getElementById('tmterr').style.display = 'block'
+        }
 
         all_modals = ['add-modal', 'edit-modal']
         all_modals.forEach((modal) => {
@@ -643,7 +654,7 @@
             options: chartOptions
         });
         //
-        
+
     })
 
 
