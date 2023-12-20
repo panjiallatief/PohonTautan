@@ -54,7 +54,7 @@
         var tujuan = ll;
         $.ajax({
             url: `/sessionbutton`,
-            data : tujuan,
+            data :{ url: tujuan},
             method: 'POST',
             success: function(){
                 window.open(tujuan, "_self")
