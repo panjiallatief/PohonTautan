@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" class="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+    <title>Dashboard - Pohon Tautan</title>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <style type="text/tailwindcss">
+        input:checked ~ .dot {
+            transform: translateX(100%);
+            /* background-color: #132b50; */
+        }
+
+        .animated {
+			-webkit-animation-duration: 1s;
+			animation-duration: 1s;
+			-webkit-animation-fill-mode: both;
+			animation-fill-mode: both;
+		}
+
+		.animated.faster {
+			-webkit-animation-duration: 500ms;
+			animation-duration: 500ms;
+		}
+
+		.fadeIn {
+			-webkit-animation-name: fadeIn;
+			animation-name: fadeIn;
+		}
+
+		.fadeOut {
+			-webkit-animation-name: fadeOut;
+			animation-name: fadeOut;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+
+			to {
+				opacity: 1;
+			}
+		}
+
+		@keyframes fadeOut {
+			from {
+				opacity: 1;
+			}
+
+			to {
+				opacity: 0;
+			}
+		}
+      </style>
+
+
+</head>
+
+<body class="flex bg-gray-100  dark:bg-slate-900 overflow-hidden items-center">
+
+    <div class="flex-grow text-gray-800 dark:text-gray-400 max-h-[823px] max-w-[574px]">
+        <!-- <div class="flex flex-col md:col-span-2 md:row-span-2 bg-white shadow rounded-lg dark:bg-slate-800">
+            <div class="px-6 py-5 font-semibold ">
+                <h1>test</h1>
+            </div>
+        </div> -->
+        <div class="pt-20 ">
+            <h1 class="font-bold text-5xl text-center mx-auto max-w-[60%]">Fully customizable, 
+            <span class="text-lg">making your online presence as vibrant as your personality!</span>
+            </h1>
+
+        </div>
+        <div onclick="sign()"
+            class="cursor-pointer absolute z-50  top-[35%] right-[50%]  p-5 mt-3 rounded-xl w-32 h-16 text-center text-red-400 font-semibold hover:text-red-600">
+            Log in</div>
+
+        <div onclick="sign()"
+            class="cursor-pointer absolute z-50 bg-gradient-to-r top-[35%] left-[50%] hover:bg-gradient-to-tl hover:from-red-400 hover:to-red-200 hover:brightness-90 from-red-400 to-red-200 p-5 mt-3 rounded-xl w-32 h-16 text-center text-white font-semibold">
+            Sign Up</div>
+
+
+        <div class="w-[574px] h-[576px]  ">
+            <img class="-mt-[100px] ml-8" src="/images/Images1.png">
+        </div>
+
+
+    </div>
+
+</body>
+
+
+
+</html>
+
+<script th:src="@{https://code.jquery.com/jquery-3.7.0.js}"
+    integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+
+<script src="/js/dashboard.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function () {
+
+
+
+        function darkModeListener() {
+            document.querySelector("html").classList.toggle("dark");
+        }
+
+        document.querySelector("input[type='checkbox']#dark-toggle").addEventListener("click", darkModeListener);
+    })
+
+    function sign(){
+        window.open("/login", '_self')
+    }
+
+
+    /*]]>*/
+</script>
