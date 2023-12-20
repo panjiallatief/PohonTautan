@@ -39,6 +39,6 @@ public class Log extends DateAudity{
     private String session_visitor;
 
     @Column(name = "button")
-    private Integer button;
+    private String button;
 
 }

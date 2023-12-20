@@ -19,8 +19,6 @@ import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 import javax.swing.text.Style;
 
-import javax.sql.DataSource;
-
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +86,7 @@ public class MainController {
         Date date = new Date();
         LocalDate currentDate = LocalDate.now();
         List<Map<String, Object>> stylesList = new ArrayList<>();
-        Map<String, Object> styleMap = new HashMap<>();
+        model.addAttribute("btnstyle", stylesList);
         Long countday = sessionoidRepositori.countsession(date, usnn);
         model.addAttribute("countday", countday);
         Long countbuttonday = logRepository.countbutton(date, usnn);
@@ -98,6 +96,8 @@ public class MainController {
         Integer hari = currentDate.getDayOfMonth();
         List<Object[]> count = sessionoidRepositori.countPerMonth(bulan, tahun, usnn);
         model.addAttribute("countmonth", count);
+        List<Object[]> counts = sessionoidRepositori.countweek(usnn);
+        model.addAttribute("countweek", counts);
 
         String[] btn = null;
         String[] btnstyle = null;
@@ -180,6 +180,7 @@ public class MainController {
 
         if(link != null){
             for (Integer i = 0; i < link.length; i++) {
+                Map<String, Object> styleMap = new HashMap<>();
                 styleMap.put("tempBg", bg);
                 styleMap.put("tempImg", image);
                 styleMap.put("button_name", btn[i]);
@@ -198,6 +199,7 @@ public class MainController {
                 stylesList.add(styleMap);
             }
         } else if (bg != null){
+            Map<String, Object> styleMap = new HashMap<>();
             styleMap.put("tempBg", bg);
             styleMap.put("tempImg", image);
             styleMap.put("button_name", btn);
@@ -215,6 +217,7 @@ public class MainController {
             styleMap.put("button_text_color", btntc);
             stylesList.add(styleMap);
         } else {
+            Map<String, Object> styleMap = new HashMap<>();
             styleMap.put("tempBg", null);
             styleMap.put("tempImg", null);
             styleMap.put("button_name", null);
@@ -232,8 +235,6 @@ public class MainController {
             styleMap.put("button_text_color", null);
             stylesList.add(styleMap);
         }
-
-        model.addAttribute("btnstyle", stylesList);
 
         return "dashboard";
     }
@@ -295,31 +296,9 @@ public class MainController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/sessionbutton", method = RequestMethod.POST)
-    public ResponseEntity<Map> sessionbutton(HttpServletRequest request, @RequestParam String url,
-            @RequestParam Integer button) {
-        Map data = new HashMap<>();
-
-        HttpSession session = request.getSession();
-        String sessionId = session.getId();
-        String currentUrl = request.getRequestURL().toString();
-
-        Integer id = stylesRepository.getstStyles(currentUrl).getId_user();
-
-        Log ss = new Log();
-        ss.setButton(button);
-        ss.setId_user(id);
-        ss.setSession_visitor(sessionId);
-        logRepository.save(ss);
-
-        data.put("icon", "success");
-        data.put("message", "Sukses Insert Person");
-        return new ResponseEntity<>(data, HttpStatus.OK);
-    }
-
     @RequestMapping(value = "/inputstyle", method = RequestMethod.POST)
     public ResponseEntity<Map> inputstyle(@RequestParam String bio, @RequestParam String headline,
-            @RequestParam String bg, @RequestParam String image,
+            @RequestParam (required = false) String bg, @RequestParam (required = false) String image,
             @RequestParam String curl)
             throws SerialException, SQLException, IOException {
         Map data = new HashMap<>();   
@@ -330,13 +309,13 @@ public class MainController {
         Blob blobbg = null;
         Blob blobimage = null;
 
-        if(bg != null){
+        if(bg.length() > 9){
             String gambarbg = bg.replace(" ", "+");
             byte[] binarydatabg = Base64.getMimeDecoder().decode(gambarbg);
             blobbg = new SerialBlob(binarydatabg);
         }
 
-        if(image != null){
+        if(image.length() > 9){
             String gambarimage = image.replace(" ", "+");
             byte[] binarydataimage = Base64.getMimeDecoder().decode(gambarimage);
             blobimage = new SerialBlob(binarydataimage);

@@ -1,6 +1,7 @@
 package com.PohonTautan.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,8 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.PohonTautan.Entity.Log;
 import com.PohonTautan.Entity.Sessionid;
 import com.PohonTautan.Entity.Styles;
 import com.PohonTautan.Entity.Token;
@@ -25,6 +30,9 @@ import com.PohonTautan.Repository.TokenRepository;
 import com.PohonTautan.Repository.UsersRepository;
 
 import jakarta.mail.MessagingException;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -66,6 +74,10 @@ public class IndexController {
         String sessionId = session.getId();
         String userIp = request.getRemoteAddr();
         Integer usnn = stylesRepository.getstStyles(curl).getId_user();
+        String currentUrl = request.getRequestURL().toString();
+        Integer ins = currentUrl.lastIndexOf("/");
+        String customurl = currentUrl.substring(ins + 1);
+        httpSession.setAttribute("curl", customurl);
 
         if(!sessionoidRepositori.findBycreatedAt(date, sessionId)){
             Sessionid st = new Sessionid();
@@ -77,7 +89,6 @@ public class IndexController {
 
         Styles st = stylesRepository.getstStyles2(usnn);
         List<Map<String, Object>> stylesList = new ArrayList<>();
-        Map<String, Object> styleMap = new HashMap<>();
         Long countday = sessionoidRepositori.countsession(date, usnn);
         model.addAttribute("countday", countday);
         Long countbuttonday = logRepository.countbutton(date, usnn);
@@ -164,11 +175,12 @@ public class IndexController {
 
         if(link != null){
             for (Integer i = 0; i < link.length; i++) {
+                Map<String, Object> styleMap = new HashMap<>();
                 styleMap.put("tempBg", bg);
                 styleMap.put("tempImg", image);
                 styleMap.put("button_name", btn[i]);
                 styleMap.put("button_style", "#" + btnstyle[i]);
-                styleMap.put("custom_url", curls);
+                styleMap.put("custom_url", curl);
                 styleMap.put("id_user", st.getId_user());
                 styleMap.put("created_at", st.getCreatedAt());
                 styleMap.put("updated_at", st.getUpdatedAt());
@@ -182,11 +194,12 @@ public class IndexController {
                 stylesList.add(styleMap);
             }
         } else if (bg != null){
+            Map<String, Object> styleMap = new HashMap<>();
             styleMap.put("tempBg", bg);
             styleMap.put("tempImg", image);
             styleMap.put("button_name", btn);
             styleMap.put("button_style", btnstyle);
-            styleMap.put("custom_url", curls);
+            styleMap.put("custom_url", curl);
             styleMap.put("id_user", st.getId_user());
             styleMap.put("created_at", st.getCreatedAt());
             styleMap.put("updated_at", st.getUpdatedAt());
@@ -199,6 +212,7 @@ public class IndexController {
             styleMap.put("button_text_color", btntc);
             stylesList.add(styleMap);
         } else {
+            Map<String, Object> styleMap = new HashMap<>();
             styleMap.put("tempBg", null);
             styleMap.put("tempImg", null);
             styleMap.put("button_name", null);
@@ -266,6 +280,7 @@ public class IndexController {
 
         Styles ss = new Styles();
         ss.setId_user(personTemp.getUid());
+        ss.setCustom_url(username);
         ss.setBg_default("https://source.unsplash.com/1080x1920?pattren");
         stylesRepository.save(ss);
     
@@ -285,6 +300,30 @@ public class IndexController {
             e.printStackTrace();
         }
 
+
+        data.put("icon", "success");
+        data.put("message", "Sukses Insert Person");
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/sessionbutton", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Map> sessionbutton(HttpServletRequest request, @RequestParam String url) {
+        Map data = new HashMap<>();
+
+        HttpSession session = request.getSession();
+        String sessionId = session.getId();
+        String currentUrl = httpSession.getAttribute("curl").toString();
+
+        System.out.println(currentUrl);
+
+        Integer id = stylesRepository.getstStyles(currentUrl).getId_user();
+
+        Log ss = new Log();
+        ss.setButton(url);
+        ss.setId_user(id);
+        ss.setSession_visitor(sessionId);
+        logRepository.save(ss);
 
         data.put("icon", "success");
         data.put("message", "Sukses Insert Person");

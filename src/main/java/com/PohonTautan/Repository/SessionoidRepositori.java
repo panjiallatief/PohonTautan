@@ -1,5 +1,6 @@
 package com.PohonTautan.Repository;
 
+import org.antlr.v4.runtime.atn.SemanticContext.AND;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -35,6 +36,15 @@ public interface SessionoidRepositori extends JpaRepository<Sessionid, Integer>{
             "GROUP BY date", 
             nativeQuery = true)
     List<Object[]> countPerMonth(int month, int year, Integer userId);
+
+    @Query(value = "SELECT DATE(u.created_at) as date, COUNT(u) AS total_count " +
+            "FROM sessionid u" +
+            " WHERE u.created_at >= CURRENT_TIMESTAMP - INTERVAL '7 days' " +
+            " AND u.created_at <= CURRENT_TIMESTAMP " +
+            "AND u.id_user = ?1 " +
+            "GROUP BY date",
+            nativeQuery = true)
+    List<Object[]> countweek(Integer userId);
 
 
 
