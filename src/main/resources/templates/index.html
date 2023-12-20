@@ -51,9 +51,14 @@
 
     function countB(ll){
         // console.log(ll)
+        var tujuan = ll;
         $.ajax({
-            url: `/sessionbutton?url=${ll}`,
+            url: `/sessionbutton?`,
+            data : tujuan,
             method: 'POST',
+            success: function(){
+                window.open(tujuan, _self)
+            }
         })
     }
     /*]]>*/
