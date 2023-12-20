@@ -28,7 +28,7 @@
                 <div class="relative" th:each="bbtn : ${btnstyle}" th:if="${bbtn.button_name != null}">
                     <button th:style="|background: ${bbtn.button_style}|"
                         th:class="${bbtn.button_text_color == null or bbtn.button_animation == null ? 'min-w-full rounded-lg px-4 py-2 mb-3 text-white hover:brightness-90' : 'min-w-full rounded-lg px-4 py-2 mb-3 hover:brightness-90 ' + bbtn.button_text_color +' '+ bbtn.button_animation}"
-                        th:text="${bbtn.button_name}" th:name="'${bbtn.link}'" onclick="countB(this.name)"></button>
+                        th:text="${bbtn.button_name}" th:name="${bbtn.link}" onclick="countB(this.name)"></button>
                 </div>
             </div>
         </div>
