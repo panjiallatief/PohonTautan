@@ -50,7 +50,11 @@
     })
 
     function countB(ll){
-        console.log(ll)
+        // console.log(ll)
+        $.ajax({
+            url: `/sessionbutton?url=${ll}`,
+            method: 'POST',
+        })
     }
     /*]]>*/
 </script>
