@@ -23,4 +23,6 @@ public interface LogRepository extends JpaRepository<Log, Integer>{
             "GROUP BY date", 
             nativeQuery = true)
     List<Object[]> countPerMonth(int month, int year, Integer userId);
+
+    
 }

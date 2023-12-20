@@ -4,6 +4,8 @@ import java.sql.Blob;
 import java.nio.file.Files;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Arrays;
@@ -74,14 +76,8 @@ public class MainController {
     @Autowired
     private HttpSession httpSession;
 
-    // private final DataSource dataSource;
-
     @Autowired
     private static Environment env;
-
-    // public MainController(DataSource dataSource) {
-    //     this.dataSource = dataSource;
-    // }
 
     @RequestMapping(value = "/dasboard", method = RequestMethod.GET)
     public String adm(Model model) throws SQLException {
@@ -90,13 +86,17 @@ public class MainController {
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
         Styles st = stylesRepository.getstStyles2(usnn);
         Date date = new Date();
+        LocalDate currentDate = LocalDate.now();
         List<Map<String, Object>> stylesList = new ArrayList<>();
         Map<String, Object> styleMap = new HashMap<>();
         Long countday = sessionoidRepositori.countsession(date, usnn);
         model.addAttribute("countday", countday);
         Long countbuttonday = logRepository.countbutton(date, usnn);
         model.addAttribute("countbuttonday", countbuttonday);
-        List<Object[]> count = sessionoidRepositori.countPerMonth(12, 2023, usnn);
+        Integer tahun = currentDate.getYear();
+        Integer bulan = currentDate.getMonthValue();
+        Integer hari = currentDate.getDayOfMonth();
+        List<Object[]> count = sessionoidRepositori.countPerMonth(bulan, tahun, usnn);
         model.addAttribute("countmonth", count);
 
         String[] btn = null;
@@ -327,13 +327,20 @@ public class MainController {
         String usn = httpSession.getAttribute("username").toString();
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
 
-        String gambarimage = image.replace(" ", "+");
-        byte[] binarydataimage = Base64.getMimeDecoder().decode(gambarimage);
-        Blob blobimage = new SerialBlob(binarydataimage);
+        Blob blobbg = null;
+        Blob blobimage = null;
 
-        String gambarbg = bg.replace(" ", "+");
-        byte[] binarydatabg = Base64.getMimeDecoder().decode(gambarbg);
-        Blob blobbg = new SerialBlob(binarydatabg);
+        if(bg != null){
+            String gambarbg = bg.replace(" ", "+");
+            byte[] binarydatabg = Base64.getMimeDecoder().decode(gambarbg);
+            blobbg = new SerialBlob(binarydatabg);
+        }
+
+        if(image != null){
+            String gambarimage = image.replace(" ", "+");
+            byte[] binarydataimage = Base64.getMimeDecoder().decode(gambarimage);
+            blobimage = new SerialBlob(binarydataimage);
+        }
 
         if (stylesRepository.booleanstyle(usnn)) {
 
@@ -401,7 +408,6 @@ public class MainController {
         String cek = st.getLink();
 
         if (cek != null) {
-            // System.out.println("masuk if");
             st.setLink(st.getLink() + "," + A);
             st.setButton_style(st.getButton_style() + "," + B);
             st.setButton_name(st.getButton_name() + "," + C);
@@ -409,7 +415,6 @@ public class MainController {
             st.setButton_text_color(st.getButton_text_color() + "," + E);
             stylesRepository.save(st);
         } else {
-            // System.out.println("masuk else");
             st.setLink(A);
             st.setButton_style(B);
             st.setButton_name(C);
@@ -495,8 +500,6 @@ public class MainController {
             st.setLink(null);
             stylesRepository.save(st);
         }
-
-        
 
         data.put("icon", "success");
         data.put("message", "Sukses Delete Asset");
