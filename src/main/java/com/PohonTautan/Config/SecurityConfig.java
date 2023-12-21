@@ -83,7 +83,7 @@ public class SecurityConfig {
             .disable()
             .headers().frameOptions().sameOrigin().and()
             .authorizeRequests()
-            .requestMatchers("/").permitAll()
+            // .requestMatchers("/").permitAll()
             .requestMatchers("/adm/**").authenticated()
             .and()
             .formLogin()
