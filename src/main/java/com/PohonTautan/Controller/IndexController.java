@@ -66,6 +66,11 @@ public class IndexController {
 
     @Autowired
     private LogRepository logRepository;
+
+    @GetMapping(value = "/")
+    public String landing(){
+        return "landing";
+    }
     
     @GetMapping(value = "/{curl}")
     public String index(@PathVariable(required = true) String curl, HttpServletRequest request, Model model) throws SQLException {
