@@ -276,7 +276,10 @@ public class MainController {
         Map data = new HashMap<>();
         Date date = new Date();
 
-        Long count = logRepository.countbutton(date, 1);
+        String usn = httpSession.getAttribute("username").toString();
+        Integer usnn = usersRepository.getidwithusername(usn).getUid();
+
+        Long count = logRepository.countbutton(date, usnn);
 
         data.put("data", count);
         return new ResponseEntity<>(data, HttpStatus.OK);
