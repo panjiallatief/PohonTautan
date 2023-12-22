@@ -207,7 +207,7 @@
                             <div class="flex items-center justify-center h-full px-4 py-1 text-3xl font-semibold  dark:bg-slate-800 border-dashed rounded-md"
                                 id="tmtchart">
                                 <canvas id="chart1" height="70"></canvas>
-                                <canvas id="chart2" height="70"></canvas>
+                                <canvas id="chart2" style="display: none;" height="70"></canvas>
                             </div>
                             <div id="tmterr"
                                 class="flex mx-auto text-center items-center text-slate-400 justify-center h-full px-4 py-1 text-3xl font-semibold  dark:bg-slate-800 border-dashed rounded-md"
@@ -681,17 +681,7 @@
         });
 
     })
-    $("#chart-pil").on("change", function(){
-        if($("#chart-pil option:selected").val() == 'visit'){
-            // document.getElementById('chart1').style.display = 'block'
-            document.getElementById('chart1').classList.remove('hidden')
-            document.getElementById('chart2').classList.add('hidden')
-
-        } else {
-            document.getElementById('chart2').classList.remove('hidden')
-            document.getElementById('chart1').classList.add('hidden')
-        }
-    })
+    
     
 
 
