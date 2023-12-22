@@ -293,7 +293,7 @@ public class MainController {
         String usn = httpSession.getAttribute("username").toString();
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
 
-        List<Object[]> count = logRepository.countPerMonth(12, 2023, usnn);
+        List<Object[]> count = logRepository.countPerMonthbutton(12, 2023, usnn);
 
         data.put("data", count);
         return new ResponseEntity<>(data, HttpStatus.OK);
