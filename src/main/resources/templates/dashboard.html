@@ -681,7 +681,17 @@
         });
 
     })
+    $("#chart-pil").on("change", function(){
+        if($("#chart-pil option:selected").val() == 'visit'){
+            // document.getElementById('chart1').style.display = 'block'
+            document.getElementById('chart1').classList.remove('hidden')
+            document.getElementById('chart2').classList.add('hidden')
 
+        } else {
+            document.getElementById('chart2').classList.remove('hidden')
+            document.getElementById('chart1').classList.add('hidden')
+        }
+    })
     
 
 
