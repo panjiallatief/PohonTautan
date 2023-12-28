@@ -136,7 +136,7 @@ function tambahdata() {
   styleBtn = [];
   textcol = [];
   btnanim = [];
-
+ 
   for (var i = 0; i < inputName.length; i++) {
     var a = inputName[i].value;
     namaBtn.push(a);
