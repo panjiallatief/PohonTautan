@@ -4,69 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <!-- <script src="../static/croppie/croppie.css"></script> -->
     <link rel="stylesheet" href="/croppie/croppie.css" />
+    <link rel="stylesheet" href="/css/output.css">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet" />
 
     <title>Dashboard - Pohon Tautan</title>
-
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-        }
-    </script>
-    <style type="text/tailwindcss">
-        input:checked ~ .dot {
-            transform: translateX(100%);
-            /* background-color: #132b50; */
-        }
-
-        .animated {
-			-webkit-animation-duration: 1s;
-			animation-duration: 1s;
-			-webkit-animation-fill-mode: both;
-			animation-fill-mode: both;
-		}
-
-		.animated.faster {
-			-webkit-animation-duration: 500ms;
-			animation-duration: 500ms;
-		}
-
-		.fadeIn {
-			-webkit-animation-name: fadeIn;
-			animation-name: fadeIn;
-		}
-
-		.fadeOut {
-			-webkit-animation-name: fadeOut;
-			animation-name: fadeOut;
-		}
-
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
-			}
-
-			to {
-				opacity: 1;
-			}
-		}
-
-		@keyframes fadeOut {
-			from {
-				opacity: 1;
-			}
-
-			to {
-				opacity: 0;
-			}
-		}
-      </style>
-
 
 </head>
 
@@ -134,7 +80,7 @@
         </section>
 
         <section class="hidden" id="main">
-            <header class="flex items-center h-20 px-6 sm:px-10 bg-white dark:bg-slate-800">
+            <header class="flex items-center h-20 px-6 sm:px-10  bg-white dark:bg-slate-800">
                 <div class="relative w-full max-w-md sm:-ml-2">
                     <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor"
                         class="absolute h-6 w-6 mt-2.5 ml-2 text-gray-400">
@@ -590,6 +536,13 @@
             jum.push(data[i][1])
         }
 
+        btnbulan = [];
+        btnjum = [];
+        for (var a = 0 ; a < btndata.length; a++){
+            btnbulan.push(btndata[a][0])
+            btnjum.push(btndata[a][2])
+        }
+
         // console.log(bulan, jum)
         if (jum.length == 0) {
             document.getElementById('tmtchart').style.display = 'none'
@@ -605,7 +558,11 @@
         })
 
         function darkModeListener() {
-            document.querySelector("html").classList.toggle("dark");
+            const htt = document.querySelector("html")
+            const ck = document.querySelector("input[type='checkbox']#dark-toggle")
+            ck.checked
+            ? htt.classList.add("dark")
+            : htt.classList.remove("dark")
         }
 
         document.querySelector("input[type='checkbox']#dark-toggle").addEventListener("click", darkModeListener);

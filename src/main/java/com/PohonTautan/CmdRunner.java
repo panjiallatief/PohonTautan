@@ -1,31 +1,31 @@
-package com.PohonTautan;
+// package com.PohonTautan;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.boot.CommandLineRunner;
+// import org.springframework.security.crypto.password.PasswordEncoder;
+// import org.springframework.stereotype.Component;
 
-import com.PohonTautan.Entity.Users;
-import com.PohonTautan.Repository.UsersRepository;
+// import com.PohonTautan.Entity.Users;
+// import com.PohonTautan.Repository.UsersRepository;
 
-@Component
-public class CmdRunner implements CommandLineRunner {
+// @Component
+// public class CmdRunner implements CommandLineRunner {
 
-        private static final Logger logger = LoggerFactory.getLogger(CmdRunner.class);
+//         private static final Logger logger = LoggerFactory.getLogger(CmdRunner.class);
 
-        @Autowired
-        private UsersRepository usersRepository;
+//         @Autowired
+//         private UsersRepository usersRepository;
 
-        @Autowired
-        private PasswordEncoder encoder;
+//         @Autowired
+//         private PasswordEncoder encoder;
 
-        @Override
-        public void run(String... args) throws Exception {
+//         @Override
+//         public void run(String... args) throws Exception {
 
-                usersRepository.save(new Users(1, "admin", encoder.encode("admin"), true, "admin@admin.com"));
+//                 usersRepository.save(new Users(1, "admin", encoder.encode("admin"), true, "admin@admin.com"));
 
-                logger.info("Person Has been created");
-        }
-}
+//                 logger.info("Person Has been created");
+//         }
+// }
