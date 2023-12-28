@@ -150,10 +150,10 @@ function tambahdata() {
     btnanim.push(e);
   }
 
-  // console.log(textcol, btnanim)
+  console.log(textcol, btnanim)
 
   $.ajax({
-    url: `/adm/inputbutton?buttonname=${namaBtn}&tautan=${linkBtn}&tombol=${styleBtn}`,
+    url: `/adm/inputbutton?buttonname=${namaBtn}&tautan=${linkBtn}&tombol=${styleBtn}&buttonanim=${btnanim}&buttoncolortext=${textcol}`,
     method: "put",
     success: function () {
       modalClose("add-modal");
