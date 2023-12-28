@@ -98,6 +98,8 @@ public class MainController {
         model.addAttribute("countmonth", count);
         List<Object[]> counts = sessionoidRepositori.countweek(usnn);
         model.addAttribute("countweek", counts);
+        List<Object[]> countbtn = logRepository.countPerMonthbutton(bulan, tahun, usnn);
+        model.addAttribute("countbuttonmonth", countbtn);
 
         String[] btn = null;
         String[] btnstyle = null;
