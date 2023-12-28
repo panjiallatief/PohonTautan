@@ -7,7 +7,7 @@
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <!-- <script src="../static/croppie/croppie.css"></script> -->
     <link rel="stylesheet" href="/croppie/croppie.css" />
-    <link rel="stylesheet" href="/css/output.css">
+    <link rel="stylesheet" href="/css/styles.css">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet" />
@@ -81,7 +81,7 @@
 
         <section class="hidden" id="main">
             <header class="bg-white flex items-center h-20 px-6 sm:px-10  dark:!bg-slate-800">
-                <div class="relative w-full max-w-md sm:-ml-2">
+                <!-- <div class="relative w-full max-w-md sm:-ml-2">
                     <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor"
                         class="absolute h-6 w-6 mt-2.5 ml-2 text-gray-400">
                         <path fill-rule="evenodd"
@@ -89,8 +89,8 @@
                             clip-rule="evenodd" />
                     </svg>
                     <input type="text" role="search" placeholder="Search..."
-                        class="py-2 pl-10 pr-4 w-full border-4 border-transparent placeholder-gray-400 focus:bg-gray-50 dark:!!bg-slate-800 dark:!!focus:bg-slate-700 rounded-lg" />
-                </div>
+                        class="py-2 pl-10 pr-4 w-full border-4 border-transparent placeholder-gray-400 focus:bg-gray-50 dark:!bg-slate-800 dark:!focus:bg-slate-700 rounded-lg" />
+                </div> -->
                 <div class="flex flex-shrink-0 items-center ml-auto">
                     <div class="hidden md:flex md:flex-col md:items-end md:leading-tight">
                         <span class="font-semibold" th:text="${session.username}"></span>
@@ -124,7 +124,7 @@
                 </div>
             </header>
             <main class="p-6 sm:p-10 space-y-6">
-                <div class="rounded-lg bottom-10 right-10 absolute bg-green-100 px-6 py-5 text-base animated fadeIn faster hidden alert-success"
+                <div class="rounded-lg bottom-10 right-10 absolute bg-green-100 text-white px-6 py-5 text-base animated fadeIn faster hidden alert-success"
                     id="ber" role="alert">
                     Berhasil
                 </div>
@@ -277,11 +277,11 @@
 <div class="add-modal fixed w-full inset-0 z-50 overflow-hidden hidden justify-center items-center animated fadeIn faster"
     style="background: rgba(0,0,0,.7);">
     <div
-        class="border border-blue-500 shadow-lg modal-container  bg-white w-4/12 md:max-w-11/12 mx-auto rounded-xl  z-50 max-h-[734px] overflow-scroll">
+        class="border border-blue-500 shadow-lg modal-container dark:!bg-slate-800 bg-white w-4/12 md:max-w-11/12 mx-auto rounded-xl  z-50 max-h-[734px] overflow-scroll">
         <div class="modal-content py-4 text-left px-6">
             <!--Title-->
             <div class="flex justify-between items-center pb-3">
-                <p class="text-2xl font-bold text-gray-500">Add Button</p>
+                <p class="text-2xl font-bold text-gray-500 dark:text-gray-200">Add Button</p>
                 <div class="modal-close cursor-pointer z-50" onclick="modalClose('add-modal')">
                     <svg class="fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                         viewBox="0 0 18 18">
@@ -294,33 +294,33 @@
             <!--Body-->
             <div class="my-5 mr-5 ml-5 flex justify-center">
                 <form class="w-full">
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" id="tempatlagi">
-                        <label class="font-medium text-gray-800">Name</label>
-                        <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3"
+                    <div class="bg-white dark:!bg-slate-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4" id="tempatlagi">
+                        <label class="font-medium text-gray-800 dark:text-gray-200">Name</label>
+                        <input type="text" class="w-full outline-none rounded bg-gray-100 dark:!bg-slate-700 p-2 mt-2 mb-3"
                             name="button_name[]" />
-                        <label class="font-medium text-gray-800">Url</label>
-                        <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3"
+                        <label class="font-medium text-gray-800 dark:text-gray-200">Url</label>
+                        <input type="text" class="w-full outline-none rounded bg-gray-100 dark:!bg-slate-700 p-2 mt-2 mb-3"
                             name="link[]" />
 
-                        <label class="font-medium text-gray-800">Text Color</label>
-                        <select name="text-col[]" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3">
-                            <option value="" disabled selected>--Select--</option>
+                        <label class="font-medium text-gray-800 dark:text-gray-200">Text Color</label>
+                        <select name="text-col[]" class="w-full outline-none rounded bg-gray-100 dark:!bg-slate-700 p-2 mt-2 mb-3">
+                            <option class="dark:text-white" value="" disabled selected>--Select--</option>
                             <option value="text-white">White</option>
                             <option value="text-black">Black</option>
                         </select>
 
-                        <label class="font-medium text-gray-800">Button Animation</label>
-                        <select name="button-animate[]" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3">
-                            <option value="" disabled selected>--Select--</option>
+                        <label class="font-medium text-gray-800 dark:text-gray-200">Button Animation</label>
+                        <select name="button-animate[]" class="w-full outline-none rounded dark:!bg-slate-700 bg-gray-100 p-2 mt-2 mb-3">
+                            <option class="dark:text-white" value="" disabled selected>--Select--</option>
                             <option value="animate-none">None</option>
-                            <!-- <option value="animate-spin">Spin</option> -->
+                            <option value="animate-wiggle">Wiggle</option>
                             <option value="animate-ping">Ping</option>
                             <option value="animate-pulse">Pulse</option>
                         </select>
 
 
                         <div>
-                            <label for="color-picker" class="block mb-1 font-semibold">Select a color for button</label>
+                            <label for="color-picker" class="block mb-1 font-semibold dark:text-gray-200">Select a color for button</label>
                             <input id="nativeColorPicker1" type="color" value="#6590D5" class="w-full rounded"
                                 name="button_style[]" />
                         </div>
@@ -343,13 +343,13 @@
 <div class="edit-modal fixed w-full inset-0 z-50 overflow-hidden hidden justify-center items-center animated fadeIn faster"
     style="background: rgba(0,0,0,.7);">
     <div
-        class="border border-blue-500 shadow-lg modal-container bg-white w-4/12 md:max-w-11/12 mx-auto rounded-xl z-50 max-h-[734px] overflow-scroll">
+        class="border border-blue-500 shadow-lg modal-container dark:!bg-slate-800 bg-white w-4/12 md:max-w-11/12 mx-auto rounded-xl z-50 max-h-[734px] overflow-scroll">
         <div class="modal-content py-4 text-left px-6">
             <!--Title-->
-            <div class="flex justify-between items-center pb-3">
-                <p class="text-2xl font-bold text-gray-500">Edit</p>
+            <div class="flex justify-between items-center pb-3 ">
+                <p class="text-2xl font-bold text-gray-500 dark:text-gray-200">Edit</p>
                 <div class="modal-close cursor-pointer z-50" onclick="modalClose('edit-modal')">
-                    <svg class="fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    <svg class="fill-current text-gray-500 dark:text-gray-200" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                         viewBox="0 0 18 18">
                         <path
                             d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
@@ -360,21 +360,21 @@
             <!--Body-->
             <div class="my-5 mr-5 ml-5 flex justify-center">
                 <form class="w-full">
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" id="tempatlagi">
-                        <label class="font-medium text-gray-800">Custom URL</label>
-                        <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="cusUrl" />
-                        <label class="font-medium text-gray-800">Headline</label>
-                        <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3"
+                    <div class="bg-white dark:!bg-slate-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4" id="tempatlagi">
+                        <label class="font-medium text-gray-800 dark:text-gray-200">Custom URL</label>
+                        <input type="text" class="w-full outline-none rounded bg-gray-100 dark:!bg-slate-700 p-2 mt-2 mb-3" id="cusUrl" />
+                        <label class="font-medium text-gray-800 dark:text-gray-200">Headline</label>
+                        <input type="text" class="w-full outline-none rounded bg-gray-100 dark:!bg-slate-700 p-2 mt-2 mb-3"
                             id="headline" />
-                        <label class="font-medium text-gray-800">Short Bio</label>
-                        <input type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="bio" />
-                        <label class="font-medium text-gray-800">Profile Picture</label>
-                        <input type="file" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="inp1"
+                        <label class="font-medium text-gray-800 dark:text-gray-200">Short Bio</label>
+                        <input type="text" class="w-full outline-none rounded bg-gray-100 dark:!bg-slate-700 p-2 mt-2 mb-3" id="bio" />
+                        <label class="font-medium text-gray-800 dark:text-gray-200">Profile Picture</label>
+                        <input type="file" class="w-full outline-none rounded bg-gray-100 dark:!bg-slate-700 p-2 mt-2 mb-3" id="inp1"
                             name="inp1" />
                         <div id="uploaded_image"></div>
                         <img src="" class="gambar img-responsive img-thumbnail mx-auto" id="item-img-output" />
-                        <label class="font-medium text-gray-800">Background Picture</label>
-                        <input type="file" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" id="inp2" />
+                        <label class="font-medium text-gray-800 dark:text-gray-200">Background Picture</label>
+                        <input type="file" class="w-full outline-none rounded bg-gray-100 dark:!bg-slate-700 p-2 mt-2 mb-3" id="inp2" />
                         <small class="text-slate-500">if you want to random background, just leave it blank. don't
                             choose a file</small>
                         <img src="" class="gambar img-responsive img-thumbnail mx-auto" id="item-bg-output" />
@@ -396,10 +396,10 @@
 <div class="crop-modal fixed w-full inset-0 z-50 overflow-hidden hidden justify-center items-center animated fadeIn faster"
     style="background: rgba(0,0,0,.7);">
     <div
-        class="border border-blue-500 shadow-lg modal-container bg-white w-4/12 md:max-w-11/12 mx-auto rounded-xl shadow-lg z-50 overflow-y-auto">
-        <div class="modal-content py-4 text-left px-6">
+        class="border border-blue-500 modal-container bg-white dark:!bg-slate-800 w-4/12 md:max-w-11/12 mx-auto rounded-xl shadow-lg z-50 overflow-y-auto">
+        <div class="modal-content py-4 text-left px-6 dark:!bg-slate-800">
             <!--Title-->
-            <div class="flex justify-between items-center pb-3">
+            <div class="flex justify-between items-center pb-3 dark:!bg-slate-800 mx-auto">
                 <p class="text-2xl font-bold text-gray-500">Profile Picture</p>
                 <div class="modal-close cursor-pointer z-50" onclick="modalClose('crop-modal')">
                     <svg class="fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
@@ -413,7 +413,7 @@
             <!--Body-->
             <div class="my-5 mr-5 ml-5 flex justify-center">
                 <form class="w-full">
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" id="tempatlagi">
+                    <div class="bg-white dark:!bg-slate-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4" id="tempatlagi">
                         <div id="image_demo" style="width:350px; margin-top:30px"></div>
                     </div>
                 </form>
@@ -432,7 +432,7 @@
 <div class="cropi-modal fixed w-full inset-0 z-50 overflow-hidden hidden justify-center items-center animated fadeIn faster"
     style="background: rgba(0,0,0,.7);">
     <div
-        class="border border-blue-500 shadow-lg modal-container bg-white w-4/12 md:max-w-11/12 mx-auto rounded-xl shadow-lg z-50 overflow-y-auto">
+        class="border border-blue-500 modal-container bg-white dark:!bg-slate-800 w-4/12 md:max-w-11/12 mx-auto rounded-xl shadow-lg z-50 overflow-y-auto">
         <div class="modal-content py-4 text-left px-6">
             <!--Title-->
             <div class="flex justify-between items-center pb-3">

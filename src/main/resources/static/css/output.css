@@ -998,6 +998,20 @@ video {
   animation: spin 1s linear infinite;
 }
 
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(-3deg);
+  }
+
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+.animate-wiggle {
+  animation: wiggle 1s ease-in-out infinite;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -1244,16 +1258,6 @@ video {
 .bg-yellow-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(253 224 71 / var(--tw-bg-opacity));
-}
-
-.\!bg-slate-800 {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(30 41 59 / var(--tw-bg-opacity)) !important;
-}
-
-.\!bg-slate-900 {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(15 23 42 / var(--tw-bg-opacity)) !important;
 }
 
 .bg-opacity-5 {
@@ -1932,19 +1936,9 @@ input:checked ~ .dot {
   }
 }
 
-:is(:where(.dark) .dark\:border-gray-600) {
-  --tw-border-opacity: 1;
-  border-color: rgb(75 85 99 / var(--tw-border-opacity));
-}
-
-:is(:where(.dark) .dark\:border-gray-800) {
-  --tw-border-opacity: 1;
-  border-color: rgb(31 41 55 / var(--tw-border-opacity));
-}
-
-:is(:where(.dark) .dark\:border-white) {
-  --tw-border-opacity: 1;
-  border-color: rgb(255 255 255 / var(--tw-border-opacity));
+:is(:where(.dark) .dark\:\!border-gray-600) {
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(75 85 99 / var(--tw-border-opacity)) !important;
 }
 
 :is(:where(.dark) .dark\:\!border-gray-800) {
@@ -1952,33 +1946,14 @@ input:checked ~ .dot {
   border-color: rgb(31 41 55 / var(--tw-border-opacity)) !important;
 }
 
-:is(:where(.dark) .dark\:\!border-gray-600) {
-  --tw-border-opacity: 1 !important;
-  border-color: rgb(75 85 99 / var(--tw-border-opacity)) !important;
-}
-
 :is(:where(.dark) .dark\:\!border-white) {
   --tw-border-opacity: 1 !important;
   border-color: rgb(255 255 255 / var(--tw-border-opacity)) !important;
 }
 
-:is(:where(.dark) .dark\:bg-slate-800) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
-}
-
-:is(:where(.dark) .dark\:bg-slate-900) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
-}
-
-:is(:where(.dark) .dark\:bg-transparent) {
-  background-color: transparent;
-}
-
-:is(:where(.dark) .dark\:bg-white) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+:is(:where(.dark) .dark\:\!bg-slate-700) {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(51 65 85 / var(--tw-bg-opacity)) !important;
 }
 
 :is(:where(.dark) .dark\:\!bg-slate-800) {
@@ -2000,32 +1975,13 @@ input:checked ~ .dot {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity)) !important;
 }
 
-:is(:where(.dark) .dark\:fill-gray-400) {
-  fill: #9ca3af;
+:is(:where(.dark) .dark\:bg-slate-900) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
 }
 
 :is(:where(.dark) .dark\:\!fill-gray-400) {
   fill: #9ca3af !important;
-}
-
-:is(:where(.dark) .dark\:text-gray-200) {
-  --tw-text-opacity: 1;
-  color: rgb(229 231 235 / var(--tw-text-opacity));
-}
-
-:is(:where(.dark) .dark\:text-gray-400) {
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity));
-}
-
-:is(:where(.dark) .dark\:text-white) {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-:is(:where(.dark) .dark\:\!text-gray-400) {
-  --tw-text-opacity: 1 !important;
-  color: rgb(156 163 175 / var(--tw-text-opacity)) !important;
 }
 
 :is(:where(.dark) .dark\:\!text-gray-200) {
@@ -2033,13 +1989,23 @@ input:checked ~ .dot {
   color: rgb(229 231 235 / var(--tw-text-opacity)) !important;
 }
 
+:is(:where(.dark) .dark\:\!text-gray-400) {
+  --tw-text-opacity: 1 !important;
+  color: rgb(156 163 175 / var(--tw-text-opacity)) !important;
+}
+
 :is(:where(.dark) .dark\:\!text-white) {
   --tw-text-opacity: 1 !important;
   color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
 }
 
-:is(:where(.dark) .dark\:focus\:bg-slate-700:focus) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(51 65 85 / var(--tw-bg-opacity));
+:is(:where(.dark) .dark\:text-gray-200) {
+  --tw-text-opacity: 1;
+  color: rgb(229 231 235 / var(--tw-text-opacity));
+}
+
+:is(:where(.dark) .dark\:text-white) {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
