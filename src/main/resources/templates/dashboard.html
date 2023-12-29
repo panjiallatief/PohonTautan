@@ -545,16 +545,16 @@
         }
 
 
-        var data = /*[[${countmonth}]]*/""
+        var datavisit = /*[[${countmonth}]]*/""
         // console.log(data)
         var btndata = /*[[${countbuttonmonth}]]*/""
         console.log(btndata)
 
         bulan = [];
         jum = [];
-        for (var i = 0; i < data.length; i++) {
-            bulan.push(data[i][0])
-            jum.push(data[i][1])
+        for (var i = 0; i < datavisit.length; i++) {
+            bulan.push(datavisit[i][0])
+            jum.push(datavisit[i][1])
         }
 
         btnbulan = [];
@@ -645,22 +645,6 @@
             }
         };
 
-        const config = {
-            type: 'line',
-            data: data,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Chart.js Line Chart'
-                    }
-                }
-            },
-        };
         //
 
         // console.log()
@@ -706,7 +690,7 @@
             //     },
                 
             // },
-        },console.log(data));
+        },console.log(data2));
         
 
     })

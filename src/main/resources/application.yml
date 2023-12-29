@@ -12,7 +12,7 @@ spring:
   config:
     activate:
       on-profile: mm
-  application:
+  application: 
     name: mm
   datasource:
     url: jdbc:postgresql://localhost:5433/pohontautan
