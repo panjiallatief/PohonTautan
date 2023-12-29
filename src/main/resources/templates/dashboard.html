@@ -574,21 +574,42 @@
 
         var tmpobtn = new Array();
 
+        // for (var c = 0; c < btndt.length; c++) {
+        //     var datatmp = {
+        //         label: btndt[c][0],
+        //         tanggal: [],
+        //         data: [],
+        //         backgroundColor: getRandomColor(),
+        //         borderColor: getRandomColor(),
+        //     };
+        //     for (var i = 0; i < btndata.length; i++){
+        //         if(btndata[i][1] == btndt[c][0]){
+        //             datatmp.tanggal.push(btndata[i][0])
+        //             datatmp.jumlah.push(btndata[i][2])
+        //         }
+        //     }
+        //     tmpobtn.push(datatmp)
+        // }
+
         for (var c = 0; c < btndt.length; c++) {
-            var datatmp = {
-                label: btndt[c][0],
-                tanggal: [],
-                data: [],
-                backgroundColor: getRandomColor(),
-                borderColor: getRandomColor(),
+            var tmpdt = {
+                data: {
+                    links: btndt[c][0],
+                    tanggal: [],
+                    jumlah: [],
+                    backgroundColor: getRandomColor(),
+                    borderColor: getRandomColor(),
+                }
             };
-            for (var i = 0; i < btndata.length; i++){
-                if(btndata[i][1] == btndt[c][0]){
-                    datatmp.tanggal.push(btndata[i][0])
-                    datatmp.jumlah.push(btndata[i][2])
+
+            for (var d = 0; d < btndata.length; d++) {
+                if (btndt[c][0] == btndata[d][1]) {
+                    tmpdt.data.tanggal.push(btndata[d][0]);
+                    tmpdt.data.jumlah.push(btndata[d][2]);
                 }
             }
-            tmpobtn.push(datatmp)
+
+            tmpobtn.push(tmpdt);
         }
 
         console.log(tmpobtn)

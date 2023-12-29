@@ -33,7 +33,7 @@ public interface SessionoidRepositori extends JpaRepository<Sessionid, Integer>{
             "WHERE EXTRACT(MONTH FROM u.created_at) = ?1 " +
             "AND EXTRACT(YEAR FROM u.created_at) = ?2 " +
             "AND u.id_user = ?3 " +
-            "GROUP BY date", 
+            "GROUP BY date order by date", 
             nativeQuery = true)
     List<Object[]> countPerMonth(int month, int year, Integer userId);
 
@@ -42,7 +42,7 @@ public interface SessionoidRepositori extends JpaRepository<Sessionid, Integer>{
             " WHERE u.created_at >= CURRENT_TIMESTAMP - INTERVAL '7 days' " +
             " AND u.created_at <= CURRENT_TIMESTAMP " +
             "AND u.id_user = ?1 " +
-            "GROUP BY date",
+            "GROUP BY date order by date",
             nativeQuery = true)
     List<Object[]> countweek(Integer userId);
 

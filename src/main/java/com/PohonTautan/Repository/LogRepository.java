@@ -29,9 +29,19 @@ public interface LogRepository extends JpaRepository<Log, Integer>{
         "WHERE EXTRACT(MONTH FROM u.created_at) = ?1 " +
         "AND EXTRACT(YEAR FROM u.created_at) = ?2 " +
         "AND u.id_user = ?3 " +
-        "GROUP BY date, u.button",
+        "GROUP BY date, u.button order by date",
     nativeQuery = true)
     List<Object[]> countPerMonthbutton(int month, int year, Integer userId);
+
+    @Query(value = "SELECT u.button, COUNT(u) AS total_count " +
+        "FROM log u " +
+        "WHERE EXTRACT(MONTH FROM u.created_at) = ?1 " +
+        "AND EXTRACT(YEAR FROM u.created_at) = ?2 " +
+        "AND u.id_user = ?3 " +
+        "GROUP BY u.button order by u.button",
+    nativeQuery = true)
+    List<Object[]> countPerMonthbuttondistint(int month, int year, Integer userId);
+
 
 
     
