@@ -673,11 +673,45 @@
         }
 
 
+
+        // Get the current date
+        var currentDate = new Date();
+
+        // Create an array to store the dates
+        var dateArray = [];
+
+        // Loop to get dates for each day in the last 7 days
+        for (var i = 6; i >= 0; i--) {
+            var date = new Date();
+            date.setDate(currentDate.getDate() - i);
+            var formattedDate = formatDate(date);
+            dateArray.push(formattedDate);
+        }
+
+        // Display the array
+        console.log("Date Array:", dateArray);
+
+        // Function to format date as DD-MM-YYYY
+        function formatDate(date) {
+            var day = date.getDate();
+            var month = date.getMonth() + 1; // Months are zero-based
+            var year = date.getFullYear();
+
+            // Ensure two digits for day and month
+            day = day < 10 ? '0' + day : day;
+            month = month < 10 ? '0' + month : month;
+
+            return day + '-' + month + '-' + year;
+        }
+
+
+
+
         var ctx2 = document.getElementById('chart2').getContext('2d');
         var chart2 = new Chart(ctx2, {
             type: "line",
             data: {
-                labels: btnbulan,
+                labels: dateArray,
                 datasets: dataSetbutton,
             },
             options: chartOptions,
@@ -692,7 +726,7 @@
             //             text: 'Chart.js Line Chart'
             //         }
             //     },
-                
+
             // },
         });
 
