@@ -677,7 +677,10 @@
         var ctx2 = document.getElementById('chart2').getContext('2d');
         var chart2 = new Chart(ctx2, {
             type: "line",
-            data: data2,
+            data: {
+                labels: btnbulan,
+                datasets: dataSetbutton,
+            },
             options: chartOptions,
             // options: {
             //     responsive: true,
@@ -695,7 +698,7 @@
         });
 
 
-        console.log(data2)
+        // console.log(data2)
 
     })
 
