@@ -572,46 +572,41 @@
         // console.log(btnjum)
         // console.log(btnlink)
 
-        var datasetdah = [];
-
+        var tmpobtn = [];
         // if(btndt[0])
         // console.log(btndata[0])
 
-        for (var c = 0; c < btndt.length; c++){
-            for(var d = 0; d < btndata.length; d++ ){
-                if(btndt[c][0] == btndata[c][1]){
-                var tmpdt = {
-                    data: {
-                        links: btndt[c][0],
-                        tanggal: btndata[c][0],
-                        jumlah: btndata[c][2],
-                    }
-                }
-                
-            }
-            }
-            datasetdah.push(tmpdt)
-        }
-
-        console.log(datasetdah)
-
-        var dataSetbutton = new Array();
-        //cek ada berapa button
-        for(var b = 0; b < btndt.length; b++){
-            var btntemp = {
-                label: "button "+[b],
-                data: btnjum[b],
+        for (var c = 0; c < btndt.length; c++) {
+            var datatmp = {
+                label: btndt[c][0],
+                tanggal: [],
+                data: [],
                 backgroundColor: getRandomColor(),
                 borderColor: getRandomColor(),
+            };
+            for (var i = 0; i < btndata.length; i++){
+                if(btndata[i][1] == btndt[c][0]){
+                    datatmp.tanggal.push(btndata[i][0])
+                    datatmp.jumlah.push(btndata[i][2])
+                }
             }
-            dataSetbutton.push(btntemp)
+            tmpobtn.push(datatmp)
         }
 
-        // console.log(dataSetbutton)
+        // console.log(datasetdah)
+
+        // var dataSetbutton = new Array();
+        // //cek ada berapa button
+        // for (var b = 0; b < btndt.length; b++) {
+        //     var btntemp = {
+        //         data: tmpobtn[b],
+        //         backgroundColor: getRandomColor(),
+        //         borderColor: getRandomColor(),
+        //     }
+        //     dataSetbutton.push(btntemp)
+        // }
 
 
-
-        // console.log(bulan, jum)
         if (jum.length == 0) {
             document.getElementById('tmtchart').style.display = 'none'
             document.getElementById('tmterr').style.display = 'block'
@@ -699,7 +694,7 @@
             type: "line",
             data: {
                 // labels: dateArray,
-                datasets: dataSetbutton,
+                datasets: tmpobtn,
             },
             options: chartOptions,
             // options: {
