@@ -535,7 +535,14 @@
         //     // logs: Blob { size: 1024, type: "image/jpeg" }
         // });
 
-
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
 
 
         var data = /*[[${countmonth}]]*/""
@@ -565,16 +572,16 @@
         //cek ada berapa button
         for (const h = 0; h < btndata.length; h++) {
             var btntemp = {
-                "backgroundColor": "rgba(101, 116, 205, 0.1)",
-                "borderColor": "rgba(101, 116, 205, 0.1)",
+                "backgroundColor": getRandomColor(),
+                "borderColor": getRandomColor(),
                 "borderWidth": 2,
-                "data": btnjum,
+                "data": btnjum[h],
             }
             dataSetbutton.push(btntemp)
             console.log(btntemp)
         }
 
-        // console.log(dataSetbutton)
+        console.log(dataSetbutton)
 
 
 
@@ -657,16 +664,9 @@
         });
         //
 
-        // function getRandomColor() {
-        //     var letters = '0123456789ABCDEF';
-        //     var color = '#';
-        //     for (var i = 0; i < 6; i++) {
-        //         color += letters[Math.floor(Math.random() * 16)];
-        //     }
-        //     return color;
-        // }
 
-       
+
+
 
         var ctx2 = document.getElementById('chart2').getContext('2d');
         var chart2 = new Chart(ctx2, {
