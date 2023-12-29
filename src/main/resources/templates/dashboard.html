@@ -550,7 +550,7 @@
         var btndata = /*[[${countbuttonmonth}]]*/""
         console.log(btndata)
         var btndt = /*[[${countbtndist}]]*/""
-        console.log(btndt)
+        // console.log(btndt)
 
         bulan = [];
         jum = [];
@@ -574,12 +574,15 @@
 
         var datasetdah = [];
 
+        if(btndt[0])
 
-        for (var c = 0; c < btndt.length; c++){
-            if(btndt[c][0] == btndata[c][1]){
-                console.log(btndata[c][2])
-            }
-        }
+        // for (var c = 0; c < btndt.length; c++){
+        //     if(btndt[c][0] == btndata[c][1]){
+        //         var tmpdt = {
+
+        //         }
+        //     }
+        // }
 
         var dataSetbutton = new Array();
         //cek ada berapa button
@@ -593,7 +596,7 @@
             dataSetbutton.push(btntemp)
         }
 
-        console.log(dataSetbutton)
+        // console.log(dataSetbutton)
 
 
 
