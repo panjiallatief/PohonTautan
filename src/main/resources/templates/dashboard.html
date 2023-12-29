@@ -548,9 +548,9 @@
         var datavisit = /*[[${countmonth}]]*/""
         // console.log(datavisit)
         var btndata = /*[[${countbuttonmonth}]]*/""
-        console.log(btndata)
+        // console.log(btndata)
         var btndt = /*[[${countbtndist}]]*/""
-        console.log(btndt)
+        // console.log(btndt)
 
         bulan = [];
         jum = [];
@@ -572,9 +572,7 @@
         // console.log(btnjum)
         // console.log(btnlink)
 
-        var tmpobtn = [];
-        // if(btndt[0])
-        // console.log(btndata[0])
+        var tmpobtn = new Array();
 
         for (var c = 0; c < btndt.length; c++) {
             var datatmp = {
@@ -593,7 +591,7 @@
             tmpobtn.push(datatmp)
         }
 
-        // console.log(datasetdah)
+        console.log(tmpobtn)
 
         // var dataSetbutton = new Array();
         // //cek ada berapa button
@@ -696,20 +694,20 @@
                 // labels: dateArray,
                 datasets: tmpobtn,
             },
-            options: chartOptions,
-            // options: {
-            //     responsive: true,
-            //     plugins: {
-            //         legend: {
-            //             position: 'top',
-            //         },
-            //         title: {
-            //             display: true,
-            //             text: 'Chart.js Line Chart'
-            //         }
-            //     },
+            // options: chartOptions,
+            // // options: {
+            // //     responsive: true,
+            // //     plugins: {
+            // //         legend: {
+            // //             position: 'top',
+            // //         },
+            // //         title: {
+            // //             display: true,
+            // //             text: 'Chart.js Line Chart'
+            // //         }
+            // //     },
 
-            // },
+            // // },
         });
 
 
