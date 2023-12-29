@@ -572,7 +572,7 @@
         //cek ada berapa button
         for (var h = 0; h < btndata.length; h++) {
             var btntemp = {
-                "label":btnbulan[h],
+                "label": "button "+[h],
                 "backgroundColor": getRandomColor(),
                 "borderColor": getRandomColor(),
                 "borderWidth": 2,
@@ -644,6 +644,39 @@
                 }]
             }
         };
+
+        const chartOptions2 = {
+            maintainAspectRatio: true,
+            legend: {
+                display: false,
+            },
+            tooltips: {
+                enabled: true,
+            },
+            elements: {
+                point: {
+                    radius: 3
+                },
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: false,
+                    scaleLabel: true,
+                    ticks: {
+                        display: true
+                    }
+                }],
+                yAxes: [{
+                    gridLines: true,
+                    scaleLabel: false,
+                    ticks: {
+                        display: false,
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
+                }]
+            }
+        };
         //
 
         // console.log()
@@ -676,7 +709,7 @@
                 labels:dataSetbutton.label,
                 datasets: dataSetbutton
             },
-            // options: chartOptions
+            options: chartOptions2
         });
         // console.log(data)
 
