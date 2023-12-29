@@ -668,15 +668,16 @@
 
 
 
+        var data2 = {
+            labels: btnbulan,
+            datasets: dataSetbutton,
+        }
 
 
         var ctx2 = document.getElementById('chart2').getContext('2d');
         var chart2 = new Chart(ctx2, {
             type: "line",
-            data: {
-                labels: btnbulan,
-                datasets: dataSetbutton,
-            },
+            data: data2,
             // options: {
             //     responsive: true,
             //     plugins: {
@@ -690,14 +691,13 @@
             //     },
                 
             // },
-        },
-        console.log(ctx2));
+        });
 
 
 
     })
 
-    // console.log(chart2)
+    console.log(data2)
 
     $("#chart-pil").on("change", function () {
         if ($("#chart-pil option:selected").val() == 'visit') {
