@@ -572,10 +572,13 @@
         //cek ada berapa button
         for (var h = 0; h < btndata.length; h++) {
             var btntemp = {
-                backgroundColor: getRandomColor(),
-                borderColor: getRandomColor(),
-                borderWidth: 2,
-                data: btnjum[h],
+                datasets: [{
+                    backgroundColor: getRandomColor(),
+                    borderColor: getRandomColor(),
+                    borderWidth: 2,
+                    data: btnjum[h],
+                }]
+
             };
             dataSetbutton.push(btntemp)
             // console.log(btntemp)
@@ -711,7 +714,7 @@
         var chart2 = new Chart(ctx2, {
             type: "line",
             data: {
-                labels: dateArray,
+                labels: btnbulan,
                 datasets: dataSetbutton,
             },
             options: chartOptions,
