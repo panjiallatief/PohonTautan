@@ -548,7 +548,7 @@
         var data = /*[[${countmonth}]]*/""
         // console.log(data)
         var btndata = /*[[${countbuttonmonth}]]*/""
-        // console.log(btndata)
+        console.log(btndata.length)
 
         bulan = [];
         jum = [];
@@ -570,15 +570,15 @@
 
         var dataSetbutton = new Array();
         //cek ada berapa button
-        for (const h = 0; h < btndata.length; h++) {
+        for (var h = 0; h < btndata.length; h++) {
             var btntemp = {
                 "backgroundColor": getRandomColor(),
                 "borderColor": getRandomColor(),
                 "borderWidth": 2,
                 "data": btnjum[h],
-            }
+            };
             dataSetbutton.push(btntemp)
-            console.log(btntemp)
+            // console.log(btntemp)
         }
 
         console.log(dataSetbutton)
