@@ -559,6 +559,24 @@
             btnlink.push(btndata[a][1])
         }
 
+
+
+        dataSetbutton = [];
+        //cek ada berapa button
+        for (const h = 0; h < btndata.length; h++) {
+            var btntemp = {
+                "backgroundColor": "rgba(101, 116, 205, 0.1)",
+                "borderColor": "rgba(101, 116, 205, 0.1)",
+                "borderWidth": 2,
+                "data": btnjum,
+            }
+            dataSetbutton.push(btntemp)
+        }
+
+        console.log(dataSetbutton)
+
+
+
         // console.log(bulan, jum)
         if (jum.length == 0) {
             document.getElementById('tmtchart').style.display = 'none'
@@ -647,19 +665,7 @@
         //     return color;
         // }
 
-        dataSetbutton = [];
-        //cek ada berapa button
-        for (const h = 0; h < btndata.length; h++) {
-            var btntemp = {
-                "backgroundColor": "rgba(101, 116, 205, 0.1)",
-                "borderColor": "rgba(101, 116, 205, 0.1)",
-                "borderWidth": 2,
-                "data": btnjum,
-            }
-            dataSetbutton.push(btntemp)
-        }
-
-        console.log(dataSetbutton)
+       
 
         var ctx2 = document.getElementById('chart2').getContext('2d');
         var chart2 = new Chart(ctx2, {
