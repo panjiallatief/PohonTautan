@@ -572,7 +572,7 @@
         //cek ada berapa button
         for (var h = 0; h < btndata.length; h++) {
             var btntemp = {
-                "label": "button "+[h],
+                "label": "button " + [h],
                 "backgroundColor": getRandomColor(),
                 "borderColor": getRandomColor(),
                 "borderWidth": 2,
@@ -645,37 +645,21 @@
             }
         };
 
-        const chartOptions2 = {
-            maintainAspectRatio: true,
-            legend: {
-                display: false,
-            },
-            tooltips: {
-                enabled: true,
-            },
-            elements: {
-                point: {
-                    radius: 3
-                },
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: false,
-                    scaleLabel: true,
-                    ticks: {
-                        display: true
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Chart.js Line Chart'
                     }
-                }],
-                yAxes: [{
-                    gridLines: true,
-                    scaleLabel: false,
-                    ticks: {
-                        display: false,
-                        suggestedMin: 0,
-                        suggestedMax: 10
-                    }
-                }]
-            }
+                }
+            },
         };
         //
 
@@ -706,10 +690,39 @@
         var chart2 = new Chart(ctx2, {
             type: "line",
             data: {
-                labels:dataSetbutton.label,
+                labels: dataSetbutton.label,
                 datasets: dataSetbutton
             },
-            // options: chartOptions2
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Chart.js Line Chart'
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: false,
+                        scaleLabel: true,
+                        ticks: {
+                            display: true
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: true,
+                        scaleLabel: false,
+                        ticks: {
+                            display: false,
+                            suggestedMin: 0,
+                            suggestedMax: 10
+                        }
+                    }]
+                }
+            },
         });
         // console.log(data)
 
