@@ -672,10 +672,12 @@
         var ctx2 = document.getElementById('chart2').getContext('2d');
         var chart2 = new Chart(ctx2, {
             type: "line",
-            datasets: dataSetbutton,
+            data: {
+                datasets: dataSetbutton
+            },
             options: chartOptions
         });
-        console.log(datasets)
+        console.log(data)
 
     })
     $("#chart-pil").on("change", function () {
