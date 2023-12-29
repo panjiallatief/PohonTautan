@@ -154,7 +154,7 @@ function tambahdata() {
 
   $.ajax({
     url: `/adm/inputbutton?buttonname=${namaBtn}&tautan=${linkBtn}&tombol=${styleBtn}&buttonanim=${btnanim}&buttoncolortext=${textcol}`,
-    method: "put",
+     method: "put",
     success: function () {
       modalClose("add-modal");
       notif()
