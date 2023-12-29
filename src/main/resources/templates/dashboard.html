@@ -650,14 +650,13 @@
         dataSetbutton = [];
         //cek ada berapa button
         for (const h = 0; h < btndata.length; h++) {
-            dataSetbutton.push(`
-            {
-                        backgroundColor: getRandomColor(),
-                        borderColor: getRandomColor(),
-                        borderWidth: 2,
-                        data: btnjum,
-                    },
-            `)
+            var btntemp = {
+                "backgroundColor": getRandomColor(),
+                "borderColor": getRandomColor(),
+                "borderWidth": 2,
+                "data": btnjum,
+            }
+            dataSetbutton.push(btntemp)
         }
 
         console.log(dataSetbutton)
