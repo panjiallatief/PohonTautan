@@ -541,7 +541,7 @@
         var data = /*[[${countmonth}]]*/""
         // console.log(data)
         var btndata = /*[[${countbuttonmonth}]]*/""
-        console.log(btndata)
+        // console.log(btndata)
 
         bulan = [];
         jum = [];
@@ -638,21 +638,21 @@
         });
         //
 
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF';
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
+        // function getRandomColor() {
+        //     var letters = '0123456789ABCDEF';
+        //     var color = '#';
+        //     for (var i = 0; i < 6; i++) {
+        //         color += letters[Math.floor(Math.random() * 16)];
+        //     }
+        //     return color;
+        // }
 
         dataSetbutton = [];
         //cek ada berapa button
         for (const h = 0; h < btndata.length; h++) {
             var btntemp = {
-                "backgroundColor": getRandomColor(),
-                "borderColor": getRandomColor(),
+                "backgroundColor": "rgba(101, 116, 205, 0.1)",
+                "borderColor": "rgba(101, 116, 205, 0.1)",
                 "borderWidth": 2,
                 "data": btnjum,
             }
