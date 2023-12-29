@@ -546,9 +546,9 @@
 
 
         var datavisit = /*[[${countmonth}]]*/""
-        console.log(datavisit)
+        // console.log(datavisit)
         var btndata = /*[[${countbuttonmonth}]]*/""
-        console.log(btndata)
+        console.log(btndata.length)
 
         bulan = [];
         jum = [];
@@ -569,16 +569,14 @@
 
 
         var dataSetbutton = new Array();
+        var datasetdah = [];
         //cek ada berapa button
         for (var h = 0; h < btndata.length; h++) {
             var btntemp = {
-                datasets: [{
-                    backgroundColor: getRandomColor(),
-                    borderColor: getRandomColor(),
-                    borderWidth: 2,
-                    data: btnjum[h],
-                }]
-
+                backgroundColor: getRandomColor(),
+                borderColor: getRandomColor(),
+                borderWidth: 2,
+                data: btnjum[h],
             };
             dataSetbutton.push(btntemp)
             // console.log(btntemp)
@@ -714,7 +712,7 @@
         var chart2 = new Chart(ctx2, {
             type: "line",
             data: {
-                labels: btnbulan,
+                labels: dateArray,
                 datasets: dataSetbutton,
             },
             options: chartOptions,
