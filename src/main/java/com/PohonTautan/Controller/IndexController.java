@@ -75,10 +75,15 @@ public class IndexController {
     @GetMapping(value = "/{curl}")
     public String index(@PathVariable(required = true) String curl, HttpServletRequest request, Model model) throws SQLException {
         Date date = new Date();
+        Integer usnn ;
+        if(stylesRepository.getstStyles(curl) != null){
+            usnn = stylesRepository.getstStyles(curl).getId_user();
+        } else {
+            usnn = null;
+        }
         HttpSession session = request.getSession();
         String sessionId = session.getId();
         String userIp = request.getRemoteAddr();
-        Integer usnn = stylesRepository.getstStyles(curl).getId_user();
         String currentUrl = request.getRequestURL().toString();
         Integer ins = currentUrl.lastIndexOf("/");
         String customurl = currentUrl.substring(ins + 1);
@@ -92,99 +97,119 @@ public class IndexController {
             sessionoidRepositori.save(st); 
         }
 
-        Styles st = stylesRepository.getstStyles2(usnn);
-        List<Map<String, Object>> stylesList = new ArrayList<>();
-        Long countday = sessionoidRepositori.countsession(date, usnn);
-        model.addAttribute("countday", countday);
-        Long countbuttonday = logRepository.countbutton(date, usnn);
-        model.addAttribute("countbuttonday", countbuttonday);
+        if(stylesRepository.getstStyles2(usnn) != null){
+             Styles st = stylesRepository.getstStyles2(usnn);
+            List<Map<String, Object>> stylesList = new ArrayList<>();
+            Long countday = sessionoidRepositori.countsession(date, usnn);
+            model.addAttribute("countday", countday);
+            Long countbuttonday = logRepository.countbutton(date, usnn);
+            model.addAttribute("countbuttonday", countbuttonday);
 
-        String[] btn = null;
-        String[] btnstyle = null;
-        String[] link = null;
-        String[] btnanim = null;
-        String[] btntc = null;
-        String bg = null;
-        String image = null;
-        String curls = null;
-        String headline = null;
-        String bio = null;
-        
-        if (st.getButton_name() != null) {
-            btn = st.getButton_name().split(",");
-        } else {
-            btn = null;
-        }
+            String[] btn = null;
+            String[] btnstyle = null;
+            String[] link = null;
+            String[] btnanim = null;
+            String[] btntc = null;
+            String bg = null;
+            String image = null;
+            String curls = null;
+            String headline = null;
+            String bio = null;
+            
+            if (st.getButton_name() != null) {
+                btn = st.getButton_name().split(",");
+            } else {
+                btn = null;
+            }
 
-        if (st.getButton_style() != null) {
-            btnstyle = st.getButton_style().split(",");
-        } else {
-            btnstyle = null;
-        }
+            if (st.getButton_style() != null) {
+                btnstyle = st.getButton_style().split(",");
+            } else {
+                btnstyle = null;
+            }
 
-        if (st.getLink() != null) {
-            link = st.getLink().split(",");
-        } else {
-            link = null;
-        }
+            if (st.getLink() != null) {
+                link = st.getLink().split(",");
+            } else {
+                link = null;
+            }
 
-        if (st.getButton_animation() != null) {
-            btnanim = st.getButton_animation().split(",");
-        } else {
-            btnanim = null;
-        }
+            if (st.getButton_animation() != null) {
+                btnanim = st.getButton_animation().split(",");
+            } else {
+                btnanim = null;
+            }
 
-        if (st.getButton_text_color() != null) {
-            btntc = st.getButton_text_color().split(",");
-        } else {
-            btntc = null;
-        }
+            if (st.getButton_text_color() != null) {
+                btntc = st.getButton_text_color().split(",");
+            } else {
+                btntc = null;
+            }
 
-        if (st.getBg() != null) {
-            byte[] bgBytes = st.getBg().getBytes(1, (int) st.getBg().length());
-            String base64String = Base64.getEncoder().encodeToString(bgBytes);
-            String gambars = base64String.replace("dataimage/jpegbase64",
-                    "data:image/png;base64,");
-            bg = gambars.replace("=", "");
-        } else {
-            bg = null;
-        }
+            if (st.getBg() != null) {
+                byte[] bgBytes = st.getBg().getBytes(1, (int) st.getBg().length());
+                String base64String = Base64.getEncoder().encodeToString(bgBytes);
+                String gambars = base64String.replace("dataimage/jpegbase64",
+                        "data:image/png;base64,");
+                bg = gambars.replace("=", "");
+            } else {
+                bg = null;
+            }
 
-        if (st.getImage() != null) {
-            byte[] imageBytes = st.getImage().getBytes(1, (int) st.getBg().length());
-            String base64Strings = Base64.getEncoder().encodeToString(imageBytes);
-            String gambar = base64Strings.replace("dataimage/jpegbase64",
-                    "data:image/png;base64,");
-            image = gambar.replace("=", "");
-        } else {
-            image = null;
-        }
+            if (st.getImage() != null) {
+                byte[] imageBytes = st.getImage().getBytes(1, (int) st.getBg().length());
+                String base64Strings = Base64.getEncoder().encodeToString(imageBytes);
+                String gambar = base64Strings.replace("dataimage/jpegbase64",
+                        "data:image/png;base64,");
+                image = gambar.replace("=", "");
+            } else {
+                image = null;
+            }
 
-        if (st.getCustom_url() != null) {
-            curls = st.getCustom_url();
-        } else {
-            curls = null;
-        }
+            if (st.getCustom_url() != null) {
+                curls = st.getCustom_url();
+            } else {
+                curls = null;
+            }
 
-        if (st.getHeadline() != null) {
-            headline = st.getHeadline();
-        } else {
-            headline = null;
-        }
+            if (st.getHeadline() != null) {
+                headline = st.getHeadline();
+            } else {
+                headline = null;
+            }
 
-        if (st.getBio() != null) {
-            bio = st.getBio();
-        } else {
-            bio = null;
-        }
+            if (st.getBio() != null) {
+                bio = st.getBio();
+            } else {
+                bio = null;
+            }
 
-        if(link != null){
-            for (Integer i = 0; i < link.length; i++) {
+            if(link != null){
+                for (Integer i = 0; i < link.length; i++) {
+                    Map<String, Object> styleMap = new HashMap<>();
+                    styleMap.put("tempBg", bg);
+                    styleMap.put("tempImg", image);
+                    styleMap.put("button_name", btn[i]);
+                    styleMap.put("button_style", "#" + btnstyle[i]);
+                    styleMap.put("custom_url", curl);
+                    styleMap.put("id_user", st.getId_user());
+                    styleMap.put("created_at", st.getCreatedAt());
+                    styleMap.put("updated_at", st.getUpdatedAt());
+                    styleMap.put("id_style", st.getId_style());
+                    styleMap.put("headline", headline);
+                    styleMap.put("bio", bio);
+                    styleMap.put("bg_default", st.getBg_default());
+                    styleMap.put("link", link[i]);
+                    styleMap.put("button_animation", btnanim[i]);
+                    styleMap.put("button_text_color", btntc[i]);
+                    stylesList.add(styleMap);
+                }
+            } else if (bg != null){
                 Map<String, Object> styleMap = new HashMap<>();
                 styleMap.put("tempBg", bg);
                 styleMap.put("tempImg", image);
-                styleMap.put("button_name", btn[i]);
-                styleMap.put("button_style", "#" + btnstyle[i]);
+                styleMap.put("button_name", btn);
+                styleMap.put("button_style", btnstyle);
                 styleMap.put("custom_url", curl);
                 styleMap.put("id_user", st.getId_user());
                 styleMap.put("created_at", st.getCreatedAt());
@@ -193,54 +218,40 @@ public class IndexController {
                 styleMap.put("headline", headline);
                 styleMap.put("bio", bio);
                 styleMap.put("bg_default", st.getBg_default());
-                styleMap.put("link", link[i]);
-                styleMap.put("button_animation", btnanim[i]);
-                styleMap.put("button_text_color", btntc[i]);
+                styleMap.put("link", link);
+                styleMap.put("button_animation", btnanim);
+                styleMap.put("button_text_color", btntc);
+                stylesList.add(styleMap);
+            } else {
+                Map<String, Object> styleMap = new HashMap<>();
+                styleMap.put("tempBg", null);
+                styleMap.put("tempImg", null);
+                styleMap.put("button_name", null);
+                styleMap.put("button_style", null);
+                styleMap.put("custom_url", null);
+                styleMap.put("id_user", st.getId_user());
+                styleMap.put("created_at", null);
+                styleMap.put("updated_at", null);
+                styleMap.put("id_style", st.getId_style());
+                styleMap.put("headline", null);
+                styleMap.put("bio", null);
+                styleMap.put("bg_default", st.getBg_default());
+                styleMap.put("link", null);
+                styleMap.put("button_animation", null);
+                styleMap.put("button_text_color", null);
                 stylesList.add(styleMap);
             }
-        } else if (bg != null){
-            Map<String, Object> styleMap = new HashMap<>();
-            styleMap.put("tempBg", bg);
-            styleMap.put("tempImg", image);
-            styleMap.put("button_name", btn);
-            styleMap.put("button_style", btnstyle);
-            styleMap.put("custom_url", curl);
-            styleMap.put("id_user", st.getId_user());
-            styleMap.put("created_at", st.getCreatedAt());
-            styleMap.put("updated_at", st.getUpdatedAt());
-            styleMap.put("id_style", st.getId_style());
-            styleMap.put("headline", headline);
-            styleMap.put("bio", bio);
-            styleMap.put("bg_default", st.getBg_default());
-            styleMap.put("link", link);
-            styleMap.put("button_animation", btnanim);
-            styleMap.put("button_text_color", btntc);
-            stylesList.add(styleMap);
-        } else {
-            Map<String, Object> styleMap = new HashMap<>();
-            styleMap.put("tempBg", null);
-            styleMap.put("tempImg", null);
-            styleMap.put("button_name", null);
-            styleMap.put("button_style", null);
-            styleMap.put("custom_url", null);
-            styleMap.put("id_user", st.getId_user());
-            styleMap.put("created_at", null);
-            styleMap.put("updated_at", null);
-            styleMap.put("id_style", st.getId_style());
-            styleMap.put("headline", null);
-            styleMap.put("bio", null);
-            styleMap.put("bg_default", st.getBg_default());
-            styleMap.put("link", null);
-            styleMap.put("button_animation", null);
-            styleMap.put("button_text_color", null);
-            stylesList.add(styleMap);
+
+            model.addAttribute("btnstyle", stylesList);
+
+            return "index";
+
         }
 
-        model.addAttribute("btnstyle", stylesList);
+        // return "curlnotfound";
+        return "error";
+        // buat template html curl tidak ditemukan / tidak ada.
 
-        
- 
-        return "index";
     }
 
     public String generetetoken(Integer lenght){
