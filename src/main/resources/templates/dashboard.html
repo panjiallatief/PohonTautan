@@ -731,7 +731,7 @@
 
         var ctx2 = document.getElementById('chart2').getContext('2d');
         var chart2 = new Chart(ctx2, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: labels,
                 datasets: datasets
@@ -745,13 +745,13 @@
                 enabled: true,
             },
             scales: {
-                xAxes: [{
+                xAxes: {
                     gridLines: false,
                     scaleLabel: false,
                     ticks: {
                         display: false
                     }
-                }],
+                },
                 yAxes: [{
                     gridLines: false,
                     scaleLabel: true,
