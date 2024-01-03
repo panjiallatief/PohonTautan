@@ -548,7 +548,7 @@
         var datavisit = /*[[${countmonth}]]*/""
         // console.log(datavisit)
         var btndata = /*[[${countbuttonmonth}]]*/""
-        // console.log(btndata)
+        console.log(btndata)
         var btndt = /*[[${countbtndist}]]*/""
         // console.log(btndt)
 
@@ -624,10 +624,13 @@
         tampung = [];
 
         for (var c = 0; c < btndata.length; c++){
-            var dataset = new Array(); 
+            
             lebel.push(btndata[c][0])
-            dataset.push(btndata[c][2])
-            tampung.push(dataset)
+            
+
+            for (let i = 0; i < btndt.length; i ++){
+                tampung.push('data'+[i+1])
+            }
         }
 
         console.log(lebel)
