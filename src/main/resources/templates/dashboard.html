@@ -626,7 +626,8 @@
         for (var c = 0; c < btndata.length; c++){
             var dataset = new Array(); 
             lebel.push(btndata[c][0])
-            tampung.push(dataset[c].push(btndata[c][2]))
+            dataset.push(btndata[c][2])
+            tampung.push(dataset)
         }
 
         console.log(lebel)
