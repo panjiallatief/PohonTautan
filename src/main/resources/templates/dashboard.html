@@ -736,7 +736,38 @@
                 labels: labels,
                 datasets: datasets
             },
-            options: chartOptions
+            options: {
+                maintainAspectRatio: true,
+            legend: {
+                display: false,
+            },
+            tooltips: {
+                enabled: true,
+            },
+            elements: {
+                point: {
+                    radius: 3
+                },
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: false,
+                    scaleLabel: true,
+                    ticks: {
+                        display: true
+                    }
+                }],
+                yAxes: [{
+                    gridLines: true,
+                    scaleLabel: true,
+                    ticks: {
+                        display: true,
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
+                }]
+            }
+            }
         });
 
 
