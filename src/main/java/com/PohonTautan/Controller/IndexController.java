@@ -78,8 +78,11 @@ public class IndexController {
         Integer usnn ;
         if(stylesRepository.getstStyles(curl) != null){
             usnn = stylesRepository.getstStyles(curl).getId_user();
+            System.out.println(curl);
+            System.out.println(usnn);
         } else {
             usnn = null;
+            System.out.println("else gaes");
         }
         HttpSession session = request.getSession();
         String sessionId = session.getId();
@@ -89,7 +92,7 @@ public class IndexController {
         String customurl = currentUrl.substring(ins + 1);
         httpSession.setAttribute("curl", customurl);
 
-        if(!sessionoidRepositori.findBycreatedAt(date, sessionId)){
+        if(!sessionoidRepositori.findBycreatedAt(date, sessionId, usnn)){
             Sessionid st = new Sessionid();
             st.setSession_visitor(sessionId);
             st.setIp_visitor(userIp);

@@ -18,10 +18,10 @@ public interface SessionoidRepositori extends JpaRepository<Sessionid, Integer>{
     //     nativeQuery = true)
     // boolean findBySessionId(String ids);
 
-    @Query(value = "SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM sessionid c WHERE DATE(c.created_at) = ?1 and c.session_visitor = ?2",
-        countQuery = "SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM sessionid c WHERE DATE(c.created_at) = ?1 and c.session_visitor = ?2",
+    @Query(value = "SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM sessionid c WHERE DATE(c.created_at) = ?1 and c.session_visitor = ?2 and c.id_user = ?3",
+        countQuery = "SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM sessionid c WHERE DATE(c.created_at) = ?1 and c.session_visitor = ?2 and c.id_user = ?3",
         nativeQuery = true)
-    boolean findBycreatedAt(Date ids, String username);
+    boolean findBycreatedAt(Date ids, String username, Integer id);
 
     @Query(value = "SELECT count(u) FROM sessionid u WHERE DATE(created_at) = ?1 and id_user = ?2",
         countQuery = "SELECT count(*) FROM sessionid WHERE DATE(created_at) = ?1 and id_user = ?2",
