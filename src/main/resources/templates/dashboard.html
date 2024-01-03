@@ -572,7 +572,7 @@
         // console.log(btnjum)
         // console.log(btnlink)
 
-        var tmpdt
+        var tmpobtn
 
         // for (var c = 0; c < btndt.length; c++) {
         //     var datatmp = {
@@ -592,7 +592,7 @@
         // }
 
         for (var c = 0; c < btndt.length; c++) {
-            tmpdt = {
+            var tmpdt = {
                 data: {
                     links: btndt[c][0],
                     tanggal: [],
@@ -615,10 +615,12 @@
                 }
             }
 
-            // tmpobtn.push(tmpdt);
+            tmpobtn.push(tmpdt);
         }
 
-        console.log(tmpdt)
+        console.log(tmpobtn)
+
+
 
 
 
@@ -707,10 +709,7 @@
         var ctx2 = document.getElementById('chart2').getContext('2d');
         var chart2 = new Chart(ctx2, {
             type: "line",
-            data: {
-                // labels: dateArray,
-                datasets: tmpobtn.data,
-            },
+            data: tmpobtn,
             options: chartOptions
 
         });
