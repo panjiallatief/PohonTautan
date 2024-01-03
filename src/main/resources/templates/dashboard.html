@@ -618,7 +618,7 @@
             tmpobtn.push(tmpdt);
         }
 
-        console.log(tmpobtn)
+        console.log(tmpobtn.data)
 
 
         if (jum.length == 0) {
@@ -708,7 +708,7 @@
             type: "line",
             data: {
                 // labels: dateArray,
-                datasets: tmpobtn.data,
+                datasets: tmpobtn.data.data,
             },
             options: chartOptions
 
