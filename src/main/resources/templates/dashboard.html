@@ -620,23 +620,17 @@
 
         // console.log(tmpobtn)
 
+        lebel = [];
+        tampung = [];
 
         for (var c = 0; c < btndata.length; c++){
-            var dataset = {
-                label: btndata[c][0],
-                data: btndata[c][1],
-                backgroundColor: getRandomColor(),
-                stack: 'Stack ' + btndata.length,
-            }
-
-            // for (var d = 0; d < btndata.length; d++) {
-            //     if (btndt[c][0] == btndata[d][1]) {
-            //         tmpdt.data.tanggal.push(btndata[d][0]);
-            //         tmpdt.data.data.push(btndata[d][2]);
-            //     }
-            // }
-            tmpobtn.push(dataset)
+            dataset[c] = [];
+            label.push(btndata[c][0])
+            tampung.push(dataset[c].push(btndata[c][2]))
         }
+
+        console.log(lebel)
+        console.log(tampung)
 
 
         // const dataset = {
@@ -653,7 +647,7 @@
         //     }]
         // }
 
-        console.log(tmpobtn)
+        // console.log(tmpobtn)
 
 
 
