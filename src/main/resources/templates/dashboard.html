@@ -548,7 +548,7 @@
         var datavisit = /*[[${countmonth}]]*/""
         // console.log(datavisit)
         var btndata = /*[[${countbuttonmonth}]]*/""
-        // console.log(btndata)
+        console.log(btndata)
         var btndt = /*[[${countbtndist}]]*/""
         // console.log(btndt)
 
@@ -568,11 +568,11 @@
             btnlink.push(btndata[a][1])
         }
 
-        console.log(jum)
+        // console.log(jum)
         // console.log(btnjum)
         // console.log(btnlink)
 
-        // var tmpobtn = new Array();
+        var tmpobtn = new Array();
 
         // for (var c = 0; c < btndt.length; c++) {
         //     var datatmp = {
@@ -621,21 +621,32 @@
         // console.log(tmpobtn)
 
 
-        const dataset = {
-            datasets: [{
-                label: '23',
-                data: 2,
+        for (var c = 0; c < btndt.length; c++){
+            var dataset = {
+                label: btndt[c][0],
+                data: btndt[c][1],
                 backgroundColor: getRandomColor(),
-                borderColor: getRandomColor(),
-            },{
-                label: '24',
-                data: 5,
-                backgroundColor: getRandomColor(),
-                borderColor: getRandomColor(),
-            }]
+                stack: 'Stack ' + btndata.length,
+            }
+            tmpobtn.push(dataset)
         }
 
-        console.log(dataset)
+
+        // const dataset = {
+        //     datasets: [{
+        //         label: '23',
+        //         data: 2,
+        //         backgroundColor: getRandomColor(),
+        //         borderColor: getRandomColor(),
+        //     },{
+        //         label: '24',
+        //         data: 5,
+        //         backgroundColor: getRandomColor(),
+        //         borderColor: getRandomColor(),
+        //     }]
+        // }
+
+        console.log(tmpobtn)
 
 
 
