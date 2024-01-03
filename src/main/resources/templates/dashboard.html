@@ -623,13 +623,16 @@
         lebel = [];
         tampung = [];
 
-        for (var c = 0; c < btndata.length; c++){
-            
-            lebel.push(btndata[c][0])
-            
+        for (var c = 0; c < btndata.length; c++) {
 
-            for (let i = 0; i < btndt.length; i ++){
-                tampung.push('data'+[i+1])
+            lebel.push(btndata[c][0])
+
+
+            for (let i = 0; i < btndt.length; i++) {
+                if (btndt[c][0] == btndata[i][1]) {
+                    // tampung.push(btndata[d][0]);
+                    tampung.push(btndata[i][2]);
+                }
             }
         }
 
