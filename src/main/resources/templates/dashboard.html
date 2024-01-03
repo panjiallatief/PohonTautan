@@ -744,7 +744,24 @@
             tooltips: {
                 enabled: true,
             },
-            
+            scales: {
+                xAxes: {
+                    gridLines: true,
+                    scaleLabel: true,
+                    ticks: {
+                        display: true
+                    }
+                },
+                yAxes: [{
+                    gridLines: false,
+                    scaleLabel: true,
+                    ticks: {
+                        display: false,
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
+                }]
+            }
             }
         });
 
