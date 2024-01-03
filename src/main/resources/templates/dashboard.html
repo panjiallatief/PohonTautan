@@ -625,9 +625,14 @@
             datasets: [{
                 label: 'Button 1',
                 data: [2, 3, 2, 1],
+                tanggal: [23, 24, 25, 26],
                 backgroundColor: getRandomColor(),
                 borderColor: getRandomColor(),
                 tension: 0.4,
+                parsing: {
+                    xAxisKey: data,
+                    yAxisKey: tanggal,
+                }
             }]
         }
 
