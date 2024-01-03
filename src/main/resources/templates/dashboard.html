@@ -739,6 +739,17 @@
                 datasets: datasets
             },
             options: {
+                legend: {
+                    display: false,
+                },
+                tooltips: {
+                    enabled: true,
+                },
+                elements: {
+                    point: {
+                        radius: 3
+                    },
+                },
                 scales: {
                     x: {
                         stacked: true, // Enable stacking on the x-axis
@@ -749,11 +760,7 @@
                         display: false // Hide y-axis
                     }
                 },
-                plugins: {
-                    legend: {
-                        display: false // Hide legend
-                    }
-                }
+
             }
 
         });
