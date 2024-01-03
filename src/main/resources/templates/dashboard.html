@@ -604,14 +604,15 @@
         }
 
         for (var c = 0; c < btndt.length; c++) {
+            var dataser = new Array();
             for (var d = 0; d < btndata.length; d++) {
                 if (btndt[c][0] == btndata[d][1]) {
                     // tampung.push(btndata[d][0]);
-                    tampung.push(btndata[d][2]);
+                    dataser.push(btndata[d][2]);
                 }
             }
 
-            // tmpobtn.push(tmpdt);
+            tampung.push(dataser);
         }
 
         console.log(lebel)
