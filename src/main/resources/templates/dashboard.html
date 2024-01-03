@@ -623,8 +623,18 @@
 
         const dataset = {
             datasets: [{
-                label: [23, 24, 25, 26],
+                label: '23',
                 data: [2, 3, 2, 1],
+                backgroundColor: getRandomColor(),
+                borderColor: getRandomColor(),
+                // tension: 0.4,
+                // parsing: {
+                //     xAxisKey: [2, 3, 2, 1],
+                //     yAxisKey: [23, 24, 25, 26],
+                // }
+            },{
+                label: '24',
+                data: [5, 1, 7, 9],
                 backgroundColor: getRandomColor(),
                 borderColor: getRandomColor(),
                 // tension: 0.4,
