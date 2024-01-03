@@ -611,7 +611,7 @@
                 label: btndt[c][0], // Label for the dataset
                 data: [],
                 backgroundColor: 'rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ', 0.5)', // Random background color
-                // borderColor: 'rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ', 1)', // Random border color
+                borderColor: 'rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ', 1)', // Random border color
                 borderWidth: 1
             };
 
@@ -739,36 +739,19 @@
                 datasets: datasets
             },
             options: {
-                maintainAspectRatio: true,
-                legend: {
-                    display: false,
-                },
-                tooltips: {
-                    enabled: true,
-                },
-                elements: {
-                    point: {
-                        radius: 3
-                    },
-                },
                 scales: {
                     x: {
-                        gridLines: false,
-                        scaleLabel: true,
-                        ticks: {
-                            display: true
-                        },
                         stacked: true // Enable stacking on the x-axis
                     },
                     y: {
-                        gridLines: true,
-                        scaleLabel: false,
-                        ticks: {
-                            display: false,
-                            suggestedMin: 0,
-                            suggestedMax: 10
-                        },
-                        beginAtZero: true
+                        beginAtZero: true,
+                        display: false // Hide y-axis labels
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top' // Adjust legend position as needed
                     }
                 }
             }
