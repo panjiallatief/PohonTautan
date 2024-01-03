@@ -596,16 +596,22 @@
                 data: {
                     links: btndt[c][0],
                     tanggal: [],
-                    jumlah: [],
+                    data: [],
                     backgroundColor: getRandomColor(),
                     borderColor: getRandomColor(),
+                    label: 'Button '+[c][0],
+                    tension: 0.4,
+                    parsing: {
+                        xAxisKey: 'tmpdt.data.tanggal',
+                        yAxisKey: 'tmpdt.data.data'
+                    }
                 }
             };
 
             for (var d = 0; d < btndata.length; d++) {
                 if (btndt[c][0] == btndata[d][1]) {
                     tmpdt.data.tanggal.push(btndata[d][0]);
-                    tmpdt.data.jumlah.push(btndata[d][2]);
+                    tmpdt.data.data.push(btndata[d][2]);
                 }
             }
 
@@ -613,17 +619,6 @@
         }
 
         console.log(tmpobtn)
-
-        // var dataSetbutton = new Array();
-        // //cek ada berapa button
-        // for (var b = 0; b < btndt.length; b++) {
-        //     var btntemp = {
-        //         data: tmpobtn[b],
-        //         backgroundColor: getRandomColor(),
-        //         borderColor: getRandomColor(),
-        //     }
-        //     dataSetbutton.push(btntemp)
-        // }
 
 
         if (jum.length == 0) {
@@ -715,20 +710,8 @@
                 // labels: dateArray,
                 datasets: tmpobtn.data,
             },
-            // options: chartOptions,
-            // // options: {
-            // //     responsive: true,
-            // //     plugins: {
-            // //         legend: {
-            // //             position: 'top',
-            // //         },
-            // //         title: {
-            // //             display: true,
-            // //             text: 'Chart.js Line Chart'
-            // //         }
-            // //     },
+            options: chartOptions
 
-            // // },
         });
 
 
