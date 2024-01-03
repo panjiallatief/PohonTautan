@@ -591,32 +591,34 @@
         //     tmpobtn.push(datatmp)
         // }
 
-        
+
 
         // console.log(tmpobtn)
 
-        lebel = [];
-        tampung = [];
+        var labels = [];
+        var datasets = [];
 
         for (var c = 0; c < btndata.length; c++) {
-
-            lebel.push(btndata[c][0])
+            labels.push(btndata[c][0]);
         }
 
         for (var c = 0; c < btndt.length; c++) {
-            var dataser = new Array();
+            var dataset = {
+                label: btndt[c][0], // Label for the dataset
+                data: [],
+                backgroundColor: 'rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ', 0.5)', // Random background color
+                borderColor: 'rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ', 1)', // Random border color
+                borderWidth: 1
+            };
+
             for (var d = 0; d < btndata.length; d++) {
                 if (btndt[c][0] == btndata[d][1]) {
-                    // tampung.push(btndata[d][0]);
-                    dataser.push(btndata[d][2]);
+                    dataset.data.push(btndata[d][2]);
                 }
             }
 
-            tampung.push(dataser);
+            datasets.push(dataset);
         }
-
-        console.log(lebel)
-        console.log(tampung)
 
 
         // const dataset = {
@@ -721,9 +723,21 @@
 
         var ctx2 = document.getElementById('chart2').getContext('2d');
         var chart2 = new Chart(ctx2, {
-            type: "bar",
-            // data: dataset,
-            options: chartOptions
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                scales: {
+                    x: {
+                        stacked: true // Enable stacking on the x-axis
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
 
         });
 
