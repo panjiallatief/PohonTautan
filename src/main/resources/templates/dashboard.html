@@ -741,17 +741,17 @@
             options: {
                 scales: {
                     x: {
-                        stacked: true // Enable stacking on the x-axis
+                        stacked: true, // Enable stacking on the x-axis
+                        display: false // Hide x-axis
                     },
                     y: {
                         beginAtZero: true,
-                        display: false // Hide y-axis labels
+                        display: false // Hide y-axis
                     }
                 },
                 plugins: {
                     legend: {
-                        display: true,
-                        position: 'top' // Adjust legend position as needed
+                        display: false // Hide legend
                     }
                 }
             }
