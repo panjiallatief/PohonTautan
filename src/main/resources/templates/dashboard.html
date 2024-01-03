@@ -596,29 +596,37 @@
         // console.log(tmpobtn)
 
         var labels = [];
-        var datasets = [];
+var datasets = [];
 
-        for (var c = 0; c < btndata.length; c++) {
-            labels.push(btndata[c][0]);
+// Extract unique dates from btndata for labels
+for (var c = 0; c < btndata.length; c++) {
+    if (!labels.includes(btndata[c][0])) {
+        labels.push(btndata[c][0]);
+    }
+}
+
+// Create datasets based on btndt
+for (var c = 0; c < btndt.length; c++) {
+    var dataset = {
+        label: btndt[c][0], // Label for the dataset
+        data: [],
+        backgroundColor: 'rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ', 0.5)', // Random background color
+        borderColor: 'rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ', 1)', // Random border color
+        borderWidth: 1
+    };
+
+    for (var i = 0; i < labels.length; i++) {
+        var dateIndex = btndata.findIndex(item => item[0] === labels[i] && item[1] === btndt[c][0]);
+
+        if (dateIndex !== -1) {
+            dataset.data.push(btndata[dateIndex][2]);
+        } else {
+            dataset.data.push(0); // If no matching data, set to 0
         }
+    }
 
-        for (var c = 0; c < btndt.length; c++) {
-            var dataset = {
-                label: btndt[c][0], // Label for the dataset
-                data: [],
-                backgroundColor: 'rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ', 0.5)', // Random background color
-                borderColor: 'rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ', 1)', // Random border color
-                borderWidth: 1
-            };
-
-            for (var d = 0; d < btndata.length; d++) {
-                if (btndt[c][0] == btndata[d][1]) {
-                    dataset.data.push(btndata[d][2]);
-                }
-            }
-
-            datasets.push(dataset);
-        }
+    datasets.push(dataset);
+}
 
         console.log(datasets)
 
