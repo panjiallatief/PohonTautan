@@ -732,30 +732,42 @@
         var ctx2 = document.getElementById('chart2').getContext('2d');
         var chart2 = new Chart(ctx2, {
             type: 'bar',
-            data: {
-                labels: labels,
-                datasets: datasets
-            },
-            options: {
-                legend: {
-                    display: false,
-                },
-                tooltips: {
-                    enabled: false,
-                },
-                
-                scales: {
-                    x: {
-                        stacked: true, // Enable stacking on the x-axis
-                        display: false // Hide x-axis
-                    },
-                    y: {
-                        beginAtZero: true,
-                        display: false // Hide y-axis
-                    }
-                },
-
+    data: {
+        labels: labels,
+        datasets: datasets
+    },
+    options: {
+        maintainAspectRatio: true,
+        legend: {
+            display: false
+        },
+        tooltips: {
+            enabled: true
+        },
+        elements: {
+            point: {
+                radius: 3
             }
+        },
+        scales: {
+            x: {
+                gridLines: false,
+                scaleLabel: true,
+                ticks: {
+                    display: true
+                }
+            },
+            y: {
+                gridLines: true,
+                scaleLabel: false,
+                ticks: {
+                    display: false,
+                    suggestedMin: 0,
+                    suggestedMax: 10
+                }
+            }
+        }
+    }
 
         });
 
