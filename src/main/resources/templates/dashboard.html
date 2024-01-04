@@ -525,15 +525,15 @@
             }
         });
 
-        // fetch('/adm/testblob')
-        //     .then(function (res) {
-        //         console.log(res)
-        //     })
-        // .then((res) => res.blob())
-        // .then((myBlob) => {
-        //     console.log(myBlob);
-        //     // logs: Blob { size: 1024, type: "image/jpeg" }
-        // });
+        fetch('/adm/testblob')
+            .then(function (res) {
+                console.log(res)
+            })
+        .then((res) => res.blob())
+        .then((myBlob) => {
+            console.log(myBlob);
+            // logs: Blob { size: 1024, type: "image/jpeg" }
+        });
 
         function getRandomColor() {
             var letters = '0123456789ABCDEF';
@@ -551,8 +551,8 @@
         // console.log(btndata)
         var btndt = /*[[${countbtndist}]]*/""
 
-        var btnstyles = /*[[${btnstyle[0]}]]*/""
-        console.log(btnstyles)
+        // var btnstyles = /*[[${btnstyle[0]}]]*/""
+        // console.log(btnstyles)
 
         bulan = [];
         jum = [];
