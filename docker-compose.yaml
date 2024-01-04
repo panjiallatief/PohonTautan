@@ -1,0 +1,9 @@
+version: '2'
+services:
+  app:
+    image: "panjiallatief/pohon:early"
+    ports:
+      - "9000:9000"
+    environment:
+      - SPRING_PROFILES_ACTIVE=live
+    restart: always
