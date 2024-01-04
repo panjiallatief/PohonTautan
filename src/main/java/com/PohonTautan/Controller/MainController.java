@@ -78,7 +78,11 @@ public class MainController {
     private static Environment env;
 
     @RequestMapping(value = "/dasboard", method = RequestMethod.GET)
-    public String adm(Model model) throws SQLException {
+    public String adm(Model model, @RequestParam (required = false) Integer month, @RequestParam (required = false) Integer year ) throws SQLException {
+
+        Integer tahun;
+        Integer bulan;
+        Integer hari ;
 
         String usn = httpSession.getAttribute("username").toString();
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
@@ -91,9 +95,16 @@ public class MainController {
         model.addAttribute("countday", countday);
         Long countbuttonday = logRepository.countbutton(date, usnn);
         model.addAttribute("countbuttonday", countbuttonday);
-        Integer tahun = currentDate.getYear();
-        Integer bulan = currentDate.getMonthValue();
-        Integer hari = currentDate.getDayOfMonth();
+        
+        if(month != null && year != null){
+            tahun = year;
+            bulan = month;
+        } else {
+            tahun = currentDate.getYear();
+            bulan = currentDate.getMonthValue();
+            hari = currentDate.getDayOfMonth();
+        }
+        
         List<Object[]> count = sessionoidRepositori.countPerMonth(12, 2023, usnn);
         model.addAttribute("countmonth", count);
         List<Object[]> counts = sessionoidRepositori.countweek(usnn);
@@ -102,12 +113,6 @@ public class MainController {
         model.addAttribute("countbuttonmonth", countbtn);
         List<Object[]> countbtndist = logRepository.countPerMonthbuttondistint(12, 2023, usnn);
         model.addAttribute("countbtndist", countbtndist);
-
-        System.out.println(count);        
-        System.out.println(counts);
-        System.out.println(countbtn);
-        System.out.println(countbtndist);
-
 
         String[] btn = null;
         String[] btnstyle = null;
