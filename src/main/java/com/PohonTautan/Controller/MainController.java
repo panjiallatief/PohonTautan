@@ -206,7 +206,7 @@ public class MainController {
         if(link != null){
             for (Integer i = 0; i < link.length; i++) {
                 Map<String, Object> styleMap = new HashMap<>();
-                // styleMap.put("tempBg", st.getBg());
+                styleMap.put("tempBg", bg);
                 styleMap.put("tempImg", image);
                 styleMap.put("button_name", btn[i]);
                 styleMap.put("button_style", "#" + btnstyle[i]);
@@ -225,7 +225,7 @@ public class MainController {
             }
         } else if (bg != null){
             Map<String, Object> styleMap = new HashMap<>();
-            // styleMap.put("tempBg", st.getBg());
+            styleMap.put("tempBg", bg);
             styleMap.put("tempImg", image);
             styleMap.put("button_name", btn);
             styleMap.put("button_style", btnstyle);
