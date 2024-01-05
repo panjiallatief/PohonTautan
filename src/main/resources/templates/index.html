@@ -52,10 +52,12 @@
         var uri = location.href;
         var urI
 
-        if(uri.indexOf('?') == -1 ){
-            urI = uri.substring(uri.lastIndexOf("/")+1, uri.length)
-        } else{
+        if(uri.indexOf('?') != -1 ){
             urI = uri.substring(uri.lastIndexOf("/")+1, uri.indexOf("?")+1)
+
+        } else{
+            urI = uri.substring(uri.lastIndexOf("/")+1, uri.length)
+
         }
 
         if (data[0].tempBg == null){
