@@ -50,7 +50,13 @@
         // console.log(data[0])
 
         var uri = location.href;
-        var urI = uri.substring(uri.lastIndexOf("/")+1, uri.length)
+        var urI
+
+        if(uri.indexOf('?') == -1 ){
+            urI = uri.substring(uri.lastIndexOf("/")+1, uri.length)
+        } else{
+            urI = uri.substring(uri.lastIndexOf("/")+1, uri.indexOf("?")+1)
+        }
 
         if (data[0].tempBg == null){
             document.getElementById('bg').style.backgroundImage = "url('"+data[0].bg_default+"')"
