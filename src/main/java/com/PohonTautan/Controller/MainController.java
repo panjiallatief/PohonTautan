@@ -285,7 +285,7 @@ public class MainController {
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM");
         String month = sdf.format(date);
-        System.out.println("Bulan: " + month);
+        // System.out.println("Bulan: " + month);
 
         String usn = httpSession.getAttribute("username").toString();
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
@@ -337,9 +337,6 @@ public class MainController {
         Blob blobbg = null;
         Blob blobimage = null;
 
-        System.out.println("masuk bg");        
-        System.out.println(bg);
-
         // if(bg.length() > 9){
             // String gambarbg = bg.replace(" ", "+");
             // byte[] binarydatabg = Base64.getMimeDecoder().decode(gambarbg);
@@ -353,7 +350,6 @@ public class MainController {
         String gambars = base64String.replace("dataimage/jpegbase64",
                 "data:image/png;base64,");
         String abg = gambars.replace("=", "");
-        System.out.println(abg);
 
         if(image.length() > 9){
             String gambarimage = image.replace(" ", "+");
