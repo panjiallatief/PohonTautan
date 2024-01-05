@@ -52,10 +52,12 @@
         var uri = location.href;
         var urI = uri.substring(uri.lastIndexOf("/")+1, uri.length)
 
-        if (data[0].tempbg != null){
-            document.getElementById('bg').style.backgroundImage = "url('/showbgds?curl="+urI+"')"
-        } else{
+        if (data[0].tempbg == null){
             document.getElementById('bg').style.backgroundImage = "url('"+data[0].bg_default+"')"
+
+        } else{
+            document.getElementById('bg').style.backgroundImage = "url('/showbgds?curl="+urI+"')"
+
         }
     })
 
