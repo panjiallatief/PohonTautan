@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div class="bg-cover flex justify-center items-center py-12 min-h-screen" style="background-image:url('/adm/showbg')">
+    <div id="bg" class="bg-cover flex justify-center items-center py-12 min-h-screen" >
         <div class="w-1/2 bg-slate-50 p-5 rounded-xl bg-opacity-5 backdrop-blur-lg shadow-2xl">
             <div class="rounded-full mx-auto w-[150px] h-[150px] overflow-auto">
                 <img th:src="${btnstyle[0].tempImg == null ? 'https://source.unsplash.com/150x150' : btnstyle[0].tempImg}"
@@ -47,7 +47,11 @@
     /*<![CDATA[*/
     $(document).ready(function () {
         var data = /*[[${btnstyle}]]*/""
-        console.log(data)
+        // console.log(data)
+
+        var uri = location.href;
+        var urI = uri.substring(uri.lastIndexOf("/"), uri.length)
+        document.getElementById('bg').style.backgroundImage = "url('/showbgds?curl="+urI+"')"
     })
 
     function countB(ll){
