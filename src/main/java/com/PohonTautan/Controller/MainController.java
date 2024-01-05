@@ -382,18 +382,13 @@ public class MainController {
         return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/testblob", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> testBlob() throws SQLException, IOException {
+    @GetMapping(value = "/showbg", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> showbg() throws SQLException, IOException {
         String usn = httpSession.getAttribute("username").toString();
         Integer usnn = usersRepository.getidwithusername(usn).getUid();
         Styles st = stylesRepository.getstStyles2(usnn);
-
-        // Assuming st.getBg() returns a Blob
         Blob blob = st.getBg();
-
-        // Convert Blob to byte array
         byte[] bytes = blob.getBytes(1, (int) blob.length());
-
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);
     }
 
