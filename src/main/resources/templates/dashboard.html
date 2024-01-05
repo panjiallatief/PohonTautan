@@ -221,7 +221,7 @@
 
                         </div>
                         <div class="xl:min-w-[30rem] overflow-y-auto md:max-w-full">
-                            <div class="bg-cover flex justify-center items-center py-12 xl:max-w-[410] xl:max-h-[539]" style="background-image:url('/adm/showbg')">
+                            <div id="bg" class="bg-cover flex justify-center items-center py-12 xl:max-w-[410] xl:max-h-[539]">
                                 <div class="w-1/2 bg-slate-50 p-5 rounded-xl bg-opacity-5 backdrop-blur-lg shadow-2xl">
                                     <div class="rounded-full mx-auto w-[150px] h-[150px] overflow-auto">
                                         <img th:src="${btnstyle[0].tempImg == null ? 'https://source.unsplash.com/150x150' : btnstyle[0].tempImg}"
@@ -521,34 +521,6 @@
             }
         });
 
-        // fetch('/adm/showbg')
-        // .then(function (res) {
-        //     // Pastikan tipe konten adalah gambar
-        //     if (res.headers.get('Content-Type').startsWith('image/')) {
-        //         return res.blob();
-        //     } else {
-        //         throw new Error('Not an image response');
-        //     }
-        // })
-        // .then((myBlob) => {
-        //     // Buat URL objek blob
-        //     var objectURL = URL.createObjectURL(myBlob);
-
-        //     // Set src elemen gambar HTML dengan URL objek blob
-        //     var img = document.createElement('img');
-        //     img.src = objectURL;
-        //     document.body.appendChild(img);
-        //     // document.getElementById('buatBG').style.backgroundImage = "url('/adm/showbg')"
-
-        //     // Optional: hapus URL objek blob setelah gambar dimuat
-        //     // Ini penting untuk menghindari memory leak
-        //     URL.revokeObjectURL(objectURL);
-        // })
-        // .catch(function (error) {
-        //     console.log('Error fetching or displaying image:', error);
-        // });
-
-
 
         function getRandomColor() {
             var letters = '0123456789ABCDEF';
@@ -566,8 +538,14 @@
         // console.log(btndata)
         var btndt = /*[[${countbtndist}]]*/""
 
-        // var btnstyles = /*[[${btnstyle[0]}]]*/""
+        var btnstyles = /*[[${btnstyle}]]*/""
         // console.log(btnstyles)
+
+        if (btnstyles[0].tempbg != null){
+            document.getElementById('bg').style.backgroundImage = "url('/adm/showbg')"
+        } else{
+            document.getElementById('bg').style.backgroundImage = "url('"+btnstyles[0].bg_default+"')"
+        }
 
         bulan = [];
         jum = [];
