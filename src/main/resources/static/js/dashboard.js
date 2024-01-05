@@ -90,7 +90,7 @@ $("#addbtn").on("click", function () {
                     <select name="button-animate[]" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3">
                         <option value="" disabled selected>--Select--</option>
                         <option value="animate-none">None</option>
-                        <!-- <option value="animate-spin">Spin</option> -->
+                        <option value="animate-wiggle">Wiggle</option>
                         <option value="animate-ping">Ping</option>
                         <option value="animate-pulse">Pulse</option>
                     </select>
