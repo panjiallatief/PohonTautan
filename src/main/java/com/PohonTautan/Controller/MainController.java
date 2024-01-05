@@ -109,13 +109,13 @@ public class MainController {
             hari = currentDate.getDayOfMonth();
         }
         
-        List<Object[]> count = sessionoidRepositori.countPerMonth(12, 2023, usnn);
+        List<Object[]> count = sessionoidRepositori.countPerMonth(bulan, tahun, usnn);
         model.addAttribute("countmonth", count);
         List<Object[]> counts = sessionoidRepositori.countweek(usnn);
         model.addAttribute("countweek", counts);
-        List<Object[]> countbtn = logRepository.countPerMonthbutton(12, 2023, usnn);
+        List<Object[]> countbtn = logRepository.countPerMonthbutton(bulan, tahun, usnn);
         model.addAttribute("countbuttonmonth", countbtn);
-        List<Object[]> countbtndist = logRepository.countPerMonthbuttondistint(12, 2023, usnn);
+        List<Object[]> countbtndist = logRepository.countPerMonthbuttondistint(bulan, tahun, usnn);
         model.addAttribute("countbtndist", countbtndist);
 
         String[] btn = null;
