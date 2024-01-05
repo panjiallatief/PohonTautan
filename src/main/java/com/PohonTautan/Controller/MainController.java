@@ -23,6 +23,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -77,6 +78,9 @@ public class MainController {
     @Autowired
     private static Environment env;
 
+    @Autowired
+    private y fileService;
+
     @RequestMapping(value = "/dasboard", method = RequestMethod.GET)
     public String adm(Model model, @RequestParam (required = false) Integer month, @RequestParam (required = false) Integer year ) throws SQLException {
 
@@ -95,7 +99,7 @@ public class MainController {
         model.addAttribute("countday", countday);
         Long countbuttonday = logRepository.countbutton(date, usnn);
         model.addAttribute("countbuttonday", countbuttonday);
-        
+
         if(month != null && year != null){
             tahun = year;
             bulan = month;
@@ -193,10 +197,16 @@ public class MainController {
             bio = null;
         }
 
+        // StringBuilder resultBuilder = new StringBuilder();
+        // resultBuilder.append(image);
+        // String result = resultBuilder.toString();
+        // System.out.println(result);
+
+
         if(link != null){
             for (Integer i = 0; i < link.length; i++) {
                 Map<String, Object> styleMap = new HashMap<>();
-                styleMap.put("tempBg", bg);
+                // styleMap.put("tempBg", st.getBg());
                 styleMap.put("tempImg", image);
                 styleMap.put("button_name", btn[i]);
                 styleMap.put("button_style", "#" + btnstyle[i]);
@@ -215,7 +225,7 @@ public class MainController {
             }
         } else if (bg != null){
             Map<String, Object> styleMap = new HashMap<>();
-            styleMap.put("tempBg", bg);
+            // styleMap.put("tempBg", st.getBg());
             styleMap.put("tempImg", image);
             styleMap.put("button_name", btn);
             styleMap.put("button_style", btnstyle);
@@ -316,7 +326,7 @@ public class MainController {
 
     @RequestMapping(value = "/inputstyle", method = RequestMethod.POST)
     public ResponseEntity<Map> inputstyle(@RequestParam String bio, @RequestParam String headline,
-            @RequestParam (required = false) String bg, @RequestParam (required = false) String image,
+            @RequestParam("bg") MultipartFile bg, @RequestParam (required = false) String image,
             @RequestParam String curl)
             throws SerialException, SQLException, IOException {
         Map data = new HashMap<>();   
@@ -327,11 +337,23 @@ public class MainController {
         Blob blobbg = null;
         Blob blobimage = null;
 
-        if(bg.length() > 9){
-            String gambarbg = bg.replace(" ", "+");
-            byte[] binarydatabg = Base64.getMimeDecoder().decode(gambarbg);
-            blobbg = new SerialBlob(binarydatabg);
-        }
+        System.out.println("masuk bg");        
+        System.out.println(bg);
+
+        // if(bg.length() > 9){
+            // String gambarbg = bg.replace(" ", "+");
+            // byte[] binarydatabg = Base64.getMimeDecoder().decode(gambarbg);
+            // blobbg = new SerialBlob(binarydatabg);
+        // }
+
+        Blob blob = fileService.convertMultipartFileToBlob(bg);
+
+        byte[] bgBytes =blob.getBytes(1, (int) blob.length());
+        String base64String = Base64.getEncoder().encodeToString(bgBytes);
+        String gambars = base64String.replace("dataimage/jpegbase64",
+                "data:image/png;base64,");
+        String abg = gambars.replace("=", "");
+        System.out.println(abg);
 
         if(image.length() > 9){
             String gambarimage = image.replace(" ", "+");
@@ -345,7 +367,7 @@ public class MainController {
             st.setId_user(usnn);
             st.setBio(bio);
             st.setHeadline(headline);
-            st.setBg(blobbg);
+            st.setBg(blob);
             st.setImage(blobimage);
             st.setCustom_url(curl);
             stylesRepository.save(st);
@@ -359,6 +381,22 @@ public class MainController {
         data.put("message", "Gagal Insert Style");
         return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping(value = "/testblob", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> testBlob() throws SQLException, IOException {
+        String usn = httpSession.getAttribute("username").toString();
+        Integer usnn = usersRepository.getidwithusername(usn).getUid();
+        Styles st = stylesRepository.getstStyles2(usnn);
+
+        // Assuming st.getBg() returns a Blob
+        Blob blob = st.getBg();
+
+        // Convert Blob to byte array
+        byte[] bytes = blob.getBytes(1, (int) blob.length());
+
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);
+    }
+
 
     @RequestMapping(value = "/inputbutton", method = RequestMethod.PUT)
     public ResponseEntity<Map> inputbutton(@RequestParam String[] tombol,

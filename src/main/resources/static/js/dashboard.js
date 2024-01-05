@@ -214,7 +214,7 @@ $("#inp2").on("change", function () {
 $(".crop_imagei").on("click", function (event) {
   $bg_crop
     .croppie("result", {
-      type: "base64",
+      type: "blob",
       format: "jpeg",
       //type: 'canvas',
       quality: 1,
