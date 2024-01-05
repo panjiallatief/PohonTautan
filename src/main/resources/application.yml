@@ -15,7 +15,7 @@ spring:
   application: 
     name: mm
   datasource:
-    url: jdbc:postgresql://localhost:5433/pohontautan
+    url: jdbc:postgresql://localhost:5432/pohontautan
     username: postgres
     password: 123456
     driverClassName: org.postgresql.Driver
@@ -37,48 +37,57 @@ spring:
           auth: true
           starttls:
             enable: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 server:
   port: 9000
   maxHttpHeaderSize: 100000
+  tomcat:
+    max-http-header-size: 100000
+    maxSwallowSize: 100000
+
 URL:
     PATH_PROFIL: C:\\Users\\Raihan.fadhlullah\\Pictures\\POHON_TAUTAN\\PROFIL
     PATH_BG: C:\\Users\\Raihan.fadhlullah\\Pictures\\POHON_TAUTAN\\BG
 
 ---
 
-spring:
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
-  config:
-    activate:
-      on-profile: live
-  application: 
-    name: live
-  datasource:
-    url: jdbc:postgresql//192.168.1.99/pohontautan
-    username: postgres
-    password: 123456
-    driverClassName: org.postgresql.Driver
-    hikari:
-      auto-commit: false
-  jpa:
-    database: postgresql
-    hibernate:
-      dialect: org.hibernate.dialect.PostgreSQL10Dialect
-      ddl-auto: update
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: pohontauatan@gmail.com
-    password: bhyiqdnyefgfcagm
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-server:
-  port: 9000
-  maxHttpHeaderSize: 100000
+# spring:
+#   mvc:
+#     hiddenmethod:
+#       filter:
+#         enabled: true
+#   config:
+#     activate:
+#       on-profile: live
+#   application: 
+#     name: live
+#   datasource:
+#     url: jdbc:postgresql//192.168.1.99/pohontautan
+#     username: postgres
+#     password: 123456
+#     driverClassName: org.postgresql.Driver
+#     hikari:
+#       auto-commit: false
+#   jpa:
+#     database: postgresql
+#     hibernate:
+#       dialect: org.hibernate.dialect.PostgreSQL10Dialect
+#       ddl-auto: update
+#   mail:
+#     host: smtp.gmail.com
+#     port: 587
+#     username: pohontauatan@gmail.com
+#     password: bhyiqdnyefgfcagm
+#     properties:
+#       mail:
+#         smtp:
+#           auth: true
+#           starttls:
+#             enable: true
+# server:
+#   port: 9000
+#   maxHttpHeaderSize: 100000
+# ---
