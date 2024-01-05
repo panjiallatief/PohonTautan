@@ -410,12 +410,12 @@ public class MainController {
         String D = ""; 
         String E = ""; 
 
-        String A = Arrays.toString(tautan).replace("[", "").replace("]", "");
-        String B = Arrays.toString(tombol).replace("[", "").replace("]", "");
-        String C = Arrays.toString(buttonname).replace("[", "").replace("]", "");
+        String A = Arrays.toString(tautan).replace("[", "").replace("]", "").replace(" ", "");
+        String B = Arrays.toString(tombol).replace("[", "").replace("]", "").replace(" ", "");
+        String C = Arrays.toString(buttonname).replace("[", "").replace("]", "").replace(" ", "");
 
         if (buttonanim != null) {
-             D = Arrays.toString(buttonanim).replace("[", "").replace("]", "");
+             D = Arrays.toString(buttonanim).replace("[", "").replace("]", "").replace(" ", "");
         } else {
             for(Integer i = 0 ; i < tautan.length ; i++){
                 D = "animate-none";
@@ -423,7 +423,7 @@ public class MainController {
         }
 
         if (buttoncolortext != null) {
-             E = Arrays.toString(buttoncolortext).replace("[", "").replace("]", "");
+             E = Arrays.toString(buttoncolortext).replace("[", "").replace("]", "").replace(" ", "");
         } else {
             for(Integer i = 0 ; i < tautan.length ; i++){
                 E = "text-white";
@@ -504,11 +504,11 @@ public class MainController {
             btnanim = removeElementByIndex(btnanim, index);
             btntc = removeElementByIndex(btntc, index);
 
-            A = Arrays.toString(btn).replace("[", "").replace("]", "");
-            B = Arrays.toString(btnstyle).replace("[", "").replace("]", "");
-            C = Arrays.toString(link).replace("[", "").replace("]", "");
-            D = Arrays.toString(btnanim).replace("[", "").replace("]", "");
-            E = Arrays.toString(btntc).replace("[", "").replace("]", "");
+            A = Arrays.toString(btn).replace("[", "").replace("]", "").replace(" ", "");
+            B = Arrays.toString(btnstyle).replace("[", "").replace("]", "").replace(" ", "");
+            C = Arrays.toString(link).replace("[", "").replace("]", "").replace(" ", "");
+            D = Arrays.toString(btnanim).replace("[", "").replace("]", "").replace(" ", "");
+            E = Arrays.toString(btntc).replace("[", "").replace("]", "").replace(" ", "");
         }
 
         if(A.length() > 0){
