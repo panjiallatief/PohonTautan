@@ -279,7 +279,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "/countmonth", method = RequestMethod.GET)
-    public ResponseEntity<Map> countmonth() {
+    public ResponseEntity<Map> countmonth() { 
         Map data = new HashMap<>();
         Date date = new Date();
 
