@@ -47,11 +47,16 @@
     /*<![CDATA[*/
     $(document).ready(function () {
         var data = /*[[${btnstyle}]]*/""
-        // console.log(data)
+        console.log(data)
 
         var uri = location.href;
         var urI = uri.substring(uri.lastIndexOf("/")+1, uri.length)
-        document.getElementById('bg').style.backgroundImage = "url('/showbgds?curl="+urI+"')"
+
+        if (data[0].tempbg != null){
+            document.getElementById('bg').style.backgroundImage = "url('/showbgds?curl="+urI+"')"
+        } else{
+            document.getElementById('bg').style.backgroundImage = "url('"+data[0].bg_default+"')"
+        }
     })
 
     function countB(ll){

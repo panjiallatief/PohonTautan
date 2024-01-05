@@ -1,6 +1,6 @@
-FROM openjdk:11
+FROM openjdk:17
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} /app/taut.jar 
 COPY src/main/resources/application.yml /app/application.yml
 WORKDIR /app
-CMD ["java","-jar","pohontautan.jar"]
+CMD ["java","-jar","taut.jar"]
