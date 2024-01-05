@@ -3,6 +3,7 @@ package com.PohonTautan.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -37,6 +38,8 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import java.io.IOException;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -269,6 +272,15 @@ public class IndexController {
         String saltStr = salt.toString();
 
         return saltStr;
+    }
+
+    @GetMapping(value = "/showbgds", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> showbgds(@RequestParam String curl) throws SQLException, IOException {
+        Integer usnn = stylesRepository.getstStyles(curl).getId_user();
+        Styles st = stylesRepository.getstStyles2(usnn);
+        Blob blob = st.getBg();
+        byte[] bytes = blob.getBytes(1, (int) blob.length());
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);
     }
     
     @PostMapping(value = "/inputuser")
